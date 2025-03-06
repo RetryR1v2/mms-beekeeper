@@ -229,6 +229,14 @@ RegisterServerEvent('mms-beekeeper:server:AddWater',function(HiveID)
             Data.Water = NewWater
             MySQL.update('UPDATE `mms_beekeeper` SET data = ? WHERE id = ?',{json.encode(Data),HiveID})
             VORPcore.NotifyRightTip(src,_U('WaterAdded'),5000)
+            if Config.GiveBackEmpty then
+                CanCarry = exports.vorp_inventory:canCarryItem(src, Config.GiveBackEmptyItem, 1)
+                if canCarry then
+                    exports.vorp_inventory:addItem(src,Config.GiveBackEmptyItem,1)
+                else
+                    VORPcore.NotifyRightTip(src,_U('CantGetEmptyItem') .. Config.WaterItemLabel,5000)
+                end
+            end
         else
             VORPcore.NotifyRightTip(src,_U('NoWaterItem') .. Config.WaterItemLabel,5000)
         end
@@ -312,6 +320,14 @@ RegisterServerEvent('mms-beekeeper:server:AddQueen',function(HiveID)
             Data.BeeSettings.QueenLabel = QueensTable[1].QueenLabel
             MySQL.update('UPDATE `mms_beekeeper` SET data = ? WHERE id = ?',{json.encode(Data),HiveID})
             VORPcore.NotifyRightTip(src,_U('QueenAdded'),5000)
+            if Config.GiveBackEmptyJarQueen then
+                CanCarry = exports.vorp_inventory:canCarryItem(src, Config.GiveBackEmptyJarQueenItem, 1)
+                if canCarry then
+                    exports.vorp_inventory:addItem(src,Config.GiveBackEmptyJarQueenItem,1)
+                else
+                    VORPcore.NotifyRightTip(src,_U('CantGetEmptyJar'),5000)
+                end
+            end
         else
             VORPcore.NotifyRightTip(src,_U('NoQueenItem'),5000)
         end
@@ -349,6 +365,14 @@ RegisterServerEvent('mms-beekeeper:server:AddBees',function(HiveID,Queen)
             Data.BeeSettings.ProductNormal = BeeTable.ProductNormal
             MySQL.update('UPDATE `mms_beekeeper` SET data = ? WHERE id = ?',{json.encode(Data),HiveID})
             VORPcore.NotifyRightTip(src,_U('BeesAdded'),5000)
+            if Config.GiveBackEmptyJarBees then
+                CanCarry = exports.vorp_inventory:canCarryItem(src, Config.GiveBackEmptyJarBeesItem, 1)
+                if canCarry then
+                    exports.vorp_inventory:addItem(src,Config.GiveBackEmptyJarBeesItem,1)
+                else
+                    VORPcore.NotifyRightTip(src,_U('CantGetEmptyJar'),5000)
+                end
+            end
         else
             VORPcore.NotifyRightTip(src,_U('NoBeeItem'),5000)
         end

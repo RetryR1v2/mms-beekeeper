@@ -18,7 +18,7 @@
 
 - 1.1.0 Beta Release Version ( Please Test ;) )
 - 1.1.1 Fixed Bee Input
-
+- 1.1.2 Added Giveback Jar and Giveback Empty Watercan
 
 # installation 
 
