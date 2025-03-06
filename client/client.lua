@@ -151,6 +151,7 @@ AddEventHandler('mms-beekeeper:client:StartMainThred',function()
                     if DeleteBeehive:HasCompleted() then
                         TriggerServerEvent('mms-beekeeper:server:DeleteBeehive',v.id)
                         Citizen.Wait(500)
+                        Menu.close()
                         TriggerEvent('mms-beekeeper:client:ReloadData')
                     end
 

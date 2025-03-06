@@ -59,7 +59,6 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(30000)
         UpdateTimer = UpdateTimer - 30000
-        print(UpdateTimer)
         if UpdateTimer <= 0 then
             TriggerEvent('mms-beekeeper:server:DoTheUpdateProcess')
             UpdateTimer = Config.UpdateTimer * 60000
@@ -297,7 +296,6 @@ RegisterServerEvent('mms-beekeeper:server:AddQueen',function(HiveID)
         local QueensTable = {}
         for h,v in ipairs(Config.BeeTypes) do
             local HasItem = exports.vorp_inventory:getItemCount(src, nil, v.QueenItem)
-            print(HasItem)
             if HasItem > 0 then
                 table.insert(QueensTable,v)
             end
@@ -330,7 +328,7 @@ RegisterServerEvent('mms-beekeeper:server:AddBees',function(HiveID,Queen)
     if #CurrentBeehive > 0 then
         local BeeTable = nil
         for h,v in ipairs(Config.BeeTypes) do
-            local HasItem = exports.vorp_inventory:getItemCount(src, nil, v.QueenItem)
+            local HasItem = exports.vorp_inventory:getItemCount(src, nil, v.BeeItem)
             if HasItem > 0 and v.QueenItem == Queen then
                 BeeTable = v
             end
