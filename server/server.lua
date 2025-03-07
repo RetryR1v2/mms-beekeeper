@@ -126,12 +126,12 @@ RegisterServerEvent('mms-beekeeper:server:DoTheUpdateProcess',function()
                     local NewProduct = Data.Product + CalculateProduct
                     Data.Product = NewProduct
                 else
-                    local CalculateProduct = Data.Bees * Data.BeeSettings.Product
+                    local CalculateProduct = Data.Bees * Data.BeeSettings.ProductNormal
                     local NewProduct = Data.Product + CalculateProduct
                     Data.Product = NewProduct
                 end
             elseif Data.Bees > 0 and Data.Queen > 0 then
-                local CalculateProduct = Data.Bees * Data.BeeSettings.Product
+                local CalculateProduct = Data.Bees * Data.BeeSettings.ProductNormal
                 local NewProduct = Data.Product + CalculateProduct
                 Data.Product = NewProduct
             end

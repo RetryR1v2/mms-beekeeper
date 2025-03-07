@@ -22,6 +22,8 @@
 - 1.1.3 Fixed Giveback Items
 - Fixen Nil Error
 - Please Dont Report langueage Errors. You have tro Translate from de to en Yourself. 
+- 1.1.4 Fixed Bug mul number with string
+- Fixed Bug Nil Value
 
 # installation 
 
