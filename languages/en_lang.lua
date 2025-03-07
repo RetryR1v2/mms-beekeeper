@@ -37,4 +37,6 @@ Locales["en_lang"] = {
     NotEnoghProduct = 'Not enough honey to extract',
     NoJarItem = 'No Empty Glass',
     DeleteBeehive = 'Beehive Destroying',
+    CantGetEmptyItem = 'Tasche zu Voll',
+    CantGetEmptyJar = 'Tasche zu Voll',
 }

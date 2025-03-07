@@ -148,6 +148,9 @@ RegisterServerEvent('mms-beekeeper:server:DoTheUpdateProcess',function()
                 if Happy then
                     local AddBeeValue = math.random(Config.BeesMin,Config.BeesMax)
                     local NewBees = Data.Bees + AddBeeValue
+                    if NewBees > Config.MaxBeesPerHive then
+                        NewBeed = Config.MaxBeesPerHive
+                    end
                     Data.Bees = NewBees
                 end
             end
@@ -231,7 +234,7 @@ RegisterServerEvent('mms-beekeeper:server:AddWater',function(HiveID)
             VORPcore.NotifyRightTip(src,_U('WaterAdded'),5000)
             if Config.GiveBackEmpty then
                 CanCarry = exports.vorp_inventory:canCarryItem(src, Config.GiveBackEmptyItem, 1)
-                if canCarry then
+                if CanCarry then
                     exports.vorp_inventory:addItem(src,Config.GiveBackEmptyItem,1)
                 else
                     VORPcore.NotifyRightTip(src,_U('CantGetEmptyItem') .. Config.WaterItemLabel,5000)
@@ -322,7 +325,7 @@ RegisterServerEvent('mms-beekeeper:server:AddQueen',function(HiveID)
             VORPcore.NotifyRightTip(src,_U('QueenAdded'),5000)
             if Config.GiveBackEmptyJarQueen then
                 CanCarry = exports.vorp_inventory:canCarryItem(src, Config.GiveBackEmptyJarQueenItem, 1)
-                if canCarry then
+                if CanCarry then
                     exports.vorp_inventory:addItem(src,Config.GiveBackEmptyJarQueenItem,1)
                 else
                     VORPcore.NotifyRightTip(src,_U('CantGetEmptyJar'),5000)
@@ -353,8 +356,8 @@ RegisterServerEvent('mms-beekeeper:server:AddBees',function(HiveID,Queen)
             local Data = json.decode(CurrentBeehive[1].data)
             exports.vorp_inventory:subItem(src,BeeTable.BeeItem,1)
             local NewBees = Data.Bees + BeeTable.AddBees
-            if NewBees > BeeTable.MaxBeesPerHive then
-                NewBees = BeeTable.MaxBeesPerHive
+            if NewBees > Config.MaxBeesPerHive then
+                NewBees = Config.MaxBeesPerHive
             end
             Data.Bees = NewBees
             Data.BeeSettings.BeeItem = BeeTable.BeeItem
@@ -367,7 +370,7 @@ RegisterServerEvent('mms-beekeeper:server:AddBees',function(HiveID,Queen)
             VORPcore.NotifyRightTip(src,_U('BeesAdded'),5000)
             if Config.GiveBackEmptyJarBees then
                 CanCarry = exports.vorp_inventory:canCarryItem(src, Config.GiveBackEmptyJarBeesItem, 1)
-                if canCarry then
+                if CanCarry then
                     exports.vorp_inventory:addItem(src,Config.GiveBackEmptyJarBeesItem,1)
                 else
                     VORPcore.NotifyRightTip(src,_U('CantGetEmptyJar'),5000)

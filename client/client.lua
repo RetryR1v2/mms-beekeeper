@@ -87,8 +87,8 @@ AddEventHandler('mms-beekeeper:client:CreateBeehive',function()
         Bees = 0,
         Queen = 0,
         Coords = { 
-            x = MyCoords.x,
-            y = MyCoords.y,
+            x = MyCoords.x + 0,5,
+            y = MyCoords.y + 0,5,
             z = MyCoords.z -1,
         },
         Model = Config.BeehiveBox,
@@ -133,33 +133,36 @@ AddEventHandler('mms-beekeeper:client:StartMainThred',function()
     local BeehivePromptGroup = BccUtils.Prompts:SetupPromptGroup()
     local ManageBeehive = BeehivePromptGroup:RegisterPrompt(_U('ManageBeehive'), 0x760A9C6F, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY G
     local DeleteBeehive = BeehivePromptGroup:RegisterPrompt(_U('DeleteBeehive'), 0x27D1C284, 1, 1, true, 'hold', {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY R
+    if BeehiveData ~= nil then
+        while ThreadRunning do
+            Citizen.Wait(3)
+            local MyCoords = GetEntityCoords(PlayerPedId())
+            for h,v in ipairs(BeehiveData) do
+                if v.charident == CharID then
+                    local Data = json.decode(v.data)
+                    local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, Data.Coords.x, Data.Coords.y, Data.Coords.z, true)
+                    if Distance <= 2 then
+                        BeehivePromptGroup:ShowGroup(_U('BeehivePromptGroup'))
 
-    while ThreadRunning do
-        Citizen.Wait(3)
-        local MyCoords = GetEntityCoords(PlayerPedId())
-        for h,v in ipairs(BeehiveData) do
-            if v.charident == CharID then
-                local Data = json.decode(v.data)
-                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, Data.Coords.x, Data.Coords.y, Data.Coords.z, true)
-                if Distance <= 2 then
-                    BeehivePromptGroup:ShowGroup(_U('BeehivePromptGroup'))
+                        if ManageBeehive:HasCompleted() then
+                            TriggerServerEvent('mms-beekeeper:server:GetDataForMenu',v.id)
+                        end
 
-                    if ManageBeehive:HasCompleted() then
-                        TriggerServerEvent('mms-beekeeper:server:GetDataForMenu',v.id)
+                        if DeleteBeehive:HasCompleted() then
+                            TriggerServerEvent('mms-beekeeper:server:DeleteBeehive',v.id)
+                            Menu.close()
+                            Citizen.Wait(500)
+                            TriggerEvent('mms-beekeeper:client:ReloadData')
+                        end
+
                     end
-
-                    if DeleteBeehive:HasCompleted() then
-                        TriggerServerEvent('mms-beekeeper:server:DeleteBeehive',v.id)
-                        Menu.close()
-                        Citizen.Wait(500)
-                        TriggerEvent('mms-beekeeper:client:ReloadData')
-                    end
-
                 end
             end
         end
+    else
+        TriggerEvent('mms-beekeeper:client:ReloadData')
+        if Config.Debug then print('DEBUG: Reloading Data') end
     end
-
 end)
 
 

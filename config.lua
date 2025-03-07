@@ -30,11 +30,15 @@ Config.BlipScale = 2.0
 
 Config.GetBackBoxItem = true
 
+-- Max Bees Per Hive.
+
+Config.MaxBeesPerHive = 200
+
 ------------------------------------------------------------------
 --------------------- Update Settings ----------------------------
 ------------------------------------------------------------------
 
-Config.UpdateTimer = 5 -- time in Minute
+Config.UpdateTimer = 1 -- time in Minute
 
 ------------------------------------------------------------------
 ---------------------- Health Settings ---------------------------
@@ -92,7 +96,6 @@ Config.BeeTypes = {
         ProductLabel = 'Honig',
         ProductHappy = 0.015,
         ProductNormal = 0.010,
-        MaxBeesPerHive = 200,
     },
     {
         QueenItem = 'basic_hornet_queen',
@@ -104,7 +107,6 @@ Config.BeeTypes = {
         ProductLabel = 'Manuka Honig',
         ProductHappy = 0.015,
         ProductNormal = 0.010,
-        MaxBeesPerHive = 200,
     },
 }
 
