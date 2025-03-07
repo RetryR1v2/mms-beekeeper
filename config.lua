@@ -51,6 +51,8 @@ Config.HealItem = 'potato'
 Config.HealItemLabel = 'Kartoffel'
 Config.HealGain = 50
 
+Config.HealTime = 5 -- Time in Secs
+
 ------------------------------------------------------------------
 ----------------------- Food Settings ----------------------------
 ------------------------------------------------------------------
@@ -59,6 +61,8 @@ Config.ReduceFoodPerTick = 0.4 -- MaxFood = 100
 Config.FoodItem = 'sugar'
 Config.FoodItemLabel = 'Zucker'
 Config.FoodGain = 50
+
+Config.FeedTime = 5 -- Time in Secs
 
 ------------------------------------------------------------------
 ---------------------- Water Settings ----------------------------
@@ -72,6 +76,8 @@ Config.WaterGain = 50
 Config.GiveBackEmpty = true
 Config.GiveBackEmptyItem = 'wateringcan_empty'
 
+Config.WaterTime = 5 -- Time in Secs
+
 ------------------------------------------------------------------
 ---------------------- Clean Settings ----------------------------
 ------------------------------------------------------------------
@@ -81,9 +87,14 @@ Config.CleanItem = 'wheat'
 Config.CleanItemLabel = 'Weizen'
 Config.CleanGain = 50
 
+Config.CleanTime = 5 -- Time in Secs
+
 ------------------------------------------------------------------
 --------------------------- BeeItems -----------------------------
 ------------------------------------------------------------------
+
+Config.QueenTime = 10
+Config.BeeTime = 5
 
 Config.BeeTypes = {
     {
@@ -144,6 +155,8 @@ Config.LooseBeesMax = 5
 ------------------------- Bees Can be Sick -----------------------
 ------------------------------------------------------------------
 
+Config.SickTime = 25
+
 Config.BeesCanBeSick = true
 Config.SicknessChance = 3 -- 10 = 10% 
 Config.BeesDieOn100 = true  -- Sickness Intensity Max = 100
@@ -168,6 +181,8 @@ Config.SickNess = {
 
 Config.ProduktPerHoney = 60 -- 60 Product are 1 Jar Honey
 Config.JarItem = 'empty_bee_jar'
+
+Config.TakeHoneyTime = 3 -- Time in Sec
 
 ------------------------------------------------------------------
 ------------------------- JarSettings ----------------------------

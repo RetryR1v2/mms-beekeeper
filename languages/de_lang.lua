@@ -57,4 +57,12 @@ Locales["de_lang"] = {
     StillBeesInHive = 'Es sind noch Bienen im Stock',
     NoTool = 'Dir fehlt etwas ',
     OrTool = ' oder ',
+    FeedingHive = 'Bienenstock Füttern...',
+    WaterHive = 'Fülle Wasser auf...',
+    TakingHoney = 'Nehme Honig...',
+    CleaningHive = 'Bienenstock Reinigen...',
+    HealingHive = 'Bienenstock Heilen...',
+    AddingQueen = 'Setze Königin ein...',
+    AddingBee = 'Setze Bienen ein...',
+    CuringSickness = 'Heile die Krankheit...',
 }

@@ -249,26 +249,36 @@ AddEventHandler('mms-beekeeper:client:OpenMenu',function(CurrentBeehive)
     function(data, Menu)
 
         if data.current.value == "AddFood" then
+            CrouchAnim()
+            Progressbar(Config.FeedTime*1000,_U('FeedingHive'))
             TriggerServerEvent('mms-beekeeper:server:AddFood',CurrentBeehive[1].id)
             Menu.close()
         end
 
         if data.current.value == "TakeProduct" then
+            CrouchAnim()
+            Progressbar(Config.TakeHoneyTime*1000,_U('TakingHoney'))
             TriggerServerEvent('mms-beekeeper:server:TakeProduct',CurrentBeehive[1].id)
             Menu.close()
         end
         
         if data.current.value == "AddWater" then
+            CrouchAnim()
+            Progressbar(Config.WaterTime*1000,_U('WaterHive'))
             TriggerServerEvent('mms-beekeeper:server:AddWater',CurrentBeehive[1].id)
             Menu.close()
         end
 
         if data.current.value == "AddClean" then
+            CrouchAnim()
+            Progressbar(Config.CleanTime*1000,_U('CleaningHive'))
             TriggerServerEvent('mms-beekeeper:server:AddClean',CurrentBeehive[1].id)
             Menu.close()
         end
 
         if data.current.value == "AddHealth" then
+            CrouchAnim()
+            Progressbar(Config.HealTime*1000,_U('HealingHive'))
             TriggerServerEvent('mms-beekeeper:server:AddHealth',CurrentBeehive[1].id)
             Menu.close()
         end
@@ -277,6 +287,8 @@ AddEventHandler('mms-beekeeper:client:OpenMenu',function(CurrentBeehive)
             if Data.Queen > 0 then
                 VORPcore.NotifyRightTip(_U('AlreadyHasAQueen'),5000)
             else
+                CrouchAnim()
+                Progressbar(Config.QueenTime*1000,_U('AddingQueen'))
                 TriggerServerEvent('mms-beekeeper:server:AddQueen',CurrentBeehive[1].id)
                 Menu.close()
             end
@@ -286,13 +298,17 @@ AddEventHandler('mms-beekeeper:client:OpenMenu',function(CurrentBeehive)
             if Data.Queen < 1 then
                 VORPcore.NotifyRightTip(_U('InsertQueenFirst'),5000)
             else
+                CrouchAnim()
+                Progressbar(Config.BeeTime*1000,_U('AddingBee'))
                 TriggerServerEvent('mms-beekeeper:server:AddBees',CurrentBeehive[1].id,Data.BeeSettings.QueenItem)
                 Menu.close()
             end
         end
-
+        
         if data.current.value == "HealSickness" then
             if Data.Sickness.Intensity > 0 then
+                CrouchAnim()
+                Progressbar(Config.SickTime*1000,_U('CuringSickness'))
                 TriggerServerEvent('mms-beekeeper:server:HealSickness',CurrentBeehive[1].id)
                 Menu.close()
             else

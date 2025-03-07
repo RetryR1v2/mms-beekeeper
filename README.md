@@ -28,6 +28,9 @@
 - Bees Sickness System.
 - You can Set Sickness Type and Medicine Needed for the Specific Sickness
 - 1.1.6 Added Wild Beehives
+- 1.1.7 Added Progressbar
+- Added Animation
+- Fixed Small Bug
 
 # installation 
 
