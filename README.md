@@ -27,6 +27,7 @@
 - 1.1.5 New Function.
 - Bees Sickness System.
 - You can Set Sickness Type and Medicine Needed for the Specific Sickness
+- 1.1.6 Added Wild Beehives
 
 # installation 
 

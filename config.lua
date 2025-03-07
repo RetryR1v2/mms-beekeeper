@@ -145,7 +145,7 @@ Config.LooseBeesMax = 5
 ------------------------------------------------------------------
 
 Config.BeesCanBeSick = true
-Config.SicknessChance = 80 -- 10 = 10% 
+Config.SicknessChance = 3 -- 10 = 10% 
 Config.BeesDieOn100 = true  -- Sickness Intensity Max = 100
 Config.IncreaseIntensityPerUpdate = 1.5
 
@@ -182,6 +182,21 @@ Config.GiveBackEmptyJarBeesItem = 'empty_bee_jar'
 ------------------------------------------------------------------
 ------------------------- WildBeehives ---------------------------
 ------------------------------------------------------------------
+
+Config.WildBeehiveSpawn = true
+Config.WildBeehiveModel = 's_hornetnest_01x'
+
+Config.SmokerItem = 'torch_smoker'
+Config.SmokerLabel = 'Bienenrauch'
+Config.BugNetItem = 'bug_net'
+Config.BugNetLabel = 'Käfernetz'
+
+Config.EmptyBeeJar = 'empty_bee_jar'
+Config.EmptyBeeJarLabel = 'Glas'
+
+Config.GetBeeItem = 'basic_bees'
+Config.GetBeeItemMin = 1
+Config.GetBeeItemMax = 3
 
 Config.WildBeehives = { -- Currently not Used
     --Valentine Area

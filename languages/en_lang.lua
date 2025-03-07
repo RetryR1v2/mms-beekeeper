@@ -43,4 +43,5 @@ Locales["en_lang"] = {
     SicknessLabelDesc = 'Krankheit Heilbar mit ',
     BeesNotSick = 'Dieser Bienenstock ist nicht Krank',
     NoMedicineItem = 'Dir Fehlt Medizin: ',
+    SicknessHealed = 'Die Krankheit wurde Geheilt.',
 }

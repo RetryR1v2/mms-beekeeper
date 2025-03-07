@@ -10,6 +10,10 @@ local CreatedBlips = {}
 local BeehiveData = nil
 local CharID = nil
 local ThreadRunning = false
+local CreatedWildBeehives = {}
+local SmokedBeehives = {}
+local TakenBeeBeehives = {}
+local TakenQueenBeehives = {}
 
 -----------------------------------------------
 --------------- GetBeehivesData ---------------
@@ -304,6 +308,108 @@ AddEventHandler('mms-beekeeper:client:OpenMenu',function(CurrentBeehive)
 
 end)
 
+-----------------------------------------------
+----------- Create Wild Beehives --------------
+-----------------------------------------------
+
+Citizen.CreateThread(function ()
+    if Config.WildBeehiveSpawn then
+
+        local WildBeehivePromptGroup = BccUtils.Prompts:SetupPromptGroup()
+        local SmokeBeehive = WildBeehivePromptGroup:RegisterPrompt(_U('SmokeBeehive'), 0x760A9C6F, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY G
+        local TakeBees = WildBeehivePromptGroup:RegisterPrompt(_U('TakeBees'), 0x27D1C284, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY R
+        local TakeQueen = WildBeehivePromptGroup:RegisterPrompt(_U('TakeQueen'), 0x5181713D, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY Spacebar
+
+        -- CreateBeehives 
+        for h,v in ipairs(Config.WildBeehives) do
+            local WildBeehive = CreateObject(Config.WildBeehiveModel, v.x, v.y, v.z,true,true,false)
+            SetEntityInvincible(WildBeehive,true)
+            FreezeEntityPosition(WildBeehive,true)
+            Citizen.InvokeNative(0x203BEFFDBE12E96A, WildBeehive, v.x, v.y, v.z, v.heading, v.rotx, v.roty, v.rotz)
+            CreatedWildBeehives[#CreatedWildBeehives + 1] = WildBeehive
+        end
+
+        -- Prompt for Wild Beehives
+        while true do
+            Citizen.Wait(5)
+            for h,v in ipairs(Config.WildBeehives) do
+                MyCoords = GetEntityCoords(PlayerPedId())
+                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+
+                if Distance <= 2 then
+                    WildBeehivePromptGroup:ShowGroup(_U('WildBeehivePromptGroup'))
+
+                    if SmokeBeehive:HasCompleted() then
+                        local CurrentHive = v
+                        TriggerServerEvent('mms-beekeeper:server:SmokeBeehive', CurrentHive,SmokedBeehives)
+                    end
+
+                    if TakeBees:HasCompleted() then
+                        local TakenBees = false
+                        if TakenBeeBeehives[1] ~= nil then
+                            for h,v in ipairs(TakenBeeBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    TakenBees = true
+                                end
+                            end
+                        end
+                        if SmokedBeehives[1] == nil then
+                            VORPcore.NotifyRightTip(_U('BeehiveNotSmoked'), 5000)
+                        end
+                        for h,v in ipairs(SmokedBeehives) do
+                            local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                            if Distance < 2 and not TakenBees then
+                                TriggerServerEvent('mms-beekeeper:server:TakeBeesFromWildHive', CurrentHive)
+                            else
+                                VORPcore.NotifyRightTip(_U('BeehiveNotSmoked'), 5000)
+                            end
+                        end
+                    end
+
+                    if TakeQueen:HasCompleted() then
+                        local TakenQueen = false
+                        if TakenQueenBeehives[1] ~= nil then
+                            for h,v in ipairs(TakenQueenBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    TakenQueen = true
+                                end
+                            end
+                        end
+                        if TakenBeeBeehives[1] == nil then
+                            VORPcore.NotifyRightTip(_U('StillBeesInHive'), 5000)
+                        end
+                        for h,v in ipairs(TakenBeeBeehives) do
+                            local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                            if Distance < 2 and not TakenQueen then
+                                TriggerServerEvent('mms-beekeeper:server:TakeQueenFromWildHive', CurrentHive)
+                            else
+                                VORPcore.NotifyRightTip(_U('StillBeesInHive'), 5000)
+                            end
+                        end
+                    end
+
+                end
+
+            end
+        end
+
+    end
+end)
+
+RegisterNetEvent('mms-beekeeper:client:BeehiveSmoked',function(CurrentHive)
+    table.insert(SmokedBeehives,CurrentHive)
+end)
+
+RegisterNetEvent('mms-beekeeper:client:BeesTakenFromHive',function(CurrentHive)
+    table.insert(TakenBeeBeehives,CurrentHive)
+end)
+
+RegisterNetEvent('mms-beekeeper:client:QueenTakenFromHive',function(CurrentHive)
+    table.insert(TakenQueenBeehives,CurrentHive)
+end)
+
 ----------------- Utilities -----------------
 
 
@@ -338,6 +444,9 @@ RegisterNetEvent('onResourceStop',function(resource)
         end
         for _, blips in ipairs(CreatedBlips) do
             blips:Remove()
+        end
+        for _, wildbeehives in ipairs(CreatedWildBeehives) do
+            DeleteObject(wildbeehives)
         end
     end
 end)

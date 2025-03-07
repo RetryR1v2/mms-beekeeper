@@ -487,8 +487,63 @@ RegisterServerEvent('mms-beekeeper:server:HealSickness',function(HiveID)
                 Intensity = 0.0,
             }
             MySQL.update('UPDATE `mms_beekeeper` SET data = ? WHERE id = ?',{json.encode(Data),HiveID})
+            VORPcore.NotifyRightTip(src,_U('SicknessHealed'),5000)
         else
             VORPcore.NotifyRightTip(src,_U('NoMedicineItem') .. Data.Sickness.MedicineLabel,5000)
         end
     end
 end)
+
+-----------------------------------------------
+-------------- Smoke Wild Hive ----------------
+-----------------------------------------------
+
+RegisterServerEvent('mms-beekeeper:server:SmokeBeehive',function(CurrentHive)
+    local src = source
+    local HasItem = exports.vorp_inventory:getItemCount(src, nil, Config.SmokerItem)
+    if HasItem > 0 then
+        TriggerClientEvent('mms-beekeeper:client:BeehiveSmoked',src,CurrentHive)
+        VORPcore.NotifyRightTip(src,_U('BeehiveSmoked'),5000)
+    else
+        VORPcore.NotifyRightTip(src,_U('NoSmokerItem') .. Config.SmokerLabel,5000)
+    end
+end)
+
+-----------------------------------------------
+------------- TakeBees Wild Hive --------------
+-----------------------------------------------
+
+RegisterServerEvent('mms-beekeeper:server:TakeBeesFromWildHive',function(CurrentHive)
+    local src = source
+    local HasItem = exports.vorp_inventory:getItemCount(src, nil, Config.EmptyBeeJar)
+    local HasItem2 = exports.vorp_inventory:getItemCount(src, nil, Config.BugNetItem)
+    if HasItem > 0 and HasItem2 > 0 then
+        TriggerClientEvent('mms-beekeeper:client:BeesTakenFromHive',src,CurrentHive)
+        local Amout = math.random(Config.GetBeeItemMin,Config.GetBeeItemMax)
+        exports.vorp_inventory:addItem(src,Config.GetBeeItem,Amout)
+        exports.vorp_inventory:subItem(src,Config.EmptyBeeJar,1)
+        VORPcore.NotifyRightTip(src,_U('BeesTaken'),5000)
+    else
+        VORPcore.NotifyRightTip(src,_U('NoTool') .. Config.EmptyBeeJarLabel .. _U('OrTool') .. Config.BugNetLabel,5000)
+    end
+end)
+
+-----------------------------------------------
+------------ TakeQueen Wild Hive --------------
+-----------------------------------------------
+
+RegisterServerEvent('mms-beekeeper:server:TakeBeesFromWildHive',function(CurrentHive)
+    local src = source
+    local HasItem = exports.vorp_inventory:getItemCount(src, nil, Config.EmptyBeeJar)
+    local HasItem2 = exports.vorp_inventory:getItemCount(src, nil, Config.BugNetItem)
+    if HasItem > 0 and HasItem2 > 0 then
+        TriggerClientEvent('mms-beekeeper:client:QueenTakenFromHive',src,CurrentHive)
+        local Amout = math.random(Config.GetBeeItemMin,Config.GetBeeItemMax)
+        exports.vorp_inventory:addItem(src,Config.GetBeeItem,Amout)
+        exports.vorp_inventory:subItem(src,Config.EmptyBeeJar,1)
+        VORPcore.NotifyRightTip(src,_U('BeesTaken'),5000)
+    else
+        VORPcore.NotifyRightTip(src,_U('NoTool') .. Config.EmptyBeeJarLabel .. _U('OrTool') .. Config.BugNetLabel,5000)
+    end
+end)
+
