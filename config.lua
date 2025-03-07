@@ -140,6 +140,27 @@ Config.DieAt = {
 Config.LooseBeesMin = 3
 Config.LooseBeesMax = 5
 
+------------------------------------------------------------------
+------------------------- Bees Can be Sick -----------------------
+------------------------------------------------------------------
+
+Config.BeesCanBeSick = true
+Config.SicknessChance = 80 -- 10 = 10% 
+Config.BeesDieOn100 = true  -- Sickness Intensity Max = 100
+Config.IncreaseIntensityPerUpdate = 1.5
+
+Config.SickNess = {
+    {
+        Type = 'Bienen Pocken',
+        Medicin = 'bandage',
+        MedicinLabel = 'Bandage'
+    },
+    {
+        Type = 'Beulen Pest',
+        Medicin = 'bandage',
+        MedicinLabel = 'Bandage'
+    },
+}
 
 ------------------------------------------------------------------
 --------------------------- Honey Settings -----------------------
@@ -158,6 +179,9 @@ Config.GiveBackEmptyJarQueenItem = 'empty_bee_jar'
 Config.GiveBackEmptyJarBees = true
 Config.GiveBackEmptyJarBeesItem = 'empty_bee_jar'
 
+------------------------------------------------------------------
+------------------------- WildBeehives ---------------------------
+------------------------------------------------------------------
 
 Config.WildBeehives = { -- Currently not Used
     --Valentine Area

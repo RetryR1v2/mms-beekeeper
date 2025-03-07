@@ -39,4 +39,8 @@ Locales["de_lang"] = {
     DeleteBeehive = 'Bienenstock Zerstören',
     CantGetEmptyItem = 'Tasche zu Voll',
     CantGetEmptyJar = 'Tasche zu Voll',
+    SicknessLabel = 'Krankheit: ',
+    SicknessLabelDesc = 'Krankheit Heilbar mit ',
+    BeesNotSick = 'Dieser Bienenstock ist nicht Krank',
+    NoMedicineItem = 'Dir Fehlt Medizin: ',
 }

@@ -24,6 +24,9 @@
 - Please Dont Report langueage Errors. You have tro Translate from de to en Yourself. 
 - 1.1.4 Fixed Bug mul number with string
 - Fixed Bug Nil Value
+- 1.1.5 New Function.
+- Bees Sickness System.
+- You can Set Sickness Type and Medicine Needed for the Specific Sickness
 
 # installation 
 

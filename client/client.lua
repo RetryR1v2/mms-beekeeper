@@ -33,7 +33,6 @@ AddEventHandler('mms-beekeeper:client:ReciveData',function(Beehives,CharIdent)
     BeehiveData = Beehives
     CharID = CharIdent
     TriggerEvent('mms-beekeeper:client:CreateBeehivesOnStart')
-    ThreadRunning = true
     Citizen.Wait(1000)
     TriggerEvent('mms-beekeeper:client:StartMainThred')
 end)
@@ -41,7 +40,6 @@ end)
 RegisterNetEvent('mms-beekeeper:client:ReloadData')
 AddEventHandler('mms-beekeeper:client:ReloadData',function()
     ThreadRunning = false
-    BeehiveData = nil
     for _, beehive in ipairs(CreatedBeehives) do
         DeleteObject(beehive)
     end
@@ -49,6 +47,7 @@ AddEventHandler('mms-beekeeper:client:ReloadData',function()
         blips:Remove()
     end
     Citizen.Wait(500)
+    BeehiveData = nil
     TriggerServerEvent('mms-beekeeper:server:GetBeehivesData')
 end)
 -----------------------------------------------
@@ -87,9 +86,16 @@ AddEventHandler('mms-beekeeper:client:CreateBeehive',function()
         Bees = 0,
         Queen = 0,
         Coords = { 
-            x = MyCoords.x + 0,5,
-            y = MyCoords.y + 0,5,
+            x = MyCoords.x + 1,0,
+            y = MyCoords.y + 1.0,
             z = MyCoords.z -1,
+        },
+        Sickness = {
+            CurrentlySick = false,
+            Type = '',
+            Medicine = '',
+            MedicineLabel = '',
+            Intensity = 0.0,
         },
         Model = Config.BeehiveBox,
     }
@@ -130,6 +136,7 @@ end)
 
 RegisterNetEvent('mms-beekeeper:client:StartMainThred')
 AddEventHandler('mms-beekeeper:client:StartMainThred',function()
+    ThreadRunning = true
     local BeehivePromptGroup = BccUtils.Prompts:SetupPromptGroup()
     local ManageBeehive = BeehivePromptGroup:RegisterPrompt(_U('ManageBeehive'), 0x760A9C6F, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY G
     local DeleteBeehive = BeehivePromptGroup:RegisterPrompt(_U('DeleteBeehive'), 0x27D1C284, 1, 1, true, 'hold', {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY R
@@ -216,7 +223,12 @@ AddEventHandler('mms-beekeeper:client:OpenMenu',function(CurrentBeehive)
             desc = _U('HealthLabelDesc'),
             itemHeight = "3vh"
         },
-        
+        {
+            label = _U('SicknessLabel') .. Data.Sickness.Type .. ' ' .. Data.Sickness.Intensity,
+            value = "HealSickness",
+            desc = _U('SicknessLabelDesc') .. Data.Sickness.MedicineLabel,
+            itemHeight = "3vh"
+        },
     }
 
     Menu.Open("default",GetCurrentResourceName(),"BeehiveMenu", -- unique namespace will allow the menu to open where you left off
@@ -272,6 +284,15 @@ AddEventHandler('mms-beekeeper:client:OpenMenu',function(CurrentBeehive)
             else
                 TriggerServerEvent('mms-beekeeper:server:AddBees',CurrentBeehive[1].id,Data.BeeSettings.QueenItem)
                 Menu.close()
+            end
+        end
+
+        if data.current.value == "HealSickness" then
+            if Data.Sickness.Intensity > 0 then
+                TriggerServerEvent('mms-beekeeper:server:HealSickness',CurrentBeehive[1].id)
+                Menu.close()
+            else
+                VORPcore.NotifyRightTip(_U('BeesNotSick'),5000)
             end
         end
 

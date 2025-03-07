@@ -149,7 +149,7 @@ RegisterServerEvent('mms-beekeeper:server:DoTheUpdateProcess',function()
                     local AddBeeValue = math.random(Config.BeesMin,Config.BeesMax)
                     local NewBees = Data.Bees + AddBeeValue
                     if NewBees > Config.MaxBeesPerHive then
-                        NewBeed = Config.MaxBeesPerHive
+                        NewBees = Config.MaxBeesPerHive
                     end
                     Data.Bees = NewBees
                 end
@@ -165,6 +165,56 @@ RegisterServerEvent('mms-beekeeper:server:DoTheUpdateProcess',function()
                     local NewBees = Data.Bees + RemoveBeeValue
                     Data.Bees = NewBees
                 end
+            end
+
+            -----------------------------------------------
+            -------------- Sickness UPDATE ----------------
+            -----------------------------------------------
+            local BeesNewSick = false
+            local BeesCurrentlySick = false
+            if Data.Sickness.CurrentlySick then
+                BeesCurrentlySick = true
+            end
+
+            if Config.BeesCanBeSick and not BeesCurrentlySick then
+                local ChanceToBeSick = math.random(1,100)
+                if ChanceToBeSick <= Config.SicknessChance then
+                    BeesNewSick = true
+                end
+            end
+
+            if BeesNewSick then
+                local MaxIndex = #Config.SickNess
+                local RandomIndex = math.random(1,MaxIndex)
+                local PickedSickness = Config.SickNess[RandomIndex]
+                Data.Sickness.CurrentlySick = true
+                Data.Sickness.Type = PickedSickness.Type
+                Data.Sickness.Medicine = PickedSickness.Medicin
+                Data.Sickness.Intensity = Config.IncreaseIntensityPerUpdate
+                Data.Sickness.MedicineLabel = PickedSickness.MedicinLabel
+            end
+
+            if BeesCurrentlySick then
+                local NewIntensity = Data.Sickness.Intensity + Config.IncreaseIntensityPerUpdate
+                if NewIntensity > 100 then
+                    NewIntensity = 100
+                end
+                Data.Sickness.Intensity = NewIntensity
+            end
+
+            if Config.BeesDieOn100 and Data.Sickness.Intensity >= 100 then
+                Data.Bees = 0
+                Data.Queen = 0
+                Data.BeeSettings = {
+                    QueenItem = '',
+                    QueenLabel = '',
+                    BeeItem = '',
+                    BeeLabel = '',
+                    Product = '',
+                    ProductLabel = '',
+                    ProductHappy = 0.0,
+                    ProductNormal = 0.0,
+                }
             end
 
             -----------------------------------------------
@@ -418,5 +468,27 @@ RegisterServerEvent('mms-beekeeper:server:DeleteBeehive',function(HiveID)
     MySQL.execute('DELETE FROM mms_beekeeper WHERE id = ?', {HiveID}, function() end)
     if Config.GetBackBoxItem then
         exports.vorp_inventory:addItem(src,Config.BeehiveItem,1)
+    end
+end)
+
+RegisterServerEvent('mms-beekeeper:server:HealSickness',function(HiveID)
+    local src = source
+    local CurrentBeehive = MySQL.query.await("SELECT * FROM mms_beekeeper WHERE id=@id", { ["id"] = HiveID})
+    if #CurrentBeehive > 0 then
+        local Data = json.decode(CurrentBeehive[1].data)
+        local HasItem = exports.vorp_inventory:getItemCount(src, nil, Data.Sickness.Medicine)
+        if HasItem > 0 then
+            exports.vorp_inventory:subItem(src,Data.Sickness.Medicine,1)
+            Data.Sickness = {
+                CurrentlySick = false,
+                Type = '',
+                Medicine = '',
+                MedicineLabel = '',
+                Intensity = 0.0,
+            }
+            MySQL.update('UPDATE `mms_beekeeper` SET data = ? WHERE id = ?',{json.encode(Data),HiveID})
+        else
+            VORPcore.NotifyRightTip(src,_U('NoMedicineItem') .. Data.Sickness.MedicineLabel,5000)
+        end
     end
 end)
