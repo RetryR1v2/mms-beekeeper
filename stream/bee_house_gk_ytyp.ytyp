@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CMapTypes>
+  <extensions />
+  <archetypes>
+    <Item type="CBaseArchetypeDef">
+      <guid value="0"/>
+      <lodDist value="150.00000000"/>
+      <flags value="537001984" />
+      <loadFlags value="537001984" />
+      <specialAttribute value="0" />
+      <bbMin x="-0.855334342" y="-0.871402264" z="-0.1713345" />
+      <bbMax x="0.8055276" y="0.7944157" z="1.24996483" />
+      <bsCentre x="-0.024903357" y="-0.0384932756" z="0.539315164" />
+      <bsRadius value="1.37418187" />
+      <hdTextureDist value="150.0"/>
+      <name>bee_house_gk_1</name>
+      <textureDictionary>bee_house_gk_tex</textureDictionary>
+      <physicsDictionary>bee_house_gk_1</physicsDictionary>
+      <clipDictionary />
+      <drawableDictionary />
+      <assetType>ASSET_TYPE_DRAWABLE</assetType>
+      <assetName>bee_house_gk_1</assetName>
+      <extensions />
+      <redm_loves_you_a68fd88a5afa0b22 />
+    </Item>
+    <Item type="CBaseArchetypeDef">
+      <guid value="0"/>
+      <lodDist value="150.00000000"/>
+      <flags value="537001984" />
+      <loadFlags value="537001984" />
+      <specialAttribute value="0" />
+      <bbMin x="-0.855334342" y="-0.871402264" z="-0.1713345" />
+      <bbMax x="0.8055276" y="0.7944157" z="1.24996483" />
+      <bsCentre x="-0.024903357" y="-0.0384932756" z="0.539315164" />
+      <bsRadius value="1.37418187" />
+      <hdTextureDist value="150.0"/>
+      <name>bee_house_gk_2</name>
+      <textureDictionary>bee_house_gk_tex</textureDictionary>
+      <physicsDictionary>bee_house_gk_2</physicsDictionary>
+      <clipDictionary />
+      <drawableDictionary />
+      <assetType>ASSET_TYPE_DRAWABLE</assetType>
+      <assetName>bee_house_gk_2</assetName>
+      <extensions />
+      <redm_loves_you_a68fd88a5afa0b22 />
+    </Item>
+    <Item type="CBaseArchetypeDef">
+      <guid value="0"/>
+      <lodDist value="150.00000000"/>
+      <flags value="537001984" />
+      <loadFlags value="537001984" />
+      <specialAttribute value="0" />
+      <bbMin x="-0.855334342" y="-0.871402264" z="-0.1713345" />
+      <bbMax x="0.8055276" y="0.7944157" z="1.24996483" />
+      <bsCentre x="-0.024903357" y="-0.0384932756" z="0.539315164" />
+      <bsRadius value="1.37418187" />
+      <hdTextureDist value="150.0"/>
+      <name>bee_house_gk_3</name>
+      <textureDictionary>bee_house_gk_tex</textureDictionary>
+      <physicsDictionary>bee_house_gk_3</physicsDictionary>
+      <clipDictionary />
+      <drawableDictionary />
+      <assetType>ASSET_TYPE_DRAWABLE</assetType>
+      <assetName>bee_house_gk_3</assetName>
+      <extensions />
+      <redm_loves_you_a68fd88a5afa0b22 />
+    </Item>
+    <Item type="CBaseArchetypeDef">
+      <guid value="0"/>
+      <lodDist value="150.00000000"/>
+      <flags value="537001984" />
+      <loadFlags value="537001984" />
+      <specialAttribute value="0" />
+      <bbMin x="-0.855334342" y="-0.871402264" z="-0.1713345" />
+      <bbMax x="0.8055276" y="0.7944157" z="1.24996483" />
+      <bsCentre x="-0.024903357" y="-0.0384932756" z="0.539315164" />
+      <bsRadius value="1.37418187" />
+      <hdTextureDist value="150.0"/>
+      <name>bee_house_gk_4</name>
+      <textureDictionary>bee_house_gk_tex</textureDictionary>
+      <physicsDictionary>bee_house_gk_4</physicsDictionary>
+      <clipDictionary />
+      <drawableDictionary />
+      <assetType>ASSET_TYPE_DRAWABLE</assetType>
+      <assetName>bee_house_gk_4</assetName>
+      <extensions />
+      <redm_loves_you_a68fd88a5afa0b22 />
+    </Item>
+    <Item type="CBaseArchetypeDef">
+      <guid value="0"/>
+      <lodDist value="150.00000000"/>
+      <flags value="537001984" />
+      <loadFlags value="537001984" />
+      <specialAttribute value="0" />
+      <bbMin x="-0.855334342" y="-0.871402264" z="-0.1713345" />
+      <bbMax x="0.8055276" y="0.7944157" z="1.24996483" />
+      <bsCentre x="-0.024903357" y="-0.0384932756" z="0.539315164" />
+      <bsRadius value="1.37418187" />
+      <hdTextureDist value="150.0"/>
+      <name>bee_house_gk_5</name>
+      <textureDictionary>bee_house_gk_tex</textureDictionary>
+      <physicsDictionary>bee_house_gk_5</physicsDictionary>
+      <clipDictionary />
+      <drawableDictionary />
+      <assetType>ASSET_TYPE_DRAWABLE</assetType>
+      <assetName>bee_house_gk_5</assetName>
+      <extensions />
+      <redm_loves_you_a68fd88a5afa0b22 />
+    </Item>
+    <Item type="CBaseArchetypeDef">
+      <guid value="0"/>
+      <lodDist value="150.00000000"/>
+      <flags value="537001984" />
+      <loadFlags value="537001984" />
+      <specialAttribute value="0" />
+      <bbMin x="-0.855334342" y="-0.871402264" z="-0.1713345" />
+      <bbMax x="0.8055276" y="0.7944157" z="1.24996483" />
+      <bsCentre x="-0.024903357" y="-0.0384932756" z="0.539315164" />
+      <bsRadius value="1.37418187" />
+      <hdTextureDist value="150.0"/>
+      <name>bee_house_gk_6</name>
+      <textureDictionary>bee_house_gk_tex</textureDictionary>
+      <physicsDictionary>bee_house_gk_6</physicsDictionary>
+      <clipDictionary />
+      <drawableDictionary />
+      <assetType>ASSET_TYPE_DRAWABLE</assetType>
+      <assetName>bee_house_gk_6</assetName>
+      <extensions />
+      <redm_loves_you_a68fd88a5afa0b22 />
+    </Item>
+  </archetypes>
+  <name>bee_house_gk_ytyp</name>
+  <dependencies />
+  <compositeEntityTypes itemType="CCompositeEntityType" />
+</CMapTypes>

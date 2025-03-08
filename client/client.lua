@@ -14,22 +14,29 @@ local CreatedWildBeehives = {}
 local SmokedBeehives = {}
 local TakenBeeBeehives = {}
 local TakenQueenBeehives = {}
+local bees_cloud_group = "core"
+local bees_cloud_name = "ent_amb_insect_bee_swarm"
+local CreatedFXSwarms = {}
 
 -----------------------------------------------
 --------------- GetBeehivesData ---------------
 -----------------------------------------------
 
 -- Debug
-
-if Config.Debug then
-    Citizen.Wait(3000)
-    TriggerServerEvent('mms-beekeeper:server:GetBeehivesData')
-end
+Citizen.CreateThread(function()
+    if Config.Debug then
+        Citizen.Wait(3000)
+        TriggerServerEvent('mms-beekeeper:server:GetBeehivesData')
+        Citizen.Wait(300)
+        TriggerEvent('mms-beekeeper:client:SpawnWildBeehives')
+    end
+end)
 
 RegisterNetEvent('vorp:SelectedCharacter')
 AddEventHandler('vorp:SelectedCharacter', function()
     Citizen.Wait(10000)
     TriggerServerEvent('mms-beekeeper:server:GetBeehivesData')
+    TriggerEvent('mms-beekeeper:client:SpawnWildBeehives')
 end)
 
 RegisterNetEvent('mms-beekeeper:client:ReciveData')
@@ -50,6 +57,9 @@ AddEventHandler('mms-beekeeper:client:ReloadData',function()
     for _, blips in ipairs(CreatedBlips) do
         blips:Remove()
     end
+    for _,BeesFX in ipairs(CreatedFXSwarms) do
+        StopParticleFxLooped(BeesFX,true)
+    end
     Citizen.Wait(500)
     BeehiveData = nil
     TriggerServerEvent('mms-beekeeper:server:GetBeehivesData')
@@ -61,6 +71,15 @@ end)
 RegisterNetEvent('mms-beekeeper:client:CreateBeehive')
 AddEventHandler('mms-beekeeper:client:CreateBeehive',function()
     local BeehiveClose = false
+    local BeehiveProp = Config.Props[Config.FixProp].BeehiveBox
+
+    if Config.UseRandomHive then
+        local MaxIndex = #Config.Props
+        local RandomIndex = math.random(1,MaxIndex)
+        BeehiveProp = Config.Props[RandomIndex].BeehiveBox
+    end
+
+
     local MyCoords = GetEntityCoords(PlayerPedId())
     if BeehiveData ~= nil then
         for h,v in ipairs(BeehiveData) do
@@ -101,7 +120,7 @@ AddEventHandler('mms-beekeeper:client:CreateBeehive',function()
             MedicineLabel = '',
             Intensity = 0.0,
         },
-        Model = Config.BeehiveBox,
+        Model = BeehiveProp,
     }
     if not BeehiveClose then
         TriggerServerEvent('mms-beekeeper:server:SaveBeehiveToDatabase',Data)
@@ -119,11 +138,13 @@ RegisterNetEvent('mms-beekeeper:client:CreateBeehivesOnStart')
 AddEventHandler('mms-beekeeper:client:CreateBeehivesOnStart',function()
     for h,v in ipairs(BeehiveData) do
         local Data = json.decode(v.data)
-        local Beehive = CreateObject(Config.BeehiveBox, Data.Coords.x, Data.Coords.y, Data.Coords.z,true,true,false)
+        local Beehive = CreateObject(Data.Model, Data.Coords.x, Data.Coords.y, Data.Coords.z,true,true,false)
         SetEntityInvincible(Beehive,true)
         FreezeEntityPosition(Beehive,true)
         CreatedBeehives[#CreatedBeehives + 1] = Beehive
-
+        Citizen.InvokeNative(0xA10DB07FC234DD12, bees_cloud_group)
+        local BeeFXSwarm = Citizen.InvokeNative(0xBA32867E86125D3A , bees_cloud_name, Data.Coords.x, Data.Coords.y, Data.Coords.z, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
+        CreatedFXSwarms[#CreatedFXSwarms + 1] = BeeFXSwarm
         if Config.UseBlips then
             if v.charident == CharID then
                 local BeehiveBlip = BccUtils.Blips:SetBlip(Config.BlipName, Config.BlipSprite, Config.BlipScale, Data.Coords.x, Data.Coords.y, Data.Coords.z)
@@ -298,10 +319,14 @@ AddEventHandler('mms-beekeeper:client:OpenMenu',function(CurrentBeehive)
             if Data.Queen < 1 then
                 VORPcore.NotifyRightTip(_U('InsertQueenFirst'),5000)
             else
-                CrouchAnim()
-                Progressbar(Config.BeeTime*1000,_U('AddingBee'))
-                TriggerServerEvent('mms-beekeeper:server:AddBees',CurrentBeehive[1].id,Data.BeeSettings.QueenItem)
-                Menu.close()
+                if Data.Bees >= Config.MaxBeesPerHive then
+                    VORPcore.NotifyRightTip(_U('MaxBeesReached'),5000)
+                else
+                    CrouchAnim()
+                    Progressbar(Config.BeeTime*1000,_U('AddingBee'))
+                    TriggerServerEvent('mms-beekeeper:server:AddBees',CurrentBeehive[1].id,Data.BeeSettings.QueenItem)
+                    Menu.close()
+                end
             end
         end
         
@@ -328,7 +353,9 @@ end)
 ----------- Create Wild Beehives --------------
 -----------------------------------------------
 
-Citizen.CreateThread(function ()
+RegisterNetEvent('mms-beekeeper:client:SpawnWildBeehives')
+AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
+    Citizen.Wait(5000)
     if Config.WildBeehiveSpawn then
 
         local WildBeehivePromptGroup = BccUtils.Prompts:SetupPromptGroup()
@@ -343,6 +370,11 @@ Citizen.CreateThread(function ()
             FreezeEntityPosition(WildBeehive,true)
             Citizen.InvokeNative(0x203BEFFDBE12E96A, WildBeehive, v.x, v.y, v.z, v.heading, v.rotx, v.roty, v.rotz)
             CreatedWildBeehives[#CreatedWildBeehives + 1] = WildBeehive
+            
+            Citizen.InvokeNative(0xA10DB07FC234DD12, bees_cloud_group)
+            local BeeFXSwarm = Citizen.InvokeNative(0xBA32867E86125D3A , bees_cloud_name, v.x, v.y, v.z, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
+            CreatedFXSwarms[#CreatedFXSwarms + 1] = BeeFXSwarm
+            
         end
 
         -- Prompt for Wild Beehives
@@ -351,13 +383,24 @@ Citizen.CreateThread(function ()
             for h,v in ipairs(Config.WildBeehives) do
                 MyCoords = GetEntityCoords(PlayerPedId())
                 local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
-
+                local CurrentHive = v
                 if Distance <= 2 then
                     WildBeehivePromptGroup:ShowGroup(_U('WildBeehivePromptGroup'))
 
                     if SmokeBeehive:HasCompleted() then
-                        local CurrentHive = v
-                        TriggerServerEvent('mms-beekeeper:server:SmokeBeehive', CurrentHive,SmokedBeehives)
+                        if SmokedBeehives[1] == nil then
+                            TriggerServerEvent('mms-beekeeper:server:SmokeBeehive', CurrentHive,SmokedBeehives)
+                        else
+                            for h,v in ipairs(SmokedBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    VORPcore.NotifyRightTip_('AlreadySmoked')
+                                else
+                                    TriggerServerEvent('mms-beekeeper:server:SmokeBeehive', CurrentHive,SmokedBeehives)
+                                end
+                            end
+                        end
+
                     end
 
                     if TakeBees:HasCompleted() then
@@ -376,6 +419,31 @@ Citizen.CreateThread(function ()
                         for h,v in ipairs(SmokedBeehives) do
                             local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
                             if Distance < 2 and not TakenBees then
+                                local PlayAnimStatus = true
+                                local prop_name = "mp005_s_posse_col_net01x"
+                                local MyPed = PlayerPedId()
+                                -- Create the prop
+                                local BugNet = CreateObject(GetHashKey(prop_name), MyCoords.x, MyCoords.y, MyCoords.z, true, true, true)
+                                SetEntityAsMissionEntity(BugNet, true, true)
+                                AttachEntityToEntity(BugNet, MyPed, GetEntityBoneIndexByName(MyPed, "PH_L_Hand"),0.0, 0.0, -0.45, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
+
+                                -- Request and play animation
+                                RequestAnimDict("mini_games@fishing@shore")
+                                while not HasAnimDictLoaded("mini_games@fishing@shore") do
+                                    Citizen.Wait(100)
+                                end
+                                TaskPlayAnim(MyPed, "mini_games@fishing@shore", "cast",1.0, 8.0, -1, 31, 0, false, false, false)
+                                -- Wait the Catch Time
+                                Citizen.Wait(Config.GetBeeTime*1000)
+                                ClearPedTasks(MyPed)
+                                -- Cleanup BugNet when animation stops
+                                    while PlayAnimStatus do
+                                        Citizen.Wait(100)
+                                        if not IsEntityPlayingAnim(MyPed, "mini_games@fishing@shore", "cast", 3) then
+                                            DeleteEntity(BugNet) -- Clean up the prop
+                                            PlayAnimStatus = false
+                                        end
+                                    end
                                 TriggerServerEvent('mms-beekeeper:server:TakeBeesFromWildHive', CurrentHive)
                             else
                                 VORPcore.NotifyRightTip(_U('BeehiveNotSmoked'), 5000)
@@ -399,18 +467,40 @@ Citizen.CreateThread(function ()
                         for h,v in ipairs(TakenBeeBeehives) do
                             local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
                             if Distance < 2 and not TakenQueen then
+                                local PlayAnimStatus = true
+                                local prop_name = "mp005_s_posse_col_net01x"
+                                local MyPed = PlayerPedId()
+                                -- Create the prop
+                                local BugNet = CreateObject(GetHashKey(prop_name), MyCoords.x, MyCoords.y, MyCoords.z, true, true, true)
+                                SetEntityAsMissionEntity(BugNet, true, true)
+                                AttachEntityToEntity(BugNet, MyPed, GetEntityBoneIndexByName(MyPed, "PH_L_Hand"),0.0, 0.0, -0.45, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
+
+                                -- Request and play animation
+                                RequestAnimDict("mini_games@fishing@shore")
+                                while not HasAnimDictLoaded("mini_games@fishing@shore") do
+                                    Citizen.Wait(100)
+                                end
+                                TaskPlayAnim(MyPed, "mini_games@fishing@shore", "cast",1.0, 8.0, -1, 31, 0, false, false, false)
+                                -- Wait the Catch Time
+                                Citizen.Wait(Config.GetQueenTime*1000)
+                                ClearPedTasks(MyPed)
+                                -- Cleanup BugNet when animation stops
+                                    while PlayAnimStatus do
+                                        Citizen.Wait(100)
+                                        if not IsEntityPlayingAnim(MyPed, "mini_games@fishing@shore", "cast", 3) then
+                                            DeleteEntity(BugNet) -- Clean up the prop
+                                            PlayAnimStatus = false
+                                        end
+                                    end
                                 TriggerServerEvent('mms-beekeeper:server:TakeQueenFromWildHive', CurrentHive)
                             else
                                 VORPcore.NotifyRightTip(_U('StillBeesInHive'), 5000)
                             end
                         end
                     end
-
                 end
-
             end
         end
-
     end
 end)
 
@@ -448,7 +538,7 @@ function CrouchAnim()
     end
     local ped = PlayerPedId()
     local coords = GetEntityCoords(ped)
-    TaskPlayAnim(ped, dict, "inspectfloor_player", 0.5, 8.0, -1, 1, 0, false, false, false)
+    TaskPlayAnim(ped, dict, "inspectfloor_MyPed", 0.5, 8.0, -1, 1, 0, false, false, false)
 end
 
 ---- CleanUp on Resource Restart 
@@ -463,6 +553,9 @@ RegisterNetEvent('onResourceStop',function(resource)
         end
         for _, wildbeehives in ipairs(CreatedWildBeehives) do
             DeleteObject(wildbeehives)
+        end
+        for _,BeesFX in ipairs(CreatedFXSwarms) do
+            StopParticleFxLooped(BeesFX,true)
         end
     end
 end)

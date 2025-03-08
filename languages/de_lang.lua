@@ -65,4 +65,6 @@ Locales["de_lang"] = {
     AddingQueen = 'Setze Königin ein...',
     AddingBee = 'Setze Bienen ein...',
     CuringSickness = 'Heile die Krankheit...',
+    MaxBeesReached = 'Maximale Anzahl an Bienen Erreicht.',
+    AlreadySmoked = 'Bienenstock bereits Ausgeräuchert',
 }

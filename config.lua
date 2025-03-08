@@ -18,7 +18,21 @@ Config.BeekeeperJobs = {
 
 -- Item
 Config.BeehiveItem = 'beehive_box'
-Config.BeehiveBox = 'p_crate03x'
+
+-- Beehive Props
+
+Config.UseRandomHive = true
+
+Config.FixProp = 1
+
+Config.Props = {
+    { BeehiveBox = 'bee_house_gk_1' }, -- 1
+    { BeehiveBox = 'bee_house_gk_2' }, -- 2
+    { BeehiveBox = 'bee_house_gk_3' }, -- 3
+    { BeehiveBox = 'bee_house_gk_4' }, -- 4
+    { BeehiveBox = 'bee_house_gk_5' }, -- 5
+    { BeehiveBox = 'bee_house_gk_6' }, -- 6
+}
 
 -- Blips
 Config.UseBlips = true  -- Blips will Only Set on Owned Hives
@@ -212,6 +226,12 @@ Config.EmptyBeeJarLabel = 'Glas'
 Config.GetBeeItem = 'basic_bees'
 Config.GetBeeItemMin = 1
 Config.GetBeeItemMax = 3
+Config.GetBeeTime = 5 -- Time in secs
+
+Config.GetQueenItem = 'basic_queen'
+Config.GetQueenItemMin = 1
+Config.GetQueenItemMax = 3
+Config.GetQueenTime = 5 -- Time in secs
 
 Config.WildBeehives = { -- Currently not Used
     --Valentine Area

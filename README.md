@@ -31,6 +31,12 @@
 - 1.1.7 Added Progressbar
 - Added Animation
 - Fixed Small Bug
+- 1.1.8 Added BeesFX 
+- Added Catch bees Animation
+- Fixed Some Bugs
+- Added Hive Props  ( Taken From RSG Beekeeper Stream Folder. RMS-dnb )
+- Fixed Maximum Bee's
+- Changed Picked Hive Method now can be usen 1 Fix Prop From Lost or random Prop
 
 # installation 
 
@@ -44,3 +50,4 @@ vorp_core
 # CREDITS
 - Discord: https://discord.gg/Hua9DFXZYN
 - GitHub: https://github.com/RetryR1v2/mms-beekeeper
+- RMS-dnb: RSG Beekeeper for Props.
