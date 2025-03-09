@@ -44,4 +44,6 @@ Locales["en_lang"] = {
     BeesNotSick = 'Dieser Bienenstock ist nicht Krank',
     NoMedicineItem = 'Dir Fehlt Medizin: ',
     SicknessHealed = 'Die Krankheit wurde Geheilt.',
+    AlreadySmoked = 'Bienenstock bereits Ausgeräuchert',
+    QueenTaken = 'Königin aus Bienenstock Entfernt',
 }

@@ -532,7 +532,7 @@ end)
 ------------ TakeQueen Wild Hive --------------
 -----------------------------------------------
 
-RegisterServerEvent('mms-beekeeper:server:TakeBeesFromWildHive',function(CurrentHive)
+RegisterServerEvent('mms-beekeeper:server:TakeQueenFromWildHive',function(CurrentHive)
     local src = source
     local HasItem = exports.vorp_inventory:getItemCount(src, nil, Config.EmptyBeeJar)
     local HasItem2 = exports.vorp_inventory:getItemCount(src, nil, Config.BugNetItem)
@@ -541,7 +541,7 @@ RegisterServerEvent('mms-beekeeper:server:TakeBeesFromWildHive',function(Current
         local Amout = math.random(Config.GetQueenItemMin,Config.GetQueenItemMax)
         exports.vorp_inventory:addItem(src,Config.GetQueenItem,Amout)
         exports.vorp_inventory:subItem(src,Config.EmptyBeeJar,1)
-        VORPcore.NotifyRightTip(src,_U('BeesTaken'),5000)
+        VORPcore.NotifyRightTip(src,_U('QueenTaken'),5000)
     else
         VORPcore.NotifyRightTip(src,_U('NoTool') .. Config.EmptyBeeJarLabel .. _U('OrTool') .. Config.BugNetLabel,5000)
     end

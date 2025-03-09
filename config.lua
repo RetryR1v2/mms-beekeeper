@@ -219,6 +219,7 @@ Config.SmokerItem = 'torch_smoker'
 Config.SmokerLabel = 'Bienenrauch'
 Config.BugNetItem = 'bug_net'
 Config.BugNetLabel = 'Käfernetz'
+Config.SmokeHiveTime = 5
 
 Config.EmptyBeeJar = 'empty_bee_jar'
 Config.EmptyBeeJarLabel = 'Glas'

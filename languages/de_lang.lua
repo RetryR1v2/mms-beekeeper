@@ -67,4 +67,8 @@ Locales["de_lang"] = {
     CuringSickness = 'Heile die Krankheit...',
     MaxBeesReached = 'Maximale Anzahl an Bienen Erreicht.',
     AlreadySmoked = 'Bienenstock bereits Ausgeräuchert',
+    QueenTaken = 'Königin aus Bienenstock Entfernt',
+    NoMoreBeesInHive = 'Keinen Bienen mehr im Bienenstock',
+    QueenAlreadyTaken = 'Königin bereits Entfernt',
+    
 }

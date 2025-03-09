@@ -37,6 +37,11 @@
 - Added Hive Props  ( Taken From RSG Beekeeper Stream Folder. RMS-dnb )
 - Fixed Maximum Bee's
 - Changed Picked Hive Method now can be usen 1 Fix Prop From Lost or random Prop
+- 1.1.9 Added Smoke Beehive Animation
+- Fixed Bee Taking from Wild Hive
+- Fixed Queen Taking from Wild Hive
+- Fixed Minor Bug with @DaNeo Added Hives Twice ( Network and Client )
+- Special Thanks to all Guys that Helping Finding Bugs ;) 
 
 # installation 
 

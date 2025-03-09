@@ -138,7 +138,7 @@ RegisterNetEvent('mms-beekeeper:client:CreateBeehivesOnStart')
 AddEventHandler('mms-beekeeper:client:CreateBeehivesOnStart',function()
     for h,v in ipairs(BeehiveData) do
         local Data = json.decode(v.data)
-        local Beehive = CreateObject(Data.Model, Data.Coords.x, Data.Coords.y, Data.Coords.z,true,true,false)
+        local Beehive = CreateObject(Data.Model, Data.Coords.x, Data.Coords.y, Data.Coords.z,false,true,false)
         SetEntityInvincible(Beehive,true)
         FreezeEntityPosition(Beehive,true)
         CreatedBeehives[#CreatedBeehives + 1] = Beehive
@@ -389,13 +389,65 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
 
                     if SmokeBeehive:HasCompleted() then
                         if SmokedBeehives[1] == nil then
+                            local MyPed = PlayerPedId()
+                            local prop_name = "p_bugkiller01x"
+                            local PlayAnimStatus = true
+                             -- Create the prop
+                            local SmokerItem = CreateObject(GetHashKey(prop_name), MyCoords.x, MyCoords.y, MyCoords.z, true, true, true)
+                            SetEntityAsMissionEntity(SmokerItem, true, true)
+                            AttachEntityToEntity(SmokerItem, MyPed, GetEntityBoneIndexByName(MyPed, "SKEL_R_FINGER00"), 
+                            0.2, -0.2, -0.0, -40.0, 50.0, 30.0, true, true, false, true, 1, true)
+
+                            -- Request and play animation
+                            RequestAnimDict("script_rc@gun5@ig@stage_01@ig3_bellposes")
+                            while not HasAnimDictLoaded("script_rc@gun5@ig@stage_01@ig3_bellposes") do
+                                Citizen.Wait(100)
+                            end
+
+                            TaskPlayAnim(MyPed, "script_rc@gun5@ig@stage_01@ig3_bellposes", "pose_01_idle_famousgunslinger_05", 
+                                        1.0, 8.0, -1, 1, 0, false, false, false)
+                            Citizen.Wait(Config.SmokeHiveTime*1000)
+                            ClearPedTasks(MyPed)
+                                while PlayAnimStatus do
+                                        Citizen.Wait(100)
+                                        if not IsEntityPlayingAnim(MyPed, "script_rc@gun5@ig@stage_01@ig3_bellposes", "pose_01_idle_famousgunslinger_05", 3) then
+                                        DeleteEntity(SmokerItem) -- Clean up the prop
+                                        PlayAnimStatus = false
+                                    end
+                                end
                             TriggerServerEvent('mms-beekeeper:server:SmokeBeehive', CurrentHive,SmokedBeehives)
                         else
                             for h,v in ipairs(SmokedBeehives) do
                                 local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
                                 if Distance < 2 then
-                                    VORPcore.NotifyRightTip_('AlreadySmoked')
+                                    VORPcore.NotifyRightTip(_U('AlreadySmoked'))
                                 else
+                                    local MyPed = PlayerPedId()
+                                    local prop_name = "p_bugkiller01x"
+                                    local PlayAnimStatus = true
+                                    -- Create the prop
+                                    local SmokerItem = CreateObject(GetHashKey(prop_name), MyCoords.x, MyCoords.y, MyCoords.z, true, true, true)
+                                    SetEntityAsMissionEntity(SmokerItem, true, true)
+                                    AttachEntityToEntity(SmokerItem, MyPed, GetEntityBoneIndexByName(MyPed, "SKEL_R_FINGER00"), 
+                                    0.2, -0.2, -0.0, -40.0, 50.0, 30.0, true, true, false, true, 1, true)
+
+                                    -- Request and play animation
+                                    RequestAnimDict("script_rc@gun5@ig@stage_01@ig3_bellposes")
+                                    while not HasAnimDictLoaded("script_rc@gun5@ig@stage_01@ig3_bellposes") do
+                                        Citizen.Wait(100)
+                                    end
+
+                                    TaskPlayAnim(MyPed, "script_rc@gun5@ig@stage_01@ig3_bellposes", "pose_01_idle_famousgunslinger_05", 
+                                                1.0, 8.0, -1, 1, 0, false, false, false)
+                                    Citizen.Wait(Config.SmokeHiveTime*1000)
+                                    ClearPedTasks(MyPed)
+                                        while PlayAnimStatus do
+                                            Citizen.Wait(100)
+                                            if not IsEntityPlayingAnim(MyPed, "script_rc@gun5@ig@stage_01@ig3_bellposes", "pose_01_idle_famousgunslinger_05", 3) then
+                                                DeleteEntity(SmokerItem) -- Clean up the prop
+                                                PlayAnimStatus = false
+                                            end
+                                        end
                                     TriggerServerEvent('mms-beekeeper:server:SmokeBeehive', CurrentHive,SmokedBeehives)
                                 end
                             end
@@ -445,6 +497,8 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                                         end
                                     end
                                 TriggerServerEvent('mms-beekeeper:server:TakeBeesFromWildHive', CurrentHive)
+                            elseif Distance < 2 and TakenBees then
+                                VORPcore.NotifyRightTip(_U('NoMoreBeesInHive'), 5000)
                             else
                                 VORPcore.NotifyRightTip(_U('BeehiveNotSmoked'), 5000)
                             end
@@ -464,37 +518,41 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                         if TakenBeeBeehives[1] == nil then
                             VORPcore.NotifyRightTip(_U('StillBeesInHive'), 5000)
                         end
-                        for h,v in ipairs(TakenBeeBeehives) do
-                            local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
-                            if Distance < 2 and not TakenQueen then
-                                local PlayAnimStatus = true
-                                local prop_name = "mp005_s_posse_col_net01x"
-                                local MyPed = PlayerPedId()
-                                -- Create the prop
-                                local BugNet = CreateObject(GetHashKey(prop_name), MyCoords.x, MyCoords.y, MyCoords.z, true, true, true)
-                                SetEntityAsMissionEntity(BugNet, true, true)
-                                AttachEntityToEntity(BugNet, MyPed, GetEntityBoneIndexByName(MyPed, "PH_L_Hand"),0.0, 0.0, -0.45, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
+                        if TakenBeeBeehives[1] ~= nil then
+                            for h,v in ipairs(TakenBeeBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 and not TakenQueen then
+                                    local PlayAnimStatus = true
+                                    local prop_name = "mp005_s_posse_col_net01x"
+                                    local MyPed = PlayerPedId()
+                                    -- Create the prop
+                                    local BugNet = CreateObject(GetHashKey(prop_name), MyCoords.x, MyCoords.y, MyCoords.z, true, true, true)
+                                    SetEntityAsMissionEntity(BugNet, true, true)
+                                    AttachEntityToEntity(BugNet, MyPed, GetEntityBoneIndexByName(MyPed, "PH_L_Hand"),0.0, 0.0, -0.45, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
 
-                                -- Request and play animation
-                                RequestAnimDict("mini_games@fishing@shore")
-                                while not HasAnimDictLoaded("mini_games@fishing@shore") do
-                                    Citizen.Wait(100)
-                                end
-                                TaskPlayAnim(MyPed, "mini_games@fishing@shore", "cast",1.0, 8.0, -1, 31, 0, false, false, false)
-                                -- Wait the Catch Time
-                                Citizen.Wait(Config.GetQueenTime*1000)
-                                ClearPedTasks(MyPed)
-                                -- Cleanup BugNet when animation stops
-                                    while PlayAnimStatus do
+                                    -- Request and play animation
+                                    RequestAnimDict("mini_games@fishing@shore")
+                                    while not HasAnimDictLoaded("mini_games@fishing@shore") do
                                         Citizen.Wait(100)
-                                        if not IsEntityPlayingAnim(MyPed, "mini_games@fishing@shore", "cast", 3) then
-                                            DeleteEntity(BugNet) -- Clean up the prop
-                                            PlayAnimStatus = false
-                                        end
                                     end
-                                TriggerServerEvent('mms-beekeeper:server:TakeQueenFromWildHive', CurrentHive)
-                            else
-                                VORPcore.NotifyRightTip(_U('StillBeesInHive'), 5000)
+                                    TaskPlayAnim(MyPed, "mini_games@fishing@shore", "cast",1.0, 8.0, -1, 31, 0, false, false, false)
+                                    -- Wait the Catch Time
+                                    Citizen.Wait(Config.GetQueenTime*1000)
+                                    ClearPedTasks(MyPed)
+                                    -- Cleanup BugNet when animation stops
+                                        while PlayAnimStatus do
+                                            Citizen.Wait(100)
+                                            if not IsEntityPlayingAnim(MyPed, "mini_games@fishing@shore", "cast", 3) then
+                                                DeleteEntity(BugNet) -- Clean up the prop
+                                                PlayAnimStatus = false
+                                            end
+                                        end
+                                    TriggerServerEvent('mms-beekeeper:server:TakeQueenFromWildHive', CurrentHive)
+                                elseif Distance < 2 and  TakenQueen then
+                                    VORPcore.NotifyRightTip(_U('QueenAlreadyTaken'), 5000)
+                                else
+                                    VORPcore.NotifyRightTip(_U('StillBeesInHive'), 5000)
+                                end
                             end
                         end
                     end
