@@ -600,10 +600,10 @@ RegisterServerEvent('mms-beekeeper:server:AddHelper',function(HiveID)
         local ClosePed = GetPlayerPed(player)
         local CloseCoords = GetEntityCoords(ClosePed)
         local Distance = #(MyCoords - CloseCoords)
-        local HelperChar = VORPcore.getUser(player).getUsedCharacter
-        HelperName = HelperChar.firstname .. ' ' .. HelperChar.lastname
-        HelperCharIdent = HelperChar.charIdentifier
-        if Distance > 0.1 and Distance < 3 and PedFound == 0 then
+        if Distance > 0.2 and Distance < 3 and PedFound == 0 then
+            local HelperChar = VORPcore.getUser(player).getUsedCharacter
+            HelperName = HelperChar.firstname .. ' ' .. HelperChar.lastname
+            HelperCharIdent = HelperChar.charIdentifier
             PedFound = PedFound + 1
             HelperSrc = player
         end
