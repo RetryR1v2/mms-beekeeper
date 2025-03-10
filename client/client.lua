@@ -60,7 +60,6 @@ AddEventHandler('mms-beekeeper:client:ReloadData',function()
     for _,BeesFX in ipairs(CreatedFXSwarms) do
         StopParticleFxLooped(BeesFX,true)
     end
-    BeehiveData = nil
     TriggerServerEvent('mms-beekeeper:server:GetBeehivesData')
 end)
 -----------------------------------------------
