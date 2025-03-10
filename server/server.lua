@@ -508,6 +508,10 @@ RegisterServerEvent('mms-beekeeper:server:DeleteBeehive',function(HiveID)
     end
 end)
 
+-----------------------------------------------
+--------------- Heal Sickness -----------------
+-----------------------------------------------
+
 RegisterServerEvent('mms-beekeeper:server:HealSickness',function(HiveID)
     local src = source
     local CurrentBeehive = MySQL.query.await("SELECT * FROM mms_beekeeper WHERE id=@id", { ["id"] = HiveID})
@@ -632,5 +636,8 @@ RegisterServerEvent('mms-beekeeper:server:RemoveHelper',function(HiveID)
         Data.Helper.CharIdent = 0
         VORPcore.NotifyRightTip(src,_U('HelperFired'),5000)
         MySQL.update('UPDATE `mms_beekeeper` SET data = ? WHERE id = ?',{json.encode(Data),HiveID})
+        for h,v in ipairs(GetPlayers()) do
+            TriggerClientEvent('mms-beekeeper:client:ReloadData',v)
+        end
     end
 end)

@@ -60,7 +60,6 @@ AddEventHandler('mms-beekeeper:client:ReloadData',function()
     for _,BeesFX in ipairs(CreatedFXSwarms) do
         StopParticleFxLooped(BeesFX,true)
     end
-    Citizen.Wait(200)
     BeehiveData = nil
     TriggerServerEvent('mms-beekeeper:server:GetBeehivesData')
 end)
@@ -128,7 +127,6 @@ AddEventHandler('mms-beekeeper:client:CreateBeehive',function()
     }
     if not BeehiveClose then
         TriggerServerEvent('mms-beekeeper:server:SaveBeehiveToDatabase',Data)
-        --TriggerEvent('mms-beekeeper:client:ReloadData')
     else
         VORPcore.NotifyRightTip(_U('ToCloseToAnotherHive'),5000)
     end
@@ -194,7 +192,6 @@ AddEventHandler('mms-beekeeper:client:StartMainThred',function()
                         if DeleteBeehive:HasCompleted() then
                             TriggerServerEvent('mms-beekeeper:server:DeleteBeehive',v.id)
                             Citizen.Wait(500)
-                            --TriggerEvent('mms-beekeeper:client:ReloadData')
                         end
 
                     end
