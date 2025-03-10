@@ -44,7 +44,7 @@ AddEventHandler('mms-beekeeper:client:ReciveData',function(Beehives,CharIdent)
     BeehiveData = Beehives
     CharID = CharIdent
     TriggerEvent('mms-beekeeper:client:CreateBeehivesOnStart')
-    Citizen.Wait(1000)
+    Citizen.Wait(500)
     TriggerEvent('mms-beekeeper:client:StartMainThred')
 end)
 
@@ -60,7 +60,7 @@ AddEventHandler('mms-beekeeper:client:ReloadData',function()
     for _,BeesFX in ipairs(CreatedFXSwarms) do
         StopParticleFxLooped(BeesFX,true)
     end
-    Citizen.Wait(500)
+    Citizen.Wait(200)
     BeehiveData = nil
     TriggerServerEvent('mms-beekeeper:server:GetBeehivesData')
 end)
@@ -121,10 +121,14 @@ AddEventHandler('mms-beekeeper:client:CreateBeehive',function()
             Intensity = 0.0,
         },
         Model = BeehiveProp,
+        Helper = {
+            Name = '',
+            CharIdent = 0,
+        },
     }
     if not BeehiveClose then
         TriggerServerEvent('mms-beekeeper:server:SaveBeehiveToDatabase',Data)
-        TriggerEvent('mms-beekeeper:client:ReloadData')
+        --TriggerEvent('mms-beekeeper:client:ReloadData')
     else
         VORPcore.NotifyRightTip(_U('ToCloseToAnotherHive'),5000)
     end
@@ -141,6 +145,7 @@ AddEventHandler('mms-beekeeper:client:CreateBeehivesOnStart',function()
         local Beehive = CreateObject(Data.Model, Data.Coords.x, Data.Coords.y, Data.Coords.z,false,true,false)
         SetEntityInvincible(Beehive,true)
         FreezeEntityPosition(Beehive,true)
+        SetEntityAlwaysPrerender(Beehive,false)
         CreatedBeehives[#CreatedBeehives + 1] = Beehive
         Citizen.InvokeNative(0xA10DB07FC234DD12, bees_cloud_group)
         local BeeFXSwarm = Citizen.InvokeNative(0xBA32867E86125D3A , bees_cloud_name, Data.Coords.x, Data.Coords.y, Data.Coords.z, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
@@ -162,16 +167,22 @@ end)
 RegisterNetEvent('mms-beekeeper:client:StartMainThred')
 AddEventHandler('mms-beekeeper:client:StartMainThred',function()
     ThreadRunning = true
+    -- Owner Prompts
     local BeehivePromptGroup = BccUtils.Prompts:SetupPromptGroup()
     local ManageBeehive = BeehivePromptGroup:RegisterPrompt(_U('ManageBeehive'), 0x760A9C6F, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY G
     local DeleteBeehive = BeehivePromptGroup:RegisterPrompt(_U('DeleteBeehive'), 0x27D1C284, 1, 1, true, 'hold', {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY R
+
+    -- Helper Only Manage
+    local BeehiveHelperPromptGroup = BccUtils.Prompts:SetupPromptGroup()
+    local ManageHelperBeehive = BeehiveHelperPromptGroup:RegisterPrompt(_U('ManageBeehive'), 0x760A9C6F, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY G
+
     if BeehiveData ~= nil then
         while ThreadRunning do
             Citizen.Wait(3)
             local MyCoords = GetEntityCoords(PlayerPedId())
             for h,v in ipairs(BeehiveData) do
+                local Data = json.decode(v.data)
                 if v.charident == CharID then
-                    local Data = json.decode(v.data)
                     local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, Data.Coords.x, Data.Coords.y, Data.Coords.z, true)
                     if Distance <= 2 then
                         BeehivePromptGroup:ShowGroup(_U('BeehivePromptGroup'))
@@ -183,7 +194,18 @@ AddEventHandler('mms-beekeeper:client:StartMainThred',function()
                         if DeleteBeehive:HasCompleted() then
                             TriggerServerEvent('mms-beekeeper:server:DeleteBeehive',v.id)
                             Citizen.Wait(500)
-                            TriggerEvent('mms-beekeeper:client:ReloadData')
+                            --TriggerEvent('mms-beekeeper:client:ReloadData')
+                        end
+
+                    end
+                end
+                if Data.Helper.CharIdent == CharID then
+                    local Distance2 = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, Data.Coords.x, Data.Coords.y, Data.Coords.z, true)
+                    if Distance2 <= 2 then
+                        BeehiveHelperPromptGroup:ShowGroup(_U('BeehivePromptGroup'))
+
+                        if ManageHelperBeehive:HasCompleted() then
+                            TriggerServerEvent('mms-beekeeper:server:GetDataForMenu',v.id)
                         end
 
                     end
@@ -252,6 +274,18 @@ AddEventHandler('mms-beekeeper:client:OpenMenu',function(CurrentBeehive)
             label = _U('SicknessLabel') .. Data.Sickness.Type .. ' ' .. Data.Sickness.Intensity,
             value = "HealSickness",
             desc = _U('SicknessLabelDesc') .. Data.Sickness.MedicineLabel,
+            itemHeight = "3vh"
+        },
+        {
+            label = _U('AddHelperLabel') .. Data.Helper.Name,
+            value = "SetHelper",
+            desc = _U('AddHelperLabelDesc'),
+            itemHeight = "3vh"
+        },
+        {
+            label = _U('RemoveHelperLabel') .. Data.Helper.Name,
+            value = "RemoveHelper",
+            desc = _U('RemoveHelperLabelDesc'),
             itemHeight = "3vh"
         },
     }
@@ -341,6 +375,16 @@ AddEventHandler('mms-beekeeper:client:OpenMenu',function(CurrentBeehive)
             end
         end
 
+        if data.current.value == "SetHelper" then
+            TriggerServerEvent('mms-beekeeper:server:AddHelper',CurrentBeehive[1].id)
+            Menu.close()
+        end
+
+        if data.current.value == "RemoveHelper" then
+            TriggerServerEvent('mms-beekeeper:server:RemoveHelper',CurrentBeehive[1].id)
+            Menu.close()
+        end
+
         end,
 
         function(data,Menu)
@@ -368,6 +412,7 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
             local WildBeehive = CreateObject(Config.WildBeehiveModel, v.x, v.y, v.z,true,true,false)
             SetEntityInvincible(WildBeehive,true)
             FreezeEntityPosition(WildBeehive,true)
+            SetEntityAlwaysPrerender(WildBeehive,false)
             Citizen.InvokeNative(0x203BEFFDBE12E96A, WildBeehive, v.x, v.y, v.z, v.heading, v.rotx, v.roty, v.rotz)
             CreatedWildBeehives[#CreatedWildBeehives + 1] = WildBeehive
             

@@ -70,5 +70,12 @@ Locales["de_lang"] = {
     QueenTaken = 'Königin aus Bienenstock Entfernt',
     NoMoreBeesInHive = 'Keinen Bienen mehr im Bienenstock',
     QueenAlreadyTaken = 'Königin bereits Entfernt',
-    
+    MaxHivesReached = 'Maximale Anzahl an Bienenstöcken Erreicht',
+    AddHelperLabel = 'Helfer: ',
+    AddHelperLabelDesc = 'Einen Helfer Einstellen',
+    HelperHired = 'Helfer Eingestellt: ',
+    YouGotHired = 'Du hast nun Zugriff auf diesen Bienenstock',
+    RemoveHelperLabel = 'Helfer Entfernen: ',
+    RemoveHelperLabelDesc = 'Helfer aus dem Stock Entfernen',
+    HelperFired = 'Helfer Entfernt'
 }

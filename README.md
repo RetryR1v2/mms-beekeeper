@@ -42,6 +42,10 @@
 - Fixed Queen Taking from Wild Hive
 - Fixed Minor Bug with @DaNeo Added Hives Twice ( Network and Client )
 - Special Thanks to all Guys that Helping Finding Bugs ;) 
+- 1.2.0 Added Reload on Set Hives
+- Added Helper System
+- You can now Hire and Fire Helper ( Closest Player )
+- You can now Set Max Hives per Player
 
 # installation 
 

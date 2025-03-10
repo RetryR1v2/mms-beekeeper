@@ -48,6 +48,10 @@ Config.GetBackBoxItem = true
 
 Config.MaxBeesPerHive = 200
 
+-- Max Hives Per Player
+
+Config.MaxBeehivesPerPlayer = 1 -- To Disable just Make 1000 in Here so Everyone can have 1000 Hives
+
 ------------------------------------------------------------------
 --------------------- Update Settings ----------------------------
 ------------------------------------------------------------------
@@ -172,7 +176,7 @@ Config.LooseBeesMax = 5
 Config.SickTime = 25
 
 Config.BeesCanBeSick = true
-Config.SicknessChance = 3 -- 10 = 10% 
+Config.SicknessChance = 1 -- 10 = 10% 
 Config.BeesDieOn100 = true  -- Sickness Intensity Max = 100
 Config.IncreaseIntensityPerUpdate = 1.5
 

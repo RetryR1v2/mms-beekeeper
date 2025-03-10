@@ -8,17 +8,47 @@ local VORPcore = exports.vorp_core:GetCore()
 exports.vorp_inventory:registerUsableItem(Config.BeehiveItem, function(data)
     local src = data.source
     local Character = VORPcore.getUser(src).getUsedCharacter
+    local CharIdent = Character.charIdentifier
+    local MyHives = 0
     local Job = Character.job
     if Config.JobLock then
         for h,v in ipairs(Config.BeekeeperJobs) do
             if Job == v.Job then
-                TriggerClientEvent('mms-beekeeper:client:CreateBeehive',src)
+                local Beehives = MySQL.query.await("SELECT * FROM mms_beekeeper", { })
+                if #Beehives > 0 then
+                    for h,v in ipairs(Beehives) do
+                        if v.charident == CharIdent then
+                            MyHives = MyHives + 1
+                        end
+                    end
+                    if MyHives < Config.MaxBeehivesPerPlayer then
+                        TriggerClientEvent('mms-beekeeper:client:CreateBeehive',src)
+                    else
+                        VORPcore.NotifyRightTip(src,_U('MaxHivesReached'),5000)
+                    end
+                else
+                    TriggerClientEvent('mms-beekeeper:client:CreateBeehive',src)
+                end
             else
                 VORPcore.NotifyRightTip(src,_U('NotTheRightJob'),5000)
             end
         end
     else
-        TriggerClientEvent('mms-beekeeper:client:CreateBeehive',src)
+        local Beehives = MySQL.query.await("SELECT * FROM mms_beekeeper", { })
+        if #Beehives > 0 then
+            for h,v in ipairs(Beehives) do
+                if v.charident == CharIdent then
+                    MyHives = MyHives + 1
+                end
+            end
+            if MyHives < Config.MaxBeehivesPerPlayer then
+                TriggerClientEvent('mms-beekeeper:client:CreateBeehive',src)
+            else
+                VORPcore.NotifyRightTip(src,_U('MaxHivesReached'),5000)
+            end
+        else
+            TriggerClientEvent('mms-beekeeper:client:CreateBeehive',src)
+        end
     end
 end)
 
@@ -36,6 +66,7 @@ RegisterServerEvent('mms-beekeeper:server:GetBeehivesData',function()
     end
 end)
 
+
 -----------------------------------------------
 ----------- Save Beehive to Database ----------
 -----------------------------------------------
@@ -48,6 +79,9 @@ RegisterServerEvent('mms-beekeeper:server:SaveBeehiveToDatabase',function (Data)
     exports.vorp_inventory:subItem(src, Config.BeehiveItem, 1)
     MySQL.insert('INSERT INTO `mms_beekeeper` (ident,charident,data) VALUES (?, ?, ?)',
     {ident,charident,json.encode(Data)}, function()end)
+    for h,v in ipairs(GetPlayers()) do
+        TriggerClientEvent('mms-beekeeper:client:ReloadData',v)
+    end
 end)
 
 -----------------------------------------------
@@ -469,6 +503,9 @@ RegisterServerEvent('mms-beekeeper:server:DeleteBeehive',function(HiveID)
     if Config.GetBackBoxItem then
         exports.vorp_inventory:addItem(src,Config.BeehiveItem,1)
     end
+    for h,v in ipairs(GetPlayers()) do
+        TriggerClientEvent('mms-beekeeper:client:ReloadData',v)
+    end
 end)
 
 RegisterServerEvent('mms-beekeeper:server:HealSickness',function(HiveID)
@@ -547,3 +584,53 @@ RegisterServerEvent('mms-beekeeper:server:TakeQueenFromWildHive',function(Curren
     end
 end)
 
+-----------------------------------------------
+----------------- Helper System ---------------
+-----------------------------------------------
+
+RegisterServerEvent('mms-beekeeper:server:AddHelper',function(HiveID)
+    local src = source
+    local HelperName = ''
+    local HelperCharIdent = 0
+    local HelperSrc = nil
+    local PedFound = 0
+    for h,player in ipairs(GetPlayers()) do  -- Finding ClosestPlayer
+        local MyPed = GetPlayerPed(src)
+        local MyCoords = GetEntityCoords(MyPed)
+        local ClosePed = GetPlayerPed(player)
+        local CloseCoords = GetEntityCoords(ClosePed)
+        local Distance = #(MyCoords - CloseCoords)
+        local HelperChar = VORPcore.getUser(player).getUsedCharacter
+        HelperName = HelperChar.firstname .. ' ' .. HelperChar.lastname
+        HelperCharIdent = HelperChar.charIdentifier
+        if Distance > 0.1 and Distance < 3 and PedFound == 0 then
+            PedFound = PedFound + 1
+            HelperSrc = player
+        end
+    end
+    if PedFound > 0 then
+        local CurrentBeehive = MySQL.query.await("SELECT * FROM mms_beekeeper WHERE id=@id", { ["id"] = HiveID})
+        if #CurrentBeehive > 0 then
+            local Data = json.decode(CurrentBeehive[1].data)
+            Data.Helper.Name = HelperName
+            Data.Helper.CharIdent = HelperCharIdent
+            VORPcore.NotifyRightTip(src,_U('HelperHired') .. HelperName,5000)
+            VORPcore.NotifyRightTip(HelperSrc,_U('YouGotHired'),5000)
+            TriggerClientEvent('mms-beekeeper:client:ReloadData',src)
+            TriggerClientEvent('mms-beekeeper:client:ReloadData',HelperSrc)
+            MySQL.update('UPDATE `mms_beekeeper` SET data = ? WHERE id = ?',{json.encode(Data),HiveID})
+        end
+    end
+end)
+
+RegisterServerEvent('mms-beekeeper:server:RemoveHelper',function(HiveID)
+    local src = source
+    local CurrentBeehive = MySQL.query.await("SELECT * FROM mms_beekeeper WHERE id=@id", { ["id"] = HiveID})
+    if #CurrentBeehive > 0 then
+        local Data = json.decode(CurrentBeehive[1].data)
+        Data.Helper.Name = ''
+        Data.Helper.CharIdent = 0
+        VORPcore.NotifyRightTip(src,_U('HelperFired'),5000)
+        MySQL.update('UPDATE `mms_beekeeper` SET data = ? WHERE id = ?',{json.encode(Data),HiveID})
+    end
+end)
