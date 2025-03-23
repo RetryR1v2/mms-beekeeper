@@ -196,7 +196,7 @@ RegisterServerEvent('mms-beekeeper:server:DoTheUpdateProcess',function()
                 end
                 if BeesDie then
                     local RemoveBeeValue = math.random(Config.LooseBeesMin,Config.LooseBeesMax)
-                    local NewBees = Data.Bees + RemoveBeeValue
+                    local NewBees = Data.Bees - RemoveBeeValue
                     Data.Bees = NewBees
                 end
             end
