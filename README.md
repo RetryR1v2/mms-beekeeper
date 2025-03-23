@@ -1,6 +1,6 @@
 # mms-beekeeper
 
-- BeeKeeper Beta.
+- BeeKeeper.
 
 # Features
  
@@ -46,6 +46,7 @@
 - Added Helper System
 - You can now Hire and Fire Helper ( Closest Player )
 - You can now Set Max Hives per Player
+- 1.2.1 Updated Stream Folder to Newest Version from GamerKim
 
 # installation 
 
