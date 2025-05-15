@@ -48,6 +48,7 @@
 - You can now Set Max Hives per Player
 - 1.2.1 Updated Stream Folder to Newest Version from GamerKim
 - 1.2.2 BugFix Special Thanks to @DaNeo
+- 1.2.3 Fixed Bug with Product.
 
 # installation 
 

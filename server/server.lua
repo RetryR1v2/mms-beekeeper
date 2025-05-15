@@ -239,6 +239,7 @@ RegisterServerEvent('mms-beekeeper:server:DoTheUpdateProcess',function()
             if Config.BeesDieOn100 and Data.Sickness.Intensity >= 100 then
                 Data.Bees = 0
                 Data.Queen = 0
+                Data.Product = 0
                 Data.BeeSettings = {
                     QueenItem = '',
                     QueenLabel = '',
