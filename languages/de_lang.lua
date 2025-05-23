@@ -77,5 +77,10 @@ Locales["de_lang"] = {
     YouGotHired = 'Du hast nun Zugriff auf diesen Bienenstock',
     RemoveHelperLabel = 'Helfer Entfernen: ',
     RemoveHelperLabelDesc = 'Helfer aus dem Stock Entfernen',
-    HelperFired = 'Helfer Entfernt'
+    HelperFired = 'Helfer Entfernt',
+    HowManyWannaTake = 'Wieviel Nehmen?',
+    ConfirmButton = 'Bestätigen',
+    NotEnoghProductinHive = 'Nicht genug Produkt im Bienenstock',
+    NotEnoghJars = 'Nicht genug Gläser',
+    NoInvetorySpace = 'Nicht genug Platz in der Tasche',
 }

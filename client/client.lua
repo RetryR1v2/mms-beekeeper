@@ -307,10 +307,45 @@ AddEventHandler('mms-beekeeper:client:OpenMenu',function(CurrentBeehive)
         end
 
         if data.current.value == "TakeProduct" then
-            CrouchAnim()
-            Progressbar(Config.TakeHoneyTime*1000,_U('TakingHoney'))
-            TriggerServerEvent('mms-beekeeper:server:TakeProduct',CurrentBeehive[1].id)
-            Menu.close()
+            local HowMany = {
+                type = "enableinput", -- don't touch
+                inputType = "input", -- input type
+                button = _U('ConfirmButton'), -- button name
+                placeholder = "0", -- placeholder name
+                style = "block", -- don't touch
+                attributes = {
+                    inputHeader = _U('HowManyWannaTake'), -- header
+                    type = "number", -- inputype text, number,date,textarea ETC
+                    pattern = "[0-9]", --  only numbers "[0-9]" | for letters only "[A-Za-z]+" 
+                    title = "numbers only", -- if input doesnt match show this message
+                    style = "border-radius: 10px; background-color: ; border:none;"-- style 
+                }
+            }
+            TriggerEvent("vorpinputs:advancedInput", json.encode(HowMany),function(result)
+                local HoneyAmount = tonumber(result)
+                local HoneyItem = Data.BeeSettings.Product
+                local ProductNeeded = Config.ProduktPerHoney * HoneyAmount
+                local JarsNeeded = HoneyAmount
+                local ServerInfo =  VORPcore.Callback.TriggerAwait('mms-beekeeper:callback:GetJarAmount',HoneyAmount,HoneyItem)
+                local Jars = ServerInfo[1]
+                local CanCarry = ServerInfo[2]
+                if CanCarry then
+                    if Jars >= JarsNeeded then
+                        if Data.Product >= ProductNeeded then
+                            CrouchAnim()
+                            Progressbar(Config.TakeHoneyTime*1000*HoneyAmount,_U('TakingHoney'))
+                            TriggerServerEvent('mms-beekeeper:server:TakeProduct',CurrentBeehive[1].id,HoneyAmount)
+                            Menu.close()
+                        else
+                            VORPcore.NotifyRightTip(_U('NotEnoghProductinHive'),5000)
+                        end
+                    else
+                        VORPcore.NotifyRightTip(_U('NotEnoghJars'),5000)
+                    end
+                else
+                    VORPcore.NotifyRightTip(_U('NoInvetorySpace'),5000)
+                end
+            end)
         end
         
         if data.current.value == "AddWater" then

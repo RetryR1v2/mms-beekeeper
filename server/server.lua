@@ -2,6 +2,17 @@
 local VORPcore = exports.vorp_core:GetCore()
 
 -----------------------------------------------
+------------- Register Callback ---------------
+-----------------------------------------------
+
+VORPcore.Callback.Register('mms-beekeeper:callback:GetJarAmount', function(source,cb,HoneyAmount,HoneyItem)
+    local src = source
+    local JarAmount = exports.vorp_inventory:getItemCount(src, nil, Config.JarItem)
+    local CanCarry = exports.vorp_inventory:canCarryItem(src, HoneyItem, HoneyAmount)
+    cb ({JarAmount,CanCarry})
+end)
+
+-----------------------------------------------
 ----------------- Register Item ---------------
 -----------------------------------------------
 
@@ -471,17 +482,17 @@ end)
 ------------- TakeHoney from Hive -------------
 -----------------------------------------------
 
-RegisterServerEvent('mms-beekeeper:server:TakeProduct',function(HiveID)
+RegisterServerEvent('mms-beekeeper:server:TakeProduct',function(HiveID,HoneyAmount)
     local src = source
     local CurrentBeehive = MySQL.query.await("SELECT * FROM mms_beekeeper WHERE id=@id", { ["id"] = HiveID})
     if #CurrentBeehive > 0 then
         local HasItem = exports.vorp_inventory:getItemCount(src, nil, Config.JarItem)
-        if HasItem > 0 then
+        if HasItem >= HoneyAmount then
             local Data = json.decode(CurrentBeehive[1].data)
-            if Data.Product >= Config.ProduktPerHoney then
-                exports.vorp_inventory:subItem(src,Config.JarItem,1)
-                exports.vorp_inventory:addItem(src,Data.BeeSettings.Product,1)
-                local NewProduct = Data.Product - Config.ProduktPerHoney
+            if Data.Product >= Config.ProduktPerHoney * HoneyAmount then
+                exports.vorp_inventory:subItem(src,Config.JarItem,HoneyAmount)
+                exports.vorp_inventory:addItem(src,Data.BeeSettings.Product,HoneyAmount)
+                local NewProduct = Data.Product - Config.ProduktPerHoney * HoneyAmount
                 Data.Product = NewProduct
                 MySQL.update('UPDATE `mms_beekeeper` SET data = ? WHERE id = ?',{json.encode(Data),HiveID})
                 VORPcore.NotifyRightTip(src,_U('ProductTaken'),5000)

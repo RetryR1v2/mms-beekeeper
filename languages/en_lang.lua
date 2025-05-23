@@ -77,5 +77,10 @@ Locales["en_lang"] = {
     YouGotHired = 'You now have access to this hive',
     RemoveHelperLabel = 'Helper Removal: ',
     RemoveHelperLabelDesc = 'Removing helpers from the hive',
-    HelperFired = 'Helper Removed'
+    HelperFired = 'Helper Removed',
+    HowManyWannaTake = 'How many honey to take ?',
+    ConfirmButton = 'Confirm',
+    NotEnoghProductinHive = 'Not enogh product to take',
+    NotEnoghJars = 'Not enogh Jars',
+    NoInvetorySpace ='No Invetory Space',
 }

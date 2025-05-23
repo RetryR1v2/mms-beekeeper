@@ -49,6 +49,8 @@
 - 1.2.1 Updated Stream Folder to Newest Version from GamerKim
 - 1.2.2 BugFix Special Thanks to @DaNeo
 - 1.2.3 Fixed Bug with Product.
+- 1.2.4 Added new Function now you can Take more honey instead of always 1 by 1
+- Added Safety Server Check for Invetory Space and Jar Amount
 
 # installation 
 
