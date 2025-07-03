@@ -79,6 +79,7 @@ AddEventHandler('mms-beekeeper:client:CreateBeehive',function()
 
 
     local MyCoords = GetEntityCoords(PlayerPedId())
+    local MyHeading = GetEntityHeading(PlayerPedId())
     if BeehiveData ~= nil then
         for h,v in ipairs(BeehiveData) do
             local Data = json.decode(v.data)
@@ -110,6 +111,7 @@ AddEventHandler('mms-beekeeper:client:CreateBeehive',function()
             x = MyCoords.x + 1,0,
             y = MyCoords.y + 1.0,
             z = MyCoords.z -1,
+            heading = MyHeading,
         },
         Sickness = {
             CurrentlySick = false,
@@ -140,6 +142,10 @@ AddEventHandler('mms-beekeeper:client:CreateBeehivesOnStart',function()
     for h,v in ipairs(BeehiveData) do
         local Data = json.decode(v.data)
         local Beehive = CreateObject(Data.Model, Data.Coords.x, Data.Coords.y, Data.Coords.z,false,true,false)
+        if Data.Coords.heading == nil then
+            Data.Coords.heading = 100
+        end
+        SetEntityHeading(Beehive,Data.Coords.heading)
         SetEntityInvincible(Beehive,true)
         FreezeEntityPosition(Beehive,true)
         SetEntityAlwaysPrerender(Beehive,false)
@@ -175,7 +181,7 @@ AddEventHandler('mms-beekeeper:client:StartMainThred',function()
 
     if BeehiveData ~= nil then
         while ThreadRunning do
-            Citizen.Wait(3)
+            Citizen.Wait(5)
             local MyCoords = GetEntityCoords(PlayerPedId())
             for h,v in ipairs(BeehiveData) do
                 local Data = json.decode(v.data)
@@ -282,6 +288,12 @@ AddEventHandler('mms-beekeeper:client:OpenMenu',function(CurrentBeehive)
             label = _U('RemoveHelperLabel') .. Data.Helper.Name,
             value = "RemoveHelper",
             desc = _U('RemoveHelperLabelDesc'),
+            itemHeight = "3vh"
+        },
+        {
+            label = _U('ChangePosition') .. Data.Helper.Name,
+            value = "ChangePosition",
+            desc = _U('ChangePositionDesc'),
             itemHeight = "3vh"
         },
     }
@@ -416,12 +428,43 @@ AddEventHandler('mms-beekeeper:client:OpenMenu',function(CurrentBeehive)
             Menu.close()
         end
 
+        if data.current.value == "ChangePosition" then
+            TriggerEvent('mms-beekeeper:client:ChangeHeading',CurrentBeehive[1].id)
+            Menu.close()
+        end
+
         end,
 
         function(data,Menu)
             Menu.close()
         end)
 
+end)
+
+-----------------------------------------------
+------------ Change Hive Heading --------------
+-----------------------------------------------
+
+RegisterNetEvent('mms-beekeeper:client:ChangeHeading')
+AddEventHandler('mms-beekeeper:client:ChangeHeading',function(HiveID)
+    local NewHeading = {
+        type = "enableinput", -- don't touch
+        inputType = "input", -- input type
+        button = _U('ConfirmButton'), -- button name
+        placeholder = "0", -- placeholder name
+        style = "block", -- don't touch
+        attributes = {
+            inputHeader = _U('HeadingLabel'), -- header
+            type = "number", -- inputype text, number,date,textarea ETC
+            pattern = "[0-9]", --  only numbers "[0-9]" | for letters only "[A-Za-z]+" 
+            title = "numbers only", -- if input doesnt match show this message
+            style = "border-radius: 10px; background-color: ; border:none;"-- style 
+        }
+    }
+    TriggerEvent("vorpinputs:advancedInput", json.encode(NewHeading),function(result)
+        local Heading = tonumber(result)
+        TriggerServerEvent('mms-beekeeper:server:ChangeHeading',HiveID,Heading)
+    end)
 end)
 
 -----------------------------------------------

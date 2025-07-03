@@ -653,3 +653,17 @@ RegisterServerEvent('mms-beekeeper:server:RemoveHelper',function(HiveID)
         end
     end
 end)
+
+RegisterServerEvent('mms-beekeeper:server:ChangeHeading',function(HiveID,Heading)
+    local src = source
+    local CurrentBeehive = MySQL.query.await("SELECT * FROM mms_beekeeper WHERE id=@id", { ["id"] = HiveID})
+    if #CurrentBeehive > 0 then
+        local Data = json.decode(CurrentBeehive[1].data)
+        Data.Coords.heading = Heading
+        VORPcore.NotifyRightTip(src,_U('HeadingChanged'),5000)
+        MySQL.update('UPDATE `mms_beekeeper` SET data = ? WHERE id = ?',{json.encode(Data),HiveID})
+        for h,v in ipairs(GetPlayers()) do
+            TriggerClientEvent('mms-beekeeper:client:ReloadData',v)
+        end
+    end
+end)

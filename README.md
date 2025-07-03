@@ -34,7 +34,7 @@
 - 1.1.8 Added BeesFX 
 - Added Catch bees Animation
 - Fixed Some Bugs
-- Added Hive Props  ( Taken From RSG Beekeeper Stream Folder. RMS-dnb )
+- Added Hive Props ( Taken From RSG Beekeeper Stream Folder. RMS-dnb )
 - Fixed Maximum Bee's
 - Changed Picked Hive Method now can be usen 1 Fix Prop From Lost or random Prop
 - 1.1.9 Added Smoke Beehive Animation
@@ -51,6 +51,7 @@
 - 1.2.3 Fixed Bug with Product.
 - 1.2.4 Added new Function now you can Take more honey instead of always 1 by 1
 - Added Safety Server Check for Invetory Space and Jar Amount
+- 1.2.5 Added Heading. Added Possibility to Change Heading.
 
 # installation 
 

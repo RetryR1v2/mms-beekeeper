@@ -83,4 +83,9 @@ Locales["en_lang"] = {
     NotEnoghProductinHive = 'Not enogh product to take',
     NotEnoghJars = 'Not enogh Jars',
     NoInvetorySpace ='No Invetory Space',
+    -- NEW
+    ChangePosition = 'Ausrichtung ändern.',
+    ChangePositionDesc = 'Ausrichtung des Bienenstocks ändern.',
+    HeadingLabel = 'Ausrichtung 0-360',
+    HeadingChanged = 'Ausrichtung geändert.',
 }
