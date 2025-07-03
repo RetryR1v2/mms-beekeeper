@@ -52,6 +52,7 @@
 - 1.2.4 Added new Function now you can Take more honey instead of always 1 by 1
 - Added Safety Server Check for Invetory Space and Jar Amount
 - 1.2.5 Added Heading. Added Possibility to Change Heading.
+- 1.2.6 Added more Settings for Wild Beehives Changed Wild Beehive Config Carefull on Updating.
 
 # installation 
 

@@ -572,8 +572,8 @@ RegisterServerEvent('mms-beekeeper:server:TakeBeesFromWildHive',function(Current
     local HasItem2 = exports.vorp_inventory:getItemCount(src, nil, Config.BugNetItem)
     if HasItem > 0 and HasItem2 > 0 then
         TriggerClientEvent('mms-beekeeper:client:BeesTakenFromHive',src,CurrentHive)
-        local Amout = math.random(Config.GetBeeItemMin,Config.GetBeeItemMax)
-        exports.vorp_inventory:addItem(src,Config.GetBeeItem,Amout)
+        local Amout = math.random(CurrentHive.GetBeeItemMin,CurrentHive.GetBeeItemMax)
+        exports.vorp_inventory:addItem(src,CurrentHive.GetBeeItem,Amout)
         exports.vorp_inventory:subItem(src,Config.EmptyBeeJar,1)
         VORPcore.NotifyRightTip(src,_U('BeesTaken'),5000)
     else
@@ -591,8 +591,8 @@ RegisterServerEvent('mms-beekeeper:server:TakeQueenFromWildHive',function(Curren
     local HasItem2 = exports.vorp_inventory:getItemCount(src, nil, Config.BugNetItem)
     if HasItem > 0 and HasItem2 > 0 then
         TriggerClientEvent('mms-beekeeper:client:QueenTakenFromHive',src,CurrentHive)
-        local Amout = math.random(Config.GetQueenItemMin,Config.GetQueenItemMax)
-        exports.vorp_inventory:addItem(src,Config.GetQueenItem,Amout)
+        local Amout = math.random(CurrentHive.GetQueenItemMin,CurrentHive.GetQueenItemMax)
+        exports.vorp_inventory:addItem(src,CurrentHive.GetQueenItem,Amout)
         exports.vorp_inventory:subItem(src,Config.EmptyBeeJar,1)
         VORPcore.NotifyRightTip(src,_U('QueenTaken'),5000)
     else
