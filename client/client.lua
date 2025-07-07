@@ -291,7 +291,7 @@ AddEventHandler('mms-beekeeper:client:OpenMenu',function(CurrentBeehive)
             itemHeight = "3vh"
         },
         {
-            label = _U('ChangePosition') .. Data.Helper.Name,
+            label = _U('ChangePosition'),
             value = "ChangePosition",
             desc = _U('ChangePositionDesc'),
             itemHeight = "3vh"
