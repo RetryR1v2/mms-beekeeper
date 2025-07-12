@@ -1,7 +1,7 @@
 Config = {}
 
 Config.defaultlang = "de_lang"
-Config.Debug = true
+Config.Debug = false
 
 ------------------------------------------------------------------
 --------------------- JobLock Settings ---------------------------
@@ -231,6 +231,12 @@ Config.EmptyBeeJarLabel = 'Glas'
 Config.GetBeeTime = 5 -- Time in secs
 Config.GetQueenTime = 5 -- Time in secs
 
+Config.ResetWildHives = true -- Reset Hives After x Minu
+Config.ResetWildHivesTimer = 60 -- Time in Minutes
+
+Config.OnlySmokeToTakeProduct = true 
+-- if True the insects can stay inside to get Product you just need to smoke the Hive.
+
 Config.WildBeehives = { -- Currently not Used
     --Valentine Area
     { 
@@ -247,14 +253,18 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
-        x = -193.722, 
-        y = 743.794, 
-        z = 123.141, 
-        rotx = 9.698, 
-        roty = -5.618, 
-        rotz = -79.592, 
+        x = -193.722,
+        y = 743.794,
+        z = 123.141,
+        rotx = 9.698,
+        roty = -5.618,
+        rotz = -79.592,
         heading = 50, 
         GetBeeItem = 'basic_bees',
         GetBeeItemMin = 1,
@@ -262,6 +272,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5
     },
     {   
         x = -453.896,
@@ -277,6 +291,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -377.553, 
@@ -292,6 +310,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -154.658, 
@@ -307,6 +329,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -133.371, 
@@ -322,6 +348,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -58.255, 
@@ -336,6 +366,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -255.331, 
@@ -350,6 +384,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -775.097, 
@@ -364,6 +402,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 122.636, 
@@ -378,6 +420,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -330.201, 
@@ -392,6 +438,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -86.149, 
@@ -406,6 +456,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     --Ambarino
     { 
@@ -422,6 +476,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 337.993, 
@@ -437,6 +495,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 454.742, 
@@ -452,6 +514,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 642.597, 
@@ -467,6 +533,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 821.806, 
@@ -482,6 +552,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 720.604, 
@@ -497,6 +571,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 607.537, 
@@ -511,7 +589,11 @@ Config.WildBeehives = { -- Currently not Used
         GetBeeItemMax = 3,
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
-        GetQueenItemMax = 3, 
+        GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5  
     },
     { 
         x = 696.983, 
@@ -527,6 +609,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 328.714, 
@@ -542,6 +628,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1422.023, 
@@ -557,6 +647,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1753.457, 
@@ -572,6 +666,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1953.252, 
@@ -587,6 +685,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 2118.802, 
@@ -602,6 +704,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 2374.447, 
@@ -617,6 +723,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 2459.903, 
@@ -632,6 +742,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 2696.615, 
@@ -647,6 +761,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 3087.923, 
@@ -662,6 +780,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 3060.493, 
@@ -677,6 +799,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 2546.732, 
@@ -692,6 +818,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     --Grizzlies East
     { 
@@ -707,7 +837,11 @@ Config.WildBeehives = { -- Currently not Used
         GetBeeItemMax = 3,
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
-        GetQueenItemMax = 3, 
+        GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5  
     },
     { 
         x = 729.060, 
@@ -722,7 +856,11 @@ Config.WildBeehives = { -- Currently not Used
         GetBeeItemMax = 3,
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
-        GetQueenItemMax = 3, 
+        GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5  
     },
     { 
         x = 766.840, 
@@ -738,6 +876,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 981.520,
@@ -753,6 +895,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 946.480, 
@@ -768,6 +914,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1082.050, 
@@ -783,6 +933,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1194.957, 
@@ -798,6 +952,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1149.300, 
@@ -813,6 +971,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1440.520, 
@@ -828,6 +990,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1250.040, 
@@ -843,6 +1009,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1612.845, 
@@ -858,6 +1028,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },--42
     --Lemoyne
     { 
@@ -874,6 +1048,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1281.750, 
@@ -889,6 +1067,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1083.900, 
@@ -904,6 +1086,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 894.270, 
@@ -919,6 +1105,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 740.400, 
@@ -934,6 +1124,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 933.950, 
@@ -949,6 +1143,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1054.100, 
@@ -964,6 +1162,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1122.860, 
@@ -979,6 +1181,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1377.500, 
@@ -994,6 +1200,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = 1421.872, 
@@ -1009,6 +1219,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     --West Elizabeth
     { 
@@ -1025,6 +1239,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -1347.434, 
@@ -1040,6 +1258,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -1508.460, 
@@ -1055,6 +1277,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -2074.910, 
@@ -1070,6 +1296,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -2533.940, 
@@ -1085,6 +1315,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -2474.260, 
@@ -1100,6 +1334,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -2811.930, 
@@ -1115,6 +1353,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -2716.070, 
@@ -1130,6 +1372,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
     { 
         x = -1697.726, 
@@ -1145,6 +1391,10 @@ Config.WildBeehives = { -- Currently not Used
         GetQueenItem = 'basic_queen',
         GetQueenItemMin = 1,
         GetQueenItemMax = 3,
+        ProductWildHive = 'honey',
+        ProductGet = 1,
+        ItemNeeded = 'empty_bee_jar',
+        TakeProductTime = 5 
     },
 }
 

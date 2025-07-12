@@ -14,6 +14,7 @@ local CreatedWildBeehives = {}
 local SmokedBeehives = {}
 local TakenBeeBeehives = {}
 local TakenQueenBeehives = {}
+local TakenHoneyBeehives = {}
 local bees_cloud_group = "core"
 local bees_cloud_name = "ent_amb_insect_bee_swarm"
 local CreatedFXSwarms = {}
@@ -480,6 +481,7 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
         local SmokeBeehive = WildBeehivePromptGroup:RegisterPrompt(_U('SmokeBeehive'), 0x760A9C6F, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY G
         local TakeBees = WildBeehivePromptGroup:RegisterPrompt(_U('TakeBees'), 0x27D1C284, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY R
         local TakeQueen = WildBeehivePromptGroup:RegisterPrompt(_U('TakeQueen'), 0x5181713D, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY Spacebar
+        local TakeHoney = WildBeehivePromptGroup:RegisterPrompt(_U('TakeHoneyWildHive'), 0x2CD5343E, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY Enter
 
         -- CreateBeehives 
         for h,v in ipairs(Config.WildBeehives) do
@@ -675,6 +677,59 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                             end
                         end
                     end
+
+                    if TakeHoney:HasCompleted() then
+                        local IsSmoked = false
+                        local TakenHoney = false
+                        local TakenQueen = false
+                        local TakenBees = false
+                        if TakenQueenBeehives[1] ~= nil then
+                            for h,v in ipairs(TakenQueenBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    TakenQueen = true
+                                end
+                            end
+                        end
+                        if TakenBeeBeehives[1] ~= nil then
+                            for h,v in ipairs(TakenBeeBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    TakenBees = true
+                                end
+                            end
+                        end
+                        if TakenHoneyBeehives[1] ~= nil then
+                            for h,v in ipairs(TakenHoneyBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    TakenHoney = true
+                                end
+                            end
+                        end
+                        if SmokedBeehives[1] ~= nil then
+                            for h,v in ipairs(SmokedBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    IsSmoked = true
+                                end
+                            end
+                        end
+
+                        if not Config.OnlySmokeToTakeProduct and TakenBees and TakenQueen and not TakenHoney then
+                            TriggerServerEvent('mms-beekeeper:server:TakeHoneyFromWildHive', CurrentHive)
+                        elseif Config.OnlySmokeToTakeProduct and IsSmoked and not TakenHoney then
+                            TriggerServerEvent('mms-beekeeper:server:TakeHoneyFromWildHive', CurrentHive)
+                        elseif TakenBees and TakenQueen and TakenHoney then
+                            VORPcore.NotifyRightTip(_U('NoMoreHoneyinHive'), 5000)
+                        elseif Config.OnlySmokeToTakeProduct and not TakenHoney and not IsSmoked then
+                            VORPcore.NotifyRightTip(_U('HiveNotSmoked'), 5000)
+                        elseif Config.OnlySmokeToTakeProduct and TakenHoney then
+                            VORPcore.NotifyRightTip(_U('NoMoreHoneyinHive'), 5000)
+                        elseif not Config.OnlySmokeToTakeProduct and not TakenBees then
+                            VORPcore.NotifyRightTip(_U('StillInsectsInHive'), 5000)
+                        end
+                    end
                 end
             end
         end
@@ -691,6 +746,40 @@ end)
 
 RegisterNetEvent('mms-beekeeper:client:QueenTakenFromHive',function(CurrentHive)
     table.insert(TakenQueenBeehives,CurrentHive)
+end)
+
+RegisterNetEvent('mms-beekeeper:client:HoneyTakenFromHive',function(CurrentHive)
+    Progressbar(CurrentHive.TakeProductTime,_U('TakeHoneyProgressbar'))
+    table.insert(TakenHoneyBeehives,CurrentHive)
+end)
+
+-----------------------------------------------
+------------ Reset Wild Beehives --------------
+-----------------------------------------------
+
+Citizen.CreateThread(function ()
+    if Config.ResetWildHives then
+        while true do
+            Citizen.Wait(10000)
+            if SmokedBeehives[1] ~= nil and not CountdownStartet then
+                CountdownStartet = true
+                if Config.Debug then print('WildHivesResetTimerStartet') end
+                local Counter = Config.ResetWildHivesTimer * 6000
+                while Counter > 0 do
+                    Citizen.Wait(30000)
+                    Counter = Counter - 30000
+                    if Counter <= 0 then
+                        CountdownStartet = false
+                        TakenHoneyBeehives = {}
+                        TakenQueenBeehives = {}
+                        TakenBeeBeehives = {}
+                        SmokedBeehives = {}
+                        if Config.Debug then print('WildHivesCleared') end
+                    end
+                end
+            end
+        end
+    end
 end)
 
 ----------------- Utilities -----------------

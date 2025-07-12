@@ -208,6 +208,9 @@ RegisterServerEvent('mms-beekeeper:server:DoTheUpdateProcess',function()
                 if BeesDie then
                     local RemoveBeeValue = math.random(Config.LooseBeesMin,Config.LooseBeesMax)
                     local NewBees = Data.Bees - RemoveBeeValue
+                    if NewBees < 0 then
+                        NewBees = 0
+                    end
                     Data.Bees = NewBees
                 end
             end
@@ -571,11 +574,16 @@ RegisterServerEvent('mms-beekeeper:server:TakeBeesFromWildHive',function(Current
     local HasItem = exports.vorp_inventory:getItemCount(src, nil, Config.EmptyBeeJar)
     local HasItem2 = exports.vorp_inventory:getItemCount(src, nil, Config.BugNetItem)
     if HasItem > 0 and HasItem2 > 0 then
-        TriggerClientEvent('mms-beekeeper:client:BeesTakenFromHive',src,CurrentHive)
         local Amout = math.random(CurrentHive.GetBeeItemMin,CurrentHive.GetBeeItemMax)
-        exports.vorp_inventory:addItem(src,CurrentHive.GetBeeItem,Amout)
-        exports.vorp_inventory:subItem(src,Config.EmptyBeeJar,1)
-        VORPcore.NotifyRightTip(src,_U('BeesTaken'),5000)
+        local CanCarry = exports.vorp_inventory:canCarryItem(src, CurrentHive.GetQueenItem, Amout)
+        if CanCarry then
+            TriggerClientEvent('mms-beekeeper:client:BeesTakenFromHive',src,CurrentHive)
+            exports.vorp_inventory:addItem(src,CurrentHive.GetBeeItem,Amout)
+            exports.vorp_inventory:subItem(src,Config.EmptyBeeJar,1)
+            VORPcore.NotifyRightTip(src,_U('BeesTaken'),5000)
+        else
+            VORPcore.NotifyRightTip(src,_U('NoInvetorySpace'),5000)
+        end
     else
         VORPcore.NotifyRightTip(src,_U('NoTool') .. Config.EmptyBeeJarLabel .. _U('OrTool') .. Config.BugNetLabel,5000)
     end
@@ -590,13 +598,40 @@ RegisterServerEvent('mms-beekeeper:server:TakeQueenFromWildHive',function(Curren
     local HasItem = exports.vorp_inventory:getItemCount(src, nil, Config.EmptyBeeJar)
     local HasItem2 = exports.vorp_inventory:getItemCount(src, nil, Config.BugNetItem)
     if HasItem > 0 and HasItem2 > 0 then
-        TriggerClientEvent('mms-beekeeper:client:QueenTakenFromHive',src,CurrentHive)
         local Amout = math.random(CurrentHive.GetQueenItemMin,CurrentHive.GetQueenItemMax)
-        exports.vorp_inventory:addItem(src,CurrentHive.GetQueenItem,Amout)
-        exports.vorp_inventory:subItem(src,Config.EmptyBeeJar,1)
-        VORPcore.NotifyRightTip(src,_U('QueenTaken'),5000)
+        local CanCarry = exports.vorp_inventory:canCarryItem(src, CurrentHive.GetQueenItem, Amout)
+        if CanCarry then
+            TriggerClientEvent('mms-beekeeper:client:QueenTakenFromHive',src,CurrentHive)
+            exports.vorp_inventory:addItem(src,CurrentHive.GetQueenItem,Amout)
+            exports.vorp_inventory:subItem(src,Config.EmptyBeeJar,1)
+            VORPcore.NotifyRightTip(src,_U('QueenTaken'),5000)
+        else
+            VORPcore.NotifyRightTip(src,_U('NoInvetorySpace'),5000)
+        end
     else
         VORPcore.NotifyRightTip(src,_U('NoTool') .. Config.EmptyBeeJarLabel .. _U('OrTool') .. Config.BugNetLabel,5000)
+    end
+end)
+
+-----------------------------------------------
+------------ TakeHoney Wild Hive --------------
+-----------------------------------------------
+
+RegisterServerEvent('mms-beekeeper:server:TakeHoneyFromWildHive',function(CurrentHive)
+    local src = source
+    local HasItem = exports.vorp_inventory:getItemCount(src, nil, Config.EmptyBeeJar)
+    if HasItem > 0 then
+        local CanCarry = exports.vorp_inventory:canCarryItem(src, CurrentHive.ProductWildHive, CurrentHive.ProductGet)
+        if CanCarry then
+            exports.vorp_inventory:subItem(src,CurrentHive.ItemNeeded,1)
+            exports.vorp_inventory:addItem(src,CurrentHive.ProductWildHive,CurrentHive.ProductGet)
+            TriggerClientEvent('mms-beekeeper:client:HoneyTakenFromHive',src,CurrentHive)
+            VORPcore.NotifyRightTip(src,_U('HoneySuccessTakenFromHive'),5000)
+        else
+            VORPcore.NotifyRightTip(src,_U('NoInvetorySpace'),5000)
+        end
+    else
+        VORPcore.NotifyRightTip(src,_U('MissingJar'),5000)
     end
 end)
 

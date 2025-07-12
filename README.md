@@ -53,6 +53,10 @@
 - Added Safety Server Check for Invetory Space and Jar Amount
 - 1.2.5 Added Heading. Added Possibility to Change Heading.
 - 1.2.6 Added more Settings for Wild Beehives Changed Wild Beehive Config Carefull on Updating.
+- 1.2.7 New Feature Wild Hives can do Produce honey now.
+- Wild hives can Reset now. After X Minutes.
+- You can Choose if you need to take out insects to take honey or just Smoke the hive.
+- FIXED Bees Cant go into Minus
 
 # installation 
 
