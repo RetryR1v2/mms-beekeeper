@@ -57,6 +57,9 @@
 - Wild hives can Reset now. After X Minutes.
 - You can Choose if you need to take out insects to take honey or just Smoke the hive.
 - FIXED Bees Cant go into Minus
+- 1.2.8 Fixed Major Bug with WildBeehives they Should work fine Again.
+- Added New Function Remove Inactive Hives.
+- Be Carefull Read the Description in Config
 
 # installation 
 

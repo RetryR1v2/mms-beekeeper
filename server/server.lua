@@ -265,11 +265,35 @@ RegisterServerEvent('mms-beekeeper:server:DoTheUpdateProcess',function()
                     ProductNormal = 0.0,
                 }
             end
+            -----------------------------------------------
+            ---------------- Damage UPDATE ----------------
+            -----------------------------------------------
+            local HiveDeleted = false
+            if Config.DetroyHives then
+                if Data.Bees <= 0 and Data.Queen <= 0 then
+                    if Data.Damage == nil then
+                        Data.Damage = 0
+                    end
+                    local NewDamage = Data.Damage + Config.IncreaseDamageBy
+                    Data.Damage = NewDamage
+                    if Data.Damage >= Config.DeleteHiveOnDamage then
+                        MySQL.execute('DELETE FROM mms_beekeeper WHERE id = ?', {v.id}, function() end)
+                        for h,v in ipairs(GetPlayers()) do
+                            TriggerClientEvent('mms-beekeeper:client:ReloadData',v)
+                        end
+                        HiveDeleted = true
+                    end
+                elseif Data.Bees > 0 or Data.Queen > 0 and Data.Damage > 0 then
+                    Data.Damage = 0
+                end
+            end
 
             -----------------------------------------------
             --------------- Database UPDATE ---------------
             -----------------------------------------------
-            MySQL.update('UPDATE `mms_beekeeper` SET data = ? WHERE id = ?',{json.encode(Data),v.id})
+            if not HiveDeleted then
+                MySQL.update('UPDATE `mms_beekeeper` SET data = ? WHERE id = ?',{json.encode(Data),v.id})
+            end
         end
 
     end
@@ -688,6 +712,10 @@ RegisterServerEvent('mms-beekeeper:server:RemoveHelper',function(HiveID)
         end
     end
 end)
+
+-----------------------------------------------
+---------------- Change Heading ---------------
+-----------------------------------------------
 
 RegisterServerEvent('mms-beekeeper:server:ChangeHeading',function(HiveID,Heading)
     local src = source

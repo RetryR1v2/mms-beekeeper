@@ -126,6 +126,7 @@ AddEventHandler('mms-beekeeper:client:CreateBeehive',function()
             Name = '',
             CharIdent = 0,
         },
+        Damage = 0.0,
     }
     if not BeehiveClose then
         TriggerServerEvent('mms-beekeeper:server:SaveBeehiveToDatabase',Data)
@@ -509,7 +510,44 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                     WildBeehivePromptGroup:ShowGroup(_U('WildBeehivePromptGroup'))
 
                     if SmokeBeehive:HasCompleted() then
-                        if SmokedBeehives[1] == nil then
+                        local IsSmoked = false
+                        local TakenHoney = false
+                        local TakenQueen = false
+                        local TakenBees = false
+                        if TakenQueenBeehives[1] ~= nil then
+                            for h,v in ipairs(TakenQueenBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    TakenQueen = true
+                                end
+                            end
+                        end
+                        if TakenBeeBeehives[1] ~= nil then
+                            for h,v in ipairs(TakenBeeBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    TakenBees = true
+                                end
+                            end
+                        end
+                        if TakenHoneyBeehives[1] ~= nil then
+                            for h,v in ipairs(TakenHoneyBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    TakenHoney = true
+                                end
+                            end
+                        end
+                        if SmokedBeehives[1] ~= nil then
+                            for h,v in ipairs(SmokedBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    IsSmoked = true
+                                end
+                            end
+                        end
+
+                        if not IsSmoked then
                             local MyPed = PlayerPedId()
                             local prop_name = "p_bugkiller01x"
                             local PlayAnimStatus = true
@@ -538,46 +576,23 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                                 end
                             TriggerServerEvent('mms-beekeeper:server:SmokeBeehive', CurrentHive,SmokedBeehives)
                         else
-                            for h,v in ipairs(SmokedBeehives) do
-                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
-                                if Distance < 2 then
-                                    VORPcore.NotifyRightTip(_U('AlreadySmoked'))
-                                else
-                                    local MyPed = PlayerPedId()
-                                    local prop_name = "p_bugkiller01x"
-                                    local PlayAnimStatus = true
-                                    -- Create the prop
-                                    local SmokerItem = CreateObject(GetHashKey(prop_name), MyCoords.x, MyCoords.y, MyCoords.z, true, true, true)
-                                    SetEntityAsMissionEntity(SmokerItem, true, true)
-                                    AttachEntityToEntity(SmokerItem, MyPed, GetEntityBoneIndexByName(MyPed, "SKEL_R_FINGER00"), 
-                                    0.2, -0.2, -0.0, -40.0, 50.0, 30.0, true, true, false, true, 1, true)
-
-                                    -- Request and play animation
-                                    RequestAnimDict("script_rc@gun5@ig@stage_01@ig3_bellposes")
-                                    while not HasAnimDictLoaded("script_rc@gun5@ig@stage_01@ig3_bellposes") do
-                                        Citizen.Wait(100)
-                                    end
-
-                                    TaskPlayAnim(MyPed, "script_rc@gun5@ig@stage_01@ig3_bellposes", "pose_01_idle_famousgunslinger_05", 
-                                                1.0, 8.0, -1, 1, 0, false, false, false)
-                                    Citizen.Wait(Config.SmokeHiveTime*1000)
-                                    ClearPedTasks(MyPed)
-                                        while PlayAnimStatus do
-                                            Citizen.Wait(100)
-                                            if not IsEntityPlayingAnim(MyPed, "script_rc@gun5@ig@stage_01@ig3_bellposes", "pose_01_idle_famousgunslinger_05", 3) then
-                                                DeleteEntity(SmokerItem) -- Clean up the prop
-                                                PlayAnimStatus = false
-                                            end
-                                        end
-                                    TriggerServerEvent('mms-beekeeper:server:SmokeBeehive', CurrentHive,SmokedBeehives)
-                                end
-                            end
+                            VORPcore.NotifyRightTip(_U('HiveAlreadySmoked'), 5000)
                         end
-
                     end
 
                     if TakeBees:HasCompleted() then
+                        local IsSmoked = false
+                        local TakenHoney = false
+                        local TakenQueen = false
                         local TakenBees = false
+                        if TakenQueenBeehives[1] ~= nil then
+                            for h,v in ipairs(TakenQueenBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    TakenQueen = true
+                                end
+                            end
+                        end
                         if TakenBeeBeehives[1] ~= nil then
                             for h,v in ipairs(TakenBeeBeehives) do
                                 local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
@@ -586,13 +601,25 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                                 end
                             end
                         end
-                        if SmokedBeehives[1] == nil then
-                            VORPcore.NotifyRightTip(_U('BeehiveNotSmoked'), 5000)
+                        if TakenHoneyBeehives[1] ~= nil then
+                            for h,v in ipairs(TakenHoneyBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    TakenHoney = true
+                                end
+                            end
                         end
-                        for h,v in ipairs(SmokedBeehives) do
-                            local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
-                            if Distance < 2 and not TakenBees then
-                                local PlayAnimStatus = true
+                        if SmokedBeehives[1] ~= nil then
+                            for h,v in ipairs(SmokedBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    IsSmoked = true
+                                end
+                            end
+                        end
+                        
+                        if IsSmoked and not TakenBees then
+                            local PlayAnimStatus = true
                                 local prop_name = "mp005_s_posse_col_net01x"
                                 local MyPed = PlayerPedId()
                                 -- Create the prop
@@ -618,16 +645,18 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                                         end
                                     end
                                 TriggerServerEvent('mms-beekeeper:server:TakeBeesFromWildHive', CurrentHive)
-                            elseif Distance < 2 and TakenBees then
+                            elseif IsSmoked and TakenBees then
                                 VORPcore.NotifyRightTip(_U('NoMoreBeesInHive'), 5000)
-                            else
+                            elseif not IsSmoked then
                                 VORPcore.NotifyRightTip(_U('BeehiveNotSmoked'), 5000)
                             end
-                        end
                     end
 
                     if TakeQueen:HasCompleted() then
+                        local IsSmoked = false
+                        local TakenHoney = false
                         local TakenQueen = false
+                        local TakenBees = false
                         if TakenQueenBeehives[1] ~= nil then
                             for h,v in ipairs(TakenQueenBeehives) do
                                 local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
@@ -636,45 +665,64 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                                 end
                             end
                         end
-                        if TakenBeeBeehives[1] == nil then
-                            VORPcore.NotifyRightTip(_U('StillBeesInHive'), 5000)
-                        end
                         if TakenBeeBeehives[1] ~= nil then
                             for h,v in ipairs(TakenBeeBeehives) do
                                 local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
-                                if Distance < 2 and not TakenQueen then
-                                    local PlayAnimStatus = true
-                                    local prop_name = "mp005_s_posse_col_net01x"
-                                    local MyPed = PlayerPedId()
-                                    -- Create the prop
-                                    local BugNet = CreateObject(GetHashKey(prop_name), MyCoords.x, MyCoords.y, MyCoords.z, true, true, true)
-                                    SetEntityAsMissionEntity(BugNet, true, true)
-                                    AttachEntityToEntity(BugNet, MyPed, GetEntityBoneIndexByName(MyPed, "PH_L_Hand"),0.0, 0.0, -0.45, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
-
-                                    -- Request and play animation
-                                    RequestAnimDict("mini_games@fishing@shore")
-                                    while not HasAnimDictLoaded("mini_games@fishing@shore") do
-                                        Citizen.Wait(100)
-                                    end
-                                    TaskPlayAnim(MyPed, "mini_games@fishing@shore", "cast",1.0, 8.0, -1, 31, 0, false, false, false)
-                                    -- Wait the Catch Time
-                                    Citizen.Wait(Config.GetQueenTime*1000)
-                                    ClearPedTasks(MyPed)
-                                    -- Cleanup BugNet when animation stops
-                                        while PlayAnimStatus do
-                                            Citizen.Wait(100)
-                                            if not IsEntityPlayingAnim(MyPed, "mini_games@fishing@shore", "cast", 3) then
-                                                DeleteEntity(BugNet) -- Clean up the prop
-                                                PlayAnimStatus = false
-                                            end
-                                        end
-                                    TriggerServerEvent('mms-beekeeper:server:TakeQueenFromWildHive', CurrentHive)
-                                elseif Distance < 2 and  TakenQueen then
-                                    VORPcore.NotifyRightTip(_U('QueenAlreadyTaken'), 5000)
-                                else
-                                    VORPcore.NotifyRightTip(_U('StillBeesInHive'), 5000)
+                                if Distance < 2 then
+                                    TakenBees = true
                                 end
                             end
+                        end
+                        if TakenHoneyBeehives[1] ~= nil then
+                            for h,v in ipairs(TakenHoneyBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    TakenHoney = true
+                                end
+                            end
+                        end
+                        if SmokedBeehives[1] ~= nil then
+                            for h,v in ipairs(SmokedBeehives) do
+                                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                                if Distance < 2 then
+                                    IsSmoked = true
+                                end
+                            end
+                        end
+
+                        if IsSmoked and TakenBees and not TakenQueen then
+                            local PlayAnimStatus = true
+                            local prop_name = "mp005_s_posse_col_net01x"
+                            local MyPed = PlayerPedId()
+                            -- Create the prop
+                            local BugNet = CreateObject(GetHashKey(prop_name), MyCoords.x, MyCoords.y, MyCoords.z, true, true, true)
+                            SetEntityAsMissionEntity(BugNet, true, true)
+                            AttachEntityToEntity(BugNet, MyPed, GetEntityBoneIndexByName(MyPed, "PH_L_Hand"),0.0, 0.0, -0.45, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
+
+                            -- Request and play animation
+                            RequestAnimDict("mini_games@fishing@shore")
+                            while not HasAnimDictLoaded("mini_games@fishing@shore") do
+                                Citizen.Wait(100)
+                            end
+                            TaskPlayAnim(MyPed, "mini_games@fishing@shore", "cast",1.0, 8.0, -1, 31, 0, false, false, false)
+                            -- Wait the Catch Time
+                            Citizen.Wait(Config.GetQueenTime*1000)
+                            ClearPedTasks(MyPed)
+                            -- Cleanup BugNet when animation stops
+                                while PlayAnimStatus do
+                                    Citizen.Wait(100)
+                                    if not IsEntityPlayingAnim(MyPed, "mini_games@fishing@shore", "cast", 3) then
+                                        DeleteEntity(BugNet) -- Clean up the prop
+                                        PlayAnimStatus = false
+                                    end
+                                end
+                            TriggerServerEvent('mms-beekeeper:server:TakeQueenFromWildHive', CurrentHive)                
+                        elseif IsSmoked and not TakenBees then
+                            VORPcore.NotifyRightTip(_U('StillBeesInHive'), 5000)
+                        elseif IsSmoked and TakenBees and TakenQueen then
+                            VORPcore.NotifyRightTip(_U('QueenAlreadyTaken'), 5000)
+                        elseif not IsSmoked then
+                            VORPcore.NotifyRightTip(_U('BeehiveNotSmoked'), 5000)
                         end
                     end
 
@@ -738,19 +786,31 @@ end)
 
 RegisterNetEvent('mms-beekeeper:client:BeehiveSmoked',function(CurrentHive)
     table.insert(SmokedBeehives,CurrentHive)
+    for h,v in ipairs(SmokedBeehives) do
+        print(v.x)
+    end
 end)
 
 RegisterNetEvent('mms-beekeeper:client:BeesTakenFromHive',function(CurrentHive)
     table.insert(TakenBeeBeehives,CurrentHive)
+    for h,v in ipairs(TakenBeeBeehives) do
+        print(v.x)
+    end
 end)
 
 RegisterNetEvent('mms-beekeeper:client:QueenTakenFromHive',function(CurrentHive)
     table.insert(TakenQueenBeehives,CurrentHive)
+    for h,v in ipairs(TakenQueenBeehives) do
+        print(v.x)
+    end
 end)
 
 RegisterNetEvent('mms-beekeeper:client:HoneyTakenFromHive',function(CurrentHive)
     Progressbar(CurrentHive.TakeProductTime,_U('TakeHoneyProgressbar'))
     table.insert(TakenHoneyBeehives,CurrentHive)
+    for h,v in ipairs(TakenHoneyBeehives) do
+        print(v.x)
+    end
 end)
 
 -----------------------------------------------

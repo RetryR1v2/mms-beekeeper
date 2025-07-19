@@ -1,7 +1,23 @@
 Config = {}
 
 Config.defaultlang = "de_lang"
-Config.Debug = false
+Config.Debug = true
+
+------------------------------------------------------------------
+---------------- Auto Destroy Hive Settings ----------------------
+------------------------------------------------------------------
+
+-- This Option Destroy Inactive hives.
+-- You Need to Calculate this IncreaseDamageBy with your Update Time
+-- In Case you got update timer on 10 Min
+-- Every 10 min will increase by 0.10 so 0.60 per hour
+-- 14,4 per Day its 6,94 Days to Delete the Hive
+-- Damage GEts Increased if no Bees and Queens in Hive 
+-- then the Damage will increase.
+
+Config.DetroyHives = true
+Config.IncreaseDamageBy = 0.10
+Config.DeleteHiveOnDamage = 100
 
 ------------------------------------------------------------------
 --------------------- JobLock Settings ---------------------------
@@ -355,7 +371,8 @@ Config.WildBeehives = { -- Currently not Used
     },
     { 
         x = -58.255, 
-        y = 876.738, z = 206.057, 
+        y = 876.738, 
+        z = 206.057, 
         rotx = -8.453, 
         roty = -5.837, 
         rotz = 96.247, 
@@ -373,7 +390,8 @@ Config.WildBeehives = { -- Currently not Used
     },
     { 
         x = -255.331, 
-        y = 174.082, z = 64.637, 
+        y = 174.082, 
+        z = 64.637, 
         rotx = 1.301, 
         roty = -10.387, 
         rotz = 34.752, 
@@ -391,7 +409,8 @@ Config.WildBeehives = { -- Currently not Used
     },
     { 
         x = -775.097, 
-        y = 463.872, z = 83.063, 
+        y = 463.872, 
+        z = 83.063, 
         rotx = 0.0, 
         roty = 1.0, 
         rotz = 78.761, 
@@ -409,7 +428,8 @@ Config.WildBeehives = { -- Currently not Used
     },
     { 
         x = 122.636, 
-        y = 1001.221, z = 211.823, 
+        y = 1001.221, 
+        z = 211.823, 
         rotx = -1.0, 
         roty = 2.0, 
         rotz = 2.246, 
@@ -427,7 +447,8 @@ Config.WildBeehives = { -- Currently not Used
     },
     { 
         x = -330.201, 
-        y = 271.946, z = 96.68, 
+        y = 271.946, 
+        z = 96.68, 
         rotx = 7.956, 
         roty = 1.806, 
         rotz = 60.257, 
@@ -445,7 +466,8 @@ Config.WildBeehives = { -- Currently not Used
     },
     { 
         x = -86.149, 
-        y = 326.456, z = 106.402, 
+        y = 326.456, 
+        z = 106.402, 
         rotx = -1.036, 
         roty = 1.431, 
         rotz = 99.169, 
