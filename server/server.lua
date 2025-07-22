@@ -269,11 +269,11 @@ RegisterServerEvent('mms-beekeeper:server:DoTheUpdateProcess',function()
             ---------------- Damage UPDATE ----------------
             -----------------------------------------------
             local HiveDeleted = false
+            if Data.Damage == nil then
+                Data.Damage = 0
+            end
             if Config.DetroyHives then
                 if Data.Bees <= 0 and Data.Queen <= 0 then
-                    if Data.Damage == nil then
-                        Data.Damage = 0
-                    end
                     local NewDamage = Data.Damage + Config.IncreaseDamageBy
                     Data.Damage = NewDamage
                     if Data.Damage >= Config.DeleteHiveOnDamage then
