@@ -599,7 +599,7 @@ RegisterServerEvent('mms-beekeeper:server:TakeBeesFromWildHive',function(Current
     local HasItem2 = exports.vorp_inventory:getItemCount(src, nil, Config.BugNetItem)
     if HasItem > 0 and HasItem2 > 0 then
         local Amout = math.random(CurrentHive.GetBeeItemMin,CurrentHive.GetBeeItemMax)
-        local CanCarry = exports.vorp_inventory:canCarryItem(src, CurrentHive.GetQueenItem, Amout)
+        local CanCarry = exports.vorp_inventory:canCarryItem(src, CurrentHive.GetBeeItem, Amout)
         if CanCarry then
             TriggerClientEvent('mms-beekeeper:client:BeesTakenFromHive',src,CurrentHive)
             exports.vorp_inventory:addItem(src,CurrentHive.GetBeeItem,Amout)
