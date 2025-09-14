@@ -18,6 +18,7 @@ local TakenHoneyBeehives = {}
 local bees_cloud_group = "core"
 local bees_cloud_name = "ent_amb_insect_bee_swarm"
 local CreatedFXSwarms = {}
+local WildHivesSpawned = false
 
 -----------------------------------------------
 --------------- GetBeehivesData ---------------
@@ -470,6 +471,40 @@ AddEventHandler('mms-beekeeper:client:ChangeHeading',function(HiveID)
 end)
 
 -----------------------------------------------
+-------- Get Damage From Wild Hives -----------
+-----------------------------------------------
+
+Citizen.CreateThread(function ()
+    Citizen.Wait(10000)
+    while WildHivesSpawned and Config.GetDmgFromWildBees do
+        Citizen.Wait(5000)
+        for h,v in ipairs(Config.WildBeehives) do
+            MyCoords = GetEntityCoords(PlayerPedId())
+            local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+            if Distance <= 10 then
+                local IsSmoked = false
+                if SmokedBeehives[1] ~= nil then
+                    for h,v in ipairs(SmokedBeehives) do
+                        local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
+                        if Distance < 10 then
+                            IsSmoked = true
+                        end
+                    end
+                end
+                if not IsSmoked then
+                    local Chance = math.random(1,100)
+                    if Chance <= Config.ChanceToGetStung then
+                        local MyPed = PlayerPedId()
+                        ChangeEntityHealth(MyPed,Config.StungDamage)
+                        VORPcore.NotifyRightTip(_U('YouGotStungbyBees'), 5000)
+                    end
+                end
+            end
+        end
+    end
+end)
+
+-----------------------------------------------
 ----------- Create Wild Beehives --------------
 -----------------------------------------------
 
@@ -498,7 +533,7 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
             CreatedFXSwarms[#CreatedFXSwarms + 1] = BeeFXSwarm
             
         end
-
+        WildHivesSpawned = true
         -- Prompt for Wild Beehives
         while true do
             Citizen.Wait(5)
@@ -786,31 +821,19 @@ end)
 
 RegisterNetEvent('mms-beekeeper:client:BeehiveSmoked',function(CurrentHive)
     table.insert(SmokedBeehives,CurrentHive)
-    for h,v in ipairs(SmokedBeehives) do
-        print(v.x)
-    end
 end)
 
 RegisterNetEvent('mms-beekeeper:client:BeesTakenFromHive',function(CurrentHive)
     table.insert(TakenBeeBeehives,CurrentHive)
-    for h,v in ipairs(TakenBeeBeehives) do
-        print(v.x)
-    end
 end)
 
 RegisterNetEvent('mms-beekeeper:client:QueenTakenFromHive',function(CurrentHive)
     table.insert(TakenQueenBeehives,CurrentHive)
-    for h,v in ipairs(TakenQueenBeehives) do
-        print(v.x)
-    end
 end)
 
 RegisterNetEvent('mms-beekeeper:client:HoneyTakenFromHive',function(CurrentHive)
     Progressbar(CurrentHive.TakeProductTime,_U('TakeHoneyProgressbar'))
     table.insert(TakenHoneyBeehives,CurrentHive)
-    for h,v in ipairs(TakenHoneyBeehives) do
-        print(v.x)
-    end
 end)
 
 -----------------------------------------------

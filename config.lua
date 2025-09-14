@@ -218,6 +218,10 @@ Config.JarItem = 'empty_bee_jar'
 
 Config.TakeHoneyTime = 3 -- Time in Sec
 
+-- Clear Product if no Bees in Hive
+
+Config.ClearProductOnNoBees = true
+
 ------------------------------------------------------------------
 ------------------------- JarSettings ----------------------------
 ------------------------------------------------------------------
@@ -252,6 +256,10 @@ Config.ResetWildHivesTimer = 60 -- Time in Minutes
 
 Config.OnlySmokeToTakeProduct = true 
 -- if True the insects can stay inside to get Product you just need to smoke the Hive.
+
+Config.GetDmgFromWildBees = true -- You will get Stung from Wild Bees
+Config.ChanceToGetStung = 50 -- Chance in %
+Config.StungDamage = -50 -- Need to be a negative number else you get healed.
 
 Config.WildBeehives = { -- Currently not Used
     --Valentine Area

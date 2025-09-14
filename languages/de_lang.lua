@@ -87,7 +87,6 @@ Locales["de_lang"] = {
     ChangePositionDesc = 'Ausrichtung des Bienenstocks ändern.',
     HeadingLabel = 'Ausrichtung 0-360',
     HeadingChanged = 'Ausrichtung geändert.',
-    -- NEw
     TakeHoneyWildHive = 'Nehme Honig.',
     StillInsectsInHive = 'Es sind noch Insekten im Bienenstock',
     HoneySuccessTakenFromHive = 'Produkt Erhalten',
@@ -95,4 +94,5 @@ Locales["de_lang"] = {
     NoMoreHoneyinHive = 'Kein Produkt mehr in Stock',
     TakeHoneyProgressbar = 'Sammle Produkt....',
     HiveNotSmoked = 'Insekten müssen erst betäubt Werden.',
+    YouGotStungbyBees = 'Du wurdest gestochen',
 }

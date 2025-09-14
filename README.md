@@ -60,6 +60,9 @@
 - 1.2.8 Fixed Major Bug with WildBeehives they Should work fine Again.
 - Added New Function Remove Inactive Hives.
 - Be Carefull Read the Description in Config
+- 1.2.9 Added Damage from Wild Bees.
+- They Only Stung if the hive is not Smoked.
+- Removed Useless Prints.
 
 # installation 
 

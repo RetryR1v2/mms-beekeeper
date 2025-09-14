@@ -83,11 +83,11 @@ Locales["en_lang"] = {
     NotEnoghProductinHive = 'Not enogh product to take',
     NotEnoghJars = 'Not enogh Jars',
     NoInvetorySpace ='No Invetory Space',
+    -- NEW
     ChangePosition = 'Ausrichtung ändern.',
     ChangePositionDesc = 'Ausrichtung des Bienenstocks ändern.',
     HeadingLabel = 'Ausrichtung 0-360',
     HeadingChanged = 'Ausrichtung geändert.',
-    -- NEw
     TakeHoneyWildHive = 'Nehme Honig.',
     StillInsectsInHive = 'Es sind noch Insekten im Bienenstock',
     HoneySuccessTakenFromHive = 'Produkt Erhalten',
@@ -95,4 +95,5 @@ Locales["en_lang"] = {
     NoMoreHoneyinHive = 'Kein Produkt mehr in Stock',
     TakeHoneyProgressbar = 'Sammle Produkt....',
     HiveNotSmoked = 'Insekten müssen erst betäubt Werden.',
+    YouGotStungbyBees = 'Du wurdest gestochen',
 }

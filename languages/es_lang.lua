@@ -83,9 +83,17 @@ Locales["es_lang"] = {
     NotEnoghProductinHive = 'No hay suficiente producto para coger',
     NotEnoghJars = 'No hay suficientes Tarros',
     NoInvetorySpace = 'No hay espacio en el inventario',
-    --NEW
     ChangePosition = 'Cambiar orientación.',
     ChangePositionDesc = 'Cambiar la orientación de la colmena.',
     HeadingLabel = 'Orientación 0-360',
     HeadingChanged = 'Orientación cambiada.',
+    -- NEW
+    TakeHoneyWildHive = 'Nehme Honig.',
+    StillInsectsInHive = 'Es sind noch Insekten im Bienenstock',
+    HoneySuccessTakenFromHive = 'Produkt Erhalten',
+    MissingJar = 'Kein Leeres Glas',
+    NoMoreHoneyinHive = 'Kein Produkt mehr in Stock',
+    TakeHoneyProgressbar = 'Sammle Produkt....',
+    HiveNotSmoked = 'Insekten müssen erst betäubt Werden.',
+    YouGotStungbyBees = 'Du wurdest gestochen',
 }
