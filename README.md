@@ -63,6 +63,7 @@
 - 1.2.9 Added Damage from Wild Bees.
 - They Only Stung if the hive is not Smoked.
 - Removed Useless Prints.
+- you can now chose if product get removed if no bees in hive.
 
 # installation 
 

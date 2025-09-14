@@ -2,6 +2,7 @@
 - Added Damage from Wild Bees.
 - They Only Stung if the hive is not Smoked.
 - Removed Useless Prints.
+- you can now chose if product get removed if no bees in hive.
 <1.2.8>
 - Fixed Major Bug with WildBeehives they Should work fine Again.
 - Added New Function Remove Inactive Hives.
