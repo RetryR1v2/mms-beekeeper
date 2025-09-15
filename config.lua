@@ -32,6 +32,10 @@ Config.BeekeeperJobs = {
 --------------------- Beehive Settings ---------------------------
 ------------------------------------------------------------------
 
+-- FX
+
+Config.UseBeeFX = true  -- Disables BeeFx
+
 -- Item
 Config.BeehiveItem = 'beehive_box'
 

@@ -153,9 +153,11 @@ AddEventHandler('mms-beekeeper:client:CreateBeehivesOnStart',function()
         FreezeEntityPosition(Beehive,true)
         SetEntityAlwaysPrerender(Beehive,false)
         CreatedBeehives[#CreatedBeehives + 1] = Beehive
-        Citizen.InvokeNative(0xA10DB07FC234DD12, bees_cloud_group)
-        local BeeFXSwarm = Citizen.InvokeNative(0xBA32867E86125D3A , bees_cloud_name, Data.Coords.x, Data.Coords.y, Data.Coords.z, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
-        CreatedFXSwarms[#CreatedFXSwarms + 1] = BeeFXSwarm
+        if Config.UseBeeFX then
+            Citizen.InvokeNative(0xA10DB07FC234DD12, bees_cloud_group)
+            local BeeFXSwarm = Citizen.InvokeNative(0xBA32867E86125D3A , bees_cloud_name, Data.Coords.x, Data.Coords.y, Data.Coords.z, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
+            CreatedFXSwarms[#CreatedFXSwarms + 1] = BeeFXSwarm
+        end
         if Config.UseBlips then
             if v.charident == CharID then
                 local BeehiveBlip = BccUtils.Blips:SetBlip(Config.BlipName, Config.BlipSprite, Config.BlipScale, Data.Coords.x, Data.Coords.y, Data.Coords.z)
@@ -527,11 +529,11 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
             SetEntityAlwaysPrerender(WildBeehive,false)
             Citizen.InvokeNative(0x203BEFFDBE12E96A, WildBeehive, v.x, v.y, v.z, v.heading, v.rotx, v.roty, v.rotz)
             CreatedWildBeehives[#CreatedWildBeehives + 1] = WildBeehive
-            
-            Citizen.InvokeNative(0xA10DB07FC234DD12, bees_cloud_group)
-            local BeeFXSwarm = Citizen.InvokeNative(0xBA32867E86125D3A , bees_cloud_name, v.x, v.y, v.z, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
-            CreatedFXSwarms[#CreatedFXSwarms + 1] = BeeFXSwarm
-            
+            if Config.UseBeeFX then
+                Citizen.InvokeNative(0xA10DB07FC234DD12, bees_cloud_group)
+                local BeeFXSwarm = Citizen.InvokeNative(0xBA32867E86125D3A , bees_cloud_name, v.x, v.y, v.z, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
+                CreatedFXSwarms[#CreatedFXSwarms + 1] = BeeFXSwarm
+            end
         end
         WildHivesSpawned = true
         -- Prompt for Wild Beehives

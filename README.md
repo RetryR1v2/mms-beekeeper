@@ -64,6 +64,8 @@
 - They Only Stung if the hive is not Smoked.
 - Removed Useless Prints.
 - you can now chose if product get removed if no bees in hive.
+- 1.3.0 Fixed little Bug
+- BeeFX can be Turned OFF now Config.UseBeeFX
 
 # installation 
 
