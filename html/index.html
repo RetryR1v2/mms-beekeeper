@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="de">
+
+    <head>
+        <meta charset="utf-8">
+        <title>mms-beekeeper</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+
+    <body>
+
+        <div id="container-main">
+            <img src="img/bienenstock.png" alt="Bienenstock">
+            <div class="navigation">
+                <button class = "nav-button active" data-page="main" data-i18n="button_main_text"></button>
+                <button class = "nav-button" data-page="status" data-i18n="button_status_text"></button>
+                <button class = "nav-button" data-page="sickness" data-i18n="button_sickness_text"></button>
+                <button class = "nav-button" data-page="helper" data-i18n="button_helper_text"></button>
+                <button class = "nav-button" data-page="settings" data-i18n="button_settings_text"></button>
+            </div>
+            <h1 data-i18n="title_main_page"></h1>
+            
+            <div id = "queenText" data-i18n="queen_main_page"></div>
+            <button id="addQueen" data-i18n="button_addQueen_text"></button>
+            
+            <div id = "beesText" data-i18n="bees_main_page"></div>
+            <button id="addBees" data-i18n="button_addBees_text"></button>
+
+            <button id="takeHoney" data-i18n="button_takeHoney_text"></button>
+            <div class="progress-vertical">
+                <div class="progress-fill-vertical" id="progressFillHoney"></div>
+            </div>
+            <div data-i18n="input_honey_amout"></div>
+            <input type="number" id="takeHoneyNumber">
+            <div id = "honey" data-i18n="honey_main_page"></div>
+
+            <button id="addHealth" data-i18n="button_addHealth_text"></button>
+            <div class="progress-vertical">
+                <div class="progress-fill-vertical" id="progressFillHealth"></div>
+            </div>
+            <div id = "health" data-i18n="health_status_page"></div>
+            <hr class = "trennlinie">
+            <div id="statusTextMain"></div>
+        </div>
+
+        <div id="container-status">
+            <img src="img/honigtopf.png" alt="Honigtopf">
+            <div class="navigation">
+                <button class = "nav-button" data-page="main" data-i18n="button_main_text"></button>
+                <button class = "nav-button active" data-page="status" data-i18n="button_status_text"></button>
+                <button class = "nav-button" data-page="sickness" data-i18n="button_sickness_text"></button>
+                <button class = "nav-button" data-page="helper" data-i18n="button_helper_text"></button>
+                <button class = "nav-button" data-page="settings" data-i18n="button_settings_text"></button>
+            </div>
+            <h1 data-i18n="title_status_page"></h1>
+            <button id="addWater" data-i18n="button_addWater_text"></button>
+            <div class="progress-vertical">
+                <div class="progress-fill-vertical" id="progressFillWater"></div>
+            </div>
+            <div id = "water" data-i18n="water_status_page"></div>
+            <button id="addFood" data-i18n="button_addFood_text"></button>
+            <div class="progress-vertical">
+                <div class="progress-fill-vertical" id="progressFillFood"></div>
+            </div>
+            <div id = "food" data-i18n="food_status_page"></div>
+            <button id="addClean" data-i18n="button_addClean_text"></button>
+            <div class="progress-vertical">
+                <div class="progress-fill-vertical" id="progressFillClean"></div>
+            </div>
+            <div id = "clean" data-i18n="clean_status_page"></div>
+            <hr class = "trennlinie">
+            <div id = "statusTextStatusPage"></div>
+        </div>
+
+        <div id="container-sickness">
+            <img src="img/biene.png" alt="Biene">
+            <div class="navigation">
+                <button class = "nav-button" data-page="main" data-i18n="button_main_text"></button>
+                <button class = "nav-button" data-page="status" data-i18n="button_status_text"></button>
+                <button class = "nav-button active" data-page="sickness" data-i18n="button_sickness_text"></button>
+                <button class = "nav-button" data-page="helper" data-i18n="button_helper_text"></button>
+                <button class = "nav-button" data-page="settings" data-i18n="button_settings_text"></button>
+            </div>
+            <h1 data-i18n="title_sickness_page"></h1>
+            <div id = "sicknessType"></div>
+            <div id = "sicknessMedizin"></div>
+            <div class="progress-vertical">
+                <div class="progress-fill-vertical" id="progressFillIllness"></div>
+            </div>
+            <div id = "illness" data-i18n="illness_status_page"></div>
+            <button id="addIllness" data-i18n="button_addIllness_text"></button>
+            <hr class = "trennlinie">
+            <div id = "statusTextSicknessPage"></div>
+        </div>
+
+        <div id="container-helper">
+            <img src="img/honigwabe.png" alt="Honigwarbe">
+            <div class="navigation">
+                <button class = "nav-button" data-page="main" data-i18n="button_main_text"></button>
+                <button class = "nav-button" data-page="status" data-i18n="button_status_text"></button>
+                <button class = "nav-button" data-page="sickness" data-i18n="button_sickness_text"></button>
+                <button class = "nav-button active" data-page="helper" data-i18n="button_helper_text"></button>
+                <button class = "nav-button" data-page="settings" data-i18n="button_settings_text"></button>
+            </div>
+            <h1 data-i18n="title_helper_page"></h1>
+            <div id = currentWorkerText data-i18n="current_worker_text"></div>
+            <button id="getCloseWorkers" data-i18n="button_addWorker_text"></button>
+            <button id="fireWorker" data-i18n="button_fireWorker_text"></button>
+            <div id="container-closeWorkers"></div>
+            <hr class = "trennlinie">
+            <div id="statusTextHelperPage"></div>
+        </div>
+
+        <div id="container-hive-settings">
+            <img src="img/honigglas.png" alt="Honigglas">
+            <div class="navigation">
+                <button class = "nav-button" data-page="main" data-i18n="button_main_text"></button>
+                <button class = "nav-button" data-page="status" data-i18n="button_status_text"></button>
+                <button class = "nav-button" data-page="sickness" data-i18n="button_sickness_text"></button>
+                <button class = "nav-button" data-page="helper" data-i18n="button_helper_text"></button>
+                <button class = "nav-button active" data-page="settings" data-i18n="button_settings_text"></button>
+            </div>
+            <h1 data-i18n="title_settings_page"></h1>
+            <h2 data-i18n="position_settings_page"></h2>
+            <button class="settingButton" data-valuebutton="setXPlus" data-i18n="button_XPlus"></button>
+            <button class="settingButton" data-valuebutton="setXMinus" data-i18n="button_XMinus"></button>
+            <button class="settingButton" data-valuebutton="setYPlus" data-i18n="button_YPlus"></button>
+            <button class="settingButton" data-valuebutton="setYMinus" data-i18n="button_YMinus"></button>
+            <h2 data-i18n="direction_settings_page"></h2>
+            <button class="settingButton" data-valuebutton="setZPlus" data-i18n="button_ZPlus"></button>
+            <button class="settingButton" data-valuebutton="setZMinus" data-i18n="button_ZMinus"></button>
+            <button class="settingButton" data-valuebutton="setHPlus" data-i18n="button_HPlus"></button>
+            <button class="settingButton" data-valuebutton="setHMinus" data-i18n="button_HMinus"></button>
+            <div data-i18n="set_intensity"></div>
+            <input id = "changePositionIntensity" type="number">
+            <button id="resetPosition" data-i18n="button_reset_position"></button>
+            <hr class = "trennlinie">
+            <div id="statusTextSettingsPage"></div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+
+</html>

@@ -66,6 +66,11 @@
 - you can now chose if product get removed if no bees in hive.
 - 1.3.0 Fixed little Bug
 - BeeFX can be Turned OFF now Config.UseBeeFX
+- 2.0.0
+- Beekeeper V2 Release
+- Added Nui
+- Improved Code
+- Added Function to Move the Hive
 
 # installation 
 

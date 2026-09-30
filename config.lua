@@ -1,6 +1,6 @@
 Config = {}
 
-Config.defaultlang = "de_lang"
+Config.lang = "de"
 Config.Debug = true
 
 ------------------------------------------------------------------
@@ -72,11 +72,15 @@ Config.MaxBeesPerHive = 200
 
 Config.MaxBeehivesPerPlayer = 1 -- To Disable just Make 1000 in Here so Everyone can have 1000 Hives
 
+-- Max Hive Movement intensity
+
+Config.maxMovementIntensity = 10
+
 ------------------------------------------------------------------
 --------------------- Update Settings ----------------------------
 ------------------------------------------------------------------
 
-Config.UpdateTimer = 1 -- time in Minute
+Config.UpdateTimer = 1.0 -- time in Minute
 
 ------------------------------------------------------------------
 ---------------------- Health Settings ---------------------------
@@ -216,6 +220,8 @@ Config.SickNess = {
 ------------------------------------------------------------------
 --------------------------- Honey Settings -----------------------
 ------------------------------------------------------------------
+
+Config.MaxHoneyInHive = 100
 
 Config.ProduktPerHoney = 60 -- 60 Product are 1 Jar Honey
 Config.JarItem = 'empty_bee_jar'

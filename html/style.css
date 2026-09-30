@@ -1,0 +1,1649 @@
+
+/* =========================================================
+   MMS BEEKEEPER - WESTERN BLACK / HONEY
+   Dunkel, leicht transparent, gelbe Akzente
+   Kein schwarzer Außenrand / kein Hintergrundmuster
+   WICHTIG: display:none bleibt für Seitenumschaltung erhalten
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    background: transparent !important;
+}
+
+body {
+    margin: 0;
+    padding: 0 6vw 0 0;
+
+    display: none;
+    justify-content: flex-end;
+    align-items: center;
+
+    width: 100vw;
+    height: 100vh;
+
+    font-family: Georgia, "Times New Roman", serif;
+    color: #f1c84b;
+
+    background: rgba(0, 0, 0, 0) !important;
+}
+
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+
+#container-main,
+#container-status,
+#container-sickness,
+#container-helper {
+    position: relative;
+
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 430px;
+    max-height: 80vh;
+
+    padding: 26px;
+    gap: 14px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    /* Kein schwarzer Rand */
+    border: 2px solid rgba(230, 180, 38, 0.82);
+    border-radius: 14px;
+
+    /* Einfache dunkle Fläche ohne Muster */
+    background:
+        linear-gradient(
+            180deg,
+            rgba(27, 25, 18, 0.76) 0%,
+            rgba(18, 17, 13, 0.72) 100%
+        );
+
+    /* Nur weicher Schatten, kein schwarzer Block */
+    box-shadow:
+        inset 0 0 14px rgba(240, 190, 45, 0.04),
+        0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+
+/* Dezente goldene Linie oben */
+
+#container-main::before,
+#container-status::before,
+#container-sickness::before,
+#container-helper::before {
+    content: "";
+
+    position: absolute;
+    top: 10px;
+    left: 22px;
+    right: 22px;
+
+    height: 2px;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(234, 185, 43, 0.70),
+            #f5cd55,
+            rgba(234, 185, 43, 0.70),
+            transparent
+        );
+}
+
+
+/* =========================================================
+   TITEL
+   ========================================================= */
+
+h1 {
+    width: 100%;
+
+    margin: 5px 0 8px 0;
+    padding-bottom: 11px;
+
+    text-align: center;
+
+    font-size: 27px;
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    color: #f0c54a;
+
+    border-bottom: 1px solid rgba(232, 183, 42, 0.28);
+
+    text-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.75);
+}
+
+h1::after {
+    content: "◆  ◇  ◆";
+
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 9px;
+    letter-spacing: 5px;
+
+    color: rgba(239, 191, 49, 0.68);
+}
+
+
+/* =========================================================
+   HAUPTSEITE - KÖNIGIN / BIENEN / HELFER
+   ========================================================= */
+
+#queenText,
+#beesText,
+#currentWorkerText {
+    width: 100%;
+    min-height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 10px 13px;
+
+    border: 1px solid rgba(224, 174, 36, 0.32);
+    border-radius: 7px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(45, 41, 28, 0.66),
+            rgba(25, 23, 17, 0.66)
+        );
+
+    color: #e7bd48;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 224, 120, 0.04);
+}
+
+#queensAmount,
+#beesAmount,
+#currentWorker {
+    min-width: 52px;
+
+    margin-left: 12px;
+    padding: 5px 9px;
+
+    text-align: center;
+
+    color: #211a0d;
+
+    border: 1px solid #d7a624;
+    border-radius: 5px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f2c74a,
+            #bc8518
+        );
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 245, 190, 0.38);
+}
+
+
+/* =========================================================
+   VERTIKALE STATUSBALKEN
+   ========================================================= */
+
+.progress-vertical {
+    position: relative;
+
+    flex: 0 0 auto;
+
+    width: 48px;
+    height: 170px;
+
+    overflow: hidden;
+
+    border: 2px solid rgba(230, 180, 38, 0.72);
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(10, 10, 8, 0.60),
+            rgba(39, 36, 25, 0.58),
+            rgba(10, 10, 8, 0.60)
+        );
+
+    box-shadow:
+        inset 0 0 8px rgba(0, 0, 0, 0.48);
+}
+
+
+/* wächst von UNTEN nach OBEN */
+
+.progress-fill-vertical {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 0%;
+
+    border-radius: 7px 7px 5px 5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #99610c 0%,
+            #d89c1e 30%,
+            #f6d25b 52%,
+            #e4a625 72%,
+            #9a610d 100%
+        );
+
+    box-shadow:
+        inset 0 0 6px rgba(79, 46, 5, 0.38);
+
+    transition: height 0.4s ease;
+}
+
+.progress-fill-vertical::after {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 5px;
+    right: 5px;
+
+    height: 2px;
+
+    border-radius: 3px;
+
+    background: rgba(255, 241, 171, 0.82);
+}
+
+
+/* =========================================================
+   TEXTE UNTER DEN BALKEN
+   ========================================================= */
+
+#honey,
+#water,
+#food,
+#clean,
+#health,
+#illness {
+    min-width: 72px;
+
+    margin-top: -5px;
+    padding: 5px 7px;
+
+    text-align: center;
+
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1.15;
+
+    color: #e9be47;
+
+    border: 1px solid rgba(225, 176, 39, 0.20);
+    border-radius: 5px;
+
+    background: rgba(24, 22, 16, 0.42);
+
+    text-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.68);
+}
+
+
+/* Hauptseite: Honigbalken mittig */
+
+#container-main > .progress-vertical {
+    margin-top: 4px;
+}
+
+
+/* =========================================================
+   STATUS-SEITE
+   ========================================================= */
+
+#container-status {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+
+    column-gap: 14px;
+    row-gap: 8px;
+}
+
+#container-status h1 {
+    flex: 0 0 100%;
+    order: 0;
+}
+
+#container-status > .progress-vertical {
+    order: 1;
+
+    flex: 0 0 50px;
+
+    width: 50px;
+    height: 145px;
+
+    margin: 4px 8px 0 8px;
+}
+
+#container-status::after {
+    content: "";
+
+    order: 2;
+
+    flex-basis: 100%;
+
+    width: 0;
+    height: 0;
+}
+
+#container-status > #water,
+#container-status > #food,
+#container-status > #clean,
+#container-status > #health,
+#container-status > #illness {
+    order: 3;
+
+    flex: 0 0 66px;
+
+    min-width: 66px;
+    max-width: 66px;
+
+    margin: 0;
+    padding: 5px 2px;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   HELFER-SEITE
+   ========================================================= */
+
+#container-sickness,
+#container-helper {
+    min-height: 190px;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+button {
+    width: 100%;
+
+    padding: 10px 14px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    font-weight: bold;
+
+    color: #efc44a;
+
+    cursor: pointer;
+
+    border: 1px solid rgba(225, 176, 38, 0.54);
+    border-radius: 6px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(52, 47, 31, 0.82),
+            rgba(27, 25, 18, 0.86)
+        );
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 225, 111, 0.04);
+
+    transition:
+        transform 0.12s ease,
+        filter 0.12s ease,
+        border-color 0.12s ease;
+}
+
+button:hover {
+    filter: brightness(1.10);
+
+    border-color: #f3c947;
+
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+#container-main::-webkit-scrollbar,
+#container-status::-webkit-scrollbar,
+#container-sickness::-webkit-scrollbar,
+#container-helper::-webkit-scrollbar {
+    width: 7px;
+}
+
+#container-main::-webkit-scrollbar-track,
+#container-status::-webkit-scrollbar-track,
+#container-sickness::-webkit-scrollbar-track,
+#container-helper::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.14);
+
+    border-radius: 8px;
+}
+
+#container-main::-webkit-scrollbar-thumb,
+#container-status::-webkit-scrollbar-thumb,
+#container-sickness::-webkit-scrollbar-thumb,
+#container-helper::-webkit-scrollbar-thumb {
+    background:
+        linear-gradient(
+            180deg,
+            #e3af2f,
+            #926111
+        );
+
+    border-radius: 8px;
+}
+
+#container-main::-webkit-scrollbar-thumb:hover,
+#container-status::-webkit-scrollbar-thumb:hover,
+#container-sickness::-webkit-scrollbar-thumb:hover,
+#container-helper::-webkit-scrollbar-thumb:hover {
+    background:
+        linear-gradient(
+            180deg,
+            #f1c640,
+            #aa7417
+        );
+}
+
+
+/* =========================================================
+   NAVIGATION - 3 BUTTONS IN EINER REIHE
+   ========================================================= */
+
+.navigation {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+
+    flex-shrink: 0;
+
+    padding: 4px;
+
+    border: 1px solid rgba(225, 176, 38, 0.18);
+    border-radius: 8px;
+
+    background: rgba(10, 9, 7, 0.22);
+}
+
+.navigation button {
+    width: 100%;
+    min-width: 0;
+
+    margin: 0;
+    padding: 8px 5px;
+
+    font-size: 13px;
+
+    color: rgba(239, 196, 74, 0.74);
+
+    border: 1px solid rgba(225, 176, 38, 0.22);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(44, 40, 28, 0.55),
+            rgba(24, 22, 16, 0.58)
+        );
+
+    box-shadow: none;
+}
+
+.navigation button.active {
+    color: #21190a;
+
+    border-color: #f0bf35;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f4cd58,
+            #c8901d
+        );
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 246, 194, 0.55),
+        0 0 7px rgba(226, 174, 37, 0.17);
+
+    transform: none;
+}
+
+
+/* =========================================================
+   STATUS-SEITE
+   Jeder Text sitzt direkt unter SEINEM Balken.
+
+   Dein JavaScript setzt beim Öffnen:
+       element.style.display = "flex"
+
+   Nur in diesem sichtbaren Zustand wird der Status-Container
+   hier zu einem Grid gemacht.
+
+   Wenn JavaScript wieder display:none setzt, bleibt die Seite
+   weiterhin verborgen.
+   ========================================================= */
+
+#container-status[style*="display: flex"] {
+    display: grid !important;
+
+    grid-template-columns: repeat(5, minmax(58px, 1fr));
+    grid-template-rows: auto auto 145px auto;
+
+    column-gap: 8px;
+    row-gap: 8px;
+
+    align-items: center;
+    justify-items: center;
+}
+
+
+/* Navigation nimmt die komplette erste Zeile ein */
+
+#container-status > .navigation {
+    grid-column: 1 / -1;
+    grid-row: 1;
+
+    width: 100%;
+}
+
+
+/* Überschrift nimmt die komplette zweite Zeile ein */
+
+#container-status > h1 {
+    grid-column: 1 / -1;
+    grid-row: 2;
+
+    width: 100%;
+}
+
+
+/* Die alten Flex-Ordnungen werden für die Status-Seite aufgehoben */
+
+#container-status > .progress-vertical,
+#container-status > #water,
+#container-status > #food,
+#container-status > #clean,
+#container-status > #health,
+#container-status > #illness {
+    order: initial;
+    margin: 0;
+}
+
+
+/* =========================================================
+   BALKEN - ZEILE 3
+   nth-of-type bezieht sich auf die DIV-Kinder im Status-Container:
+
+   1  = navigation
+   2  = Wasser-Balken
+   3  = Wasser-Text
+   4  = Nahrung-Balken
+   5  = Nahrung-Text
+   ...
+   ========================================================= */
+
+#container-status > .progress-vertical:nth-of-type(2) {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+#container-status > .progress-vertical:nth-of-type(4) {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+#container-status > .progress-vertical:nth-of-type(6) {
+    grid-column: 3;
+    grid-row: 3;
+}
+
+#container-status > .progress-vertical:nth-of-type(8) {
+    grid-column: 4;
+    grid-row: 3;
+}
+
+#container-status > .progress-vertical:nth-of-type(10) {
+    grid-column: 5;
+    grid-row: 3;
+}
+
+
+/* Alle Statusbalken gleiche Größe */
+
+#container-status > .progress-vertical {
+    width: 50px;
+    height: 145px;
+
+    justify-self: center;
+}
+
+
+/* =========================================================
+   TEXTE - DIREKT UNTER DEM JEWEILIGEN BALKEN
+   ========================================================= */
+
+#container-status > #water {
+    grid-column: 1;
+    grid-row: 4;
+}
+
+#container-status > #food {
+    grid-column: 2;
+    grid-row: 4;
+}
+
+#container-status > #health {
+    grid-column: 3;
+    grid-row: 4;
+}
+
+#container-status > #clean {
+    grid-column: 4;
+    grid-row: 4;
+}
+
+#container-status > #illness {
+    grid-column: 5;
+    grid-row: 4;
+}
+
+
+#container-status > #water,
+#container-status > #food,
+#container-status > #clean,
+#container-status > #health,
+#container-status > #illness {
+    width: auto;
+
+    min-width: 58px;
+    max-width: 72px;
+
+    padding: 5px 4px;
+
+    font-size: 11px;
+
+    white-space: normal;
+
+    text-align: center;
+
+    justify-self: center;
+}
+
+
+/* Das alte Flex-Pseudo-Element wird im Grid nicht gebraucht */
+
+#container-status::after {
+    display: none;
+}
+
+
+/* =========================================================
+   FARBEN FÜR DIE EINZELNEN STATUSBALKEN
+   Wasser = Blau
+   Nahrung = Grün
+   Sauberkeit = Beige / Sand
+   Gesundheit = Rot
+   Krankheit = Violett / Dunkelrot
+   ========================================================= */
+
+#progressFillWater {
+    background:
+        linear-gradient(
+            90deg,
+            #1f4e7a 0%,
+            #3487c8 35%,
+            #7bc8ff 55%,
+            #2b6ea3 75%,
+            #173b5d 100%
+        );
+
+    box-shadow:
+        inset 0 0 6px rgba(10, 35, 59, 0.35),
+        0 0 8px rgba(78, 160, 233, 0.18);
+}
+
+#progressFillFood {
+    background:
+        linear-gradient(
+            90deg,
+            #355b1d 0%,
+            #5f9b2d 35%,
+            #9ad15c 55%,
+            #5f9b2d 75%,
+            #2a4517 100%
+        );
+
+    box-shadow:
+        inset 0 0 6px rgba(23, 49, 14, 0.35),
+        0 0 8px rgba(113, 183, 72, 0.15);
+}
+
+#progressFillClean {
+    background:
+        linear-gradient(
+            90deg,
+            #6c5a3b 0%,
+            #b39a6a 35%,
+            #ead6a4 55%,
+            #b39a6a 75%,
+            #5c4b31 100%
+        );
+
+    box-shadow:
+        inset 0 0 6px rgba(63, 51, 30, 0.28),
+        0 0 8px rgba(207, 185, 131, 0.12);
+}
+
+#progressFillHealth {
+    background:
+        linear-gradient(
+            90deg,
+            #7a1f1f 0%,
+            #b93030 35%,
+            #ef6666 55%,
+            #b93030 75%,
+            #611818 100%
+        );
+
+    box-shadow:
+        inset 0 0 6px rgba(69, 14, 14, 0.35),
+        0 0 8px rgba(205, 62, 62, 0.16);
+}
+
+#progressFillIllness {
+    background:
+        linear-gradient(
+            90deg,
+            #4f2247 0%,
+            #7d3971 35%,
+            #b76aa9 55%,
+            #7d3971 75%,
+            #3b1935 100%
+        );
+
+    box-shadow:
+        inset 0 0 6px rgba(48, 18, 43, 0.35),
+        0 0 8px rgba(145, 78, 131, 0.15);
+}
+
+/* =========================================================
+   AKTUALISIERTES LAYOUT FUER DIE RESOURCE VOM 26.09.2026
+   Originalfarben bleiben erhalten. Nur das Layout wird angepasst.
+   JS kann weiterhin display = "flex" / "none" setzen.
+   ========================================================= */
+
+#container-main,
+#container-status,
+#container-sickness,
+#container-helper {
+    width: max-content;
+    min-width: min(430px, 90vw);
+    max-width: 90vw;
+    flex: 0 1 auto;
+    overflow-x: auto;
+}
+
+/* Nur bei explizitem Oeffnen durch JS auf Grid umschalten.
+   display:none und der anfangs verborgene Zustand bleiben erhalten. */
+#container-main[style*="display: flex"],
+#container-main[style*="display:flex"],
+#container-status[style*="display: flex"],
+#container-status[style*="display:flex"] {
+    display: grid !important;
+    align-items: center;
+    justify-items: center;
+    justify-content: stretch;
+    gap: 14px 22px;
+}
+
+#container-main {
+    grid-template-columns: repeat(2, minmax(max-content, 1fr));
+    grid-template-rows: auto auto auto auto auto 170px auto auto auto;
+}
+
+#container-status[style*="display: flex"],
+#container-status[style*="display:flex"] {
+    grid-template-columns: repeat(4, minmax(max-content, 1fr));
+    grid-template-rows: auto auto auto 170px auto auto;
+}
+
+#container-main > .navigation,
+#container-status > .navigation {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    min-width: 0;
+}
+
+#container-main > h1,
+#container-status > h1 {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    order: initial;
+}
+
+#container-main > button,
+#container-status > button {
+    width: max-content;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 9px 14px;
+    justify-self: center;
+    white-space: normal;
+}
+
+#container-main > #queenText,
+#container-main > #beesText {
+    grid-column: 1;
+    width: auto;
+    min-height: 42px;
+    justify-self: stretch;
+    margin: 0;
+}
+
+#container-main > #queenText { grid-row: 3; }
+#container-main > #addQueen { grid-column: 2; grid-row: 3; justify-self: center; }
+#container-main > #beesText { grid-row: 4; }
+#container-main > #addBees { grid-column: 2; grid-row: 4; justify-self: center; }
+
+#container-main > #takeHoney { grid-column: 1; grid-row: 5; }
+#container-main > #addHealth { grid-column: 2; grid-row: 5; }
+#container-main > #takeHoney + .progress-vertical { grid-column: 1; grid-row: 6; }
+#container-main > #addHealth + .progress-vertical { grid-column: 2; grid-row: 6; }
+#container-main > #honey { grid-column: 1; grid-row: 7; }
+#container-main > #health { grid-column: 2; grid-row: 7; }
+
+#container-status > #addWater { grid-column: 1; grid-row: 3; }
+#container-status > #addFood { grid-column: 2; grid-row: 3; }
+#container-status > #addClean { grid-column: 3; grid-row: 3; }
+#container-status > #addIllness { grid-column: 4; grid-row: 3; }
+#container-status > #addWater + .progress-vertical { grid-column: 1; grid-row: 4; }
+#container-status > #addFood + .progress-vertical { grid-column: 2; grid-row: 4; }
+#container-status > #addClean + .progress-vertical { grid-column: 3; grid-row: 4; }
+#container-status > #addIllness + .progress-vertical { grid-column: 4; grid-row: 4; }
+#container-status > #water { grid-column: 1; grid-row: 5; }
+#container-status > #food { grid-column: 2; grid-row: 5; }
+#container-status > #clean { grid-column: 3; grid-row: 5; }
+#container-status > #illness { grid-column: 4; grid-row: 5; }
+
+#container-main > .progress-vertical,
+#container-status > .progress-vertical {
+    width: 50px;
+    height: 170px;
+    margin: 0;
+    order: initial;
+    justify-self: center;
+}
+
+#container-main > #honey,
+#container-main > #health,
+#container-status > #water,
+#container-status > #food,
+#container-status > #clean,
+#container-status > #illness {
+    width: max-content;
+    min-width: 72px;
+    max-width: 100%;
+    margin: 0;
+    padding: 5px 7px;
+    font-size: 13px;
+    order: initial;
+    justify-self: center;
+}
+
+#container-main > #statusTextMain {
+    grid-column: 1 / -1;
+    grid-row: 9;
+    width: 100%;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+#container-status > #statusText {
+    grid-column: 1 / -1;
+    grid-row: 6;
+    width: 100%;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+#statusTextMain:empty,
+#statusText:empty,
+#container-status::after {
+    display: none;
+}
+
+/* Auf schmalen Bildschirmen bleiben jeweils zwei Werte nebeneinander. */
+@media (max-width: 850px) {
+    body { padding-right: 3vw; }
+
+    #container-main,
+    #container-status,
+    #container-sickness,
+#container-helper {
+        max-width: 94vw;
+        min-width: min(430px, 94vw);
+        padding: 22px 16px;
+    }
+
+    #container-status[style*="display: flex"],
+    #container-status[style*="display:flex"] {
+        grid-template-columns: repeat(2, minmax(max-content, 1fr));
+        grid-template-rows: auto auto auto 170px auto auto 170px auto auto;
+    }
+
+    #container-status > #addClean { grid-column: 1; grid-row: 6; }
+    #container-status > #addIllness { grid-column: 2; grid-row: 6; }
+    #container-status > #addClean + .progress-vertical { grid-column: 1; grid-row: 7; }
+    #container-status > #addIllness + .progress-vertical { grid-column: 2; grid-row: 7; }
+    #container-status > #clean { grid-column: 1; grid-row: 8; }
+    #container-status > #illness { grid-column: 2; grid-row: 8; }
+    #container-status > #statusText { grid-row: 9; }
+}
+/* Koenigin und Arbeiter innerhalb ihrer Felder zentrieren. */
+#container-main > #queenText,
+#container-main > #beesText {
+    justify-content: center;
+    text-align: center;
+}
+/* Honigmenge: vorhandene Anordnung von Text und Input beibehalten. */
+#container-main input:not([type]),
+#container-main input[type="number"],
+#container-main input[type="text"] {
+    box-sizing: border-box;
+    width: 176px;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 40px;
+    padding: 9px 12px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.25;
+    color: #efc44a;
+    caret-color: #f3c947;
+    border: 1px solid rgba(225, 176, 38, 0.54);
+    border-radius: 6px;
+    background: linear-gradient(
+        180deg,
+        rgba(52, 47, 31, 0.82),
+        rgba(27, 25, 18, 0.86)
+    );
+    box-shadow: inset 0 1px 0 rgba(255, 225, 111, 0.04);
+    transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+#container-main input::placeholder {
+    color: rgba(239, 196, 74, 0.55);
+    opacity: 1;
+}
+
+#container-main input:hover {
+    border-color: #f3c947;
+}
+
+#container-main input:focus {
+    outline: 2px solid rgba(243, 201, 71, 0.55);
+    outline-offset: 2px;
+    border-color: #f3c947;
+    box-shadow: inset 0 1px 0 rgba(255, 225, 111, 0.04),
+                0 0 7px rgba(226, 174, 37, 0.17);
+}
+
+/* Kompakte Statusseite mit zentrierter Statusmeldung. */
+#container-status {
+    width: max-content;
+    min-width: 0;
+    max-width: 90vw;
+    padding: 22px;
+}
+
+#container-status[style*="display: flex"],
+#container-status[style*="display:flex"] {
+    grid-template-columns: repeat(4, max-content);
+    column-gap: 12px;
+    row-gap: 14px;
+    justify-content: center;
+}
+
+#container-status > button {
+    width: max-content;
+    padding: 9px 10px;
+    justify-self: center;
+}
+
+/* Bekannte Status-ID und alternativ die letzte Meldungs-Div.
+   Die vier Balkenbeschriftungen werden nicht als Meldung behandelt. */
+#container-status > #statusText,
+#container-status > #statusTextStatus,
+#container-status > div:last-child:not(.progress-vertical):not(.navigation):not(#water):not(#food):not(#clean):not(#health):not(#illness) {
+    grid-column: 1 / -1;
+    grid-row: 6;
+    width: 100%;
+    min-width: 0;
+    justify-self: stretch;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 850px) {
+    #container-status {
+        max-width: 94vw;
+        padding: 22px 16px;
+    }
+
+    #container-status[style*="display: flex"],
+    #container-status[style*="display:flex"] {
+        grid-template-columns: repeat(2, max-content);
+    }
+
+    #container-status > #statusText,
+    #container-status > #statusTextStatus,
+    #container-status > div:last-child:not(.progress-vertical):not(.navigation):not(#water):not(#food):not(#clean):not(#health):not(#illness) {
+        grid-row: 9;
+    }
+}
+/* =========================================================
+   BILDER ALS CONTAINER-HINTERGRUND
+   Pfade relativ zu html/style.css. HTML und JS bleiben gleich.
+   Die dunkle Ebene liegt ueber dem Bild, nicht ueber den Inhalten.
+   ========================================================= */
+
+#container-main {
+    --container-image: url("img/bienenstock.png");
+}
+
+#container-status {
+    --container-image: url("img/honigtopf.png");
+}
+
+#container-sickness,
+#container-helper {
+    --container-image: url("img/honigwabe.png");
+}
+
+#container-main,
+#container-status,
+#container-sickness,
+#container-helper {
+    background-color: rgba(18, 17, 13, 0.82);
+    background-image:
+        linear-gradient(
+            180deg,
+            rgba(27, 25, 18, 0.72) 0%,
+            rgba(18, 17, 13, 0.62) 50%,
+            rgba(18, 17, 13, 0.80) 100%
+        ),
+        var(--container-image);
+    background-position: center, center;
+    background-size: 100% 100%, contain;
+    background-repeat: no-repeat;
+    background-origin: padding-box;
+    background-clip: padding-box;
+}
+
+/* Die bereits vorhandenen IMG-Elemente nicht zusaetzlich im Grid anzeigen. */
+#container-main > img,
+#container-status > img,
+#container-sickness > img,
+#container-helper > img {
+    display: none;
+}
+
+/* Eingabe und Beschriftung bleiben oberhalb der Statusmeldung. */
+#container-main > [data-i18n="input_honey_amout"] {
+    grid-column: 1;
+    grid-row: 8;
+    text-align: center;
+}
+
+#container-main > #takeHoneyNumber {
+    grid-column: 2;
+    grid-row: 8;
+    justify-self: center;
+}
+
+#statusTextStatusPage:empty {
+    display: none;
+}
+/* Neue Krankheitsseite: bleibt verborgen, bis JS display:flex setzt. */
+.navigation {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.navigation button {
+    overflow-wrap: anywhere;
+}
+
+#container-sickness {
+    --container-image: url("img/biene.png");
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+}
+
+#container-sickness > .navigation,
+#container-sickness > h1 {
+    width: 100%;
+    flex: 0 0 auto;
+}
+
+#container-sickness > #addIllness {
+    width: max-content;
+    max-width: 100%;
+    flex: 0 0 auto;
+    padding: 9px 14px;
+}
+
+#container-sickness > .progress-vertical {
+    width: 50px;
+    height: 170px;
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+#container-sickness > #illness {
+    width: max-content;
+    max-width: 100%;
+    margin: 0;
+    flex: 0 0 auto;
+}
+
+#statusTextSicknessPage,
+#statusTextHelperPage {
+    width: 100%;
+    text-align: center;
+    overflow-wrap: anywhere;
+    flex: 0 0 auto;
+}
+
+#statusTextSicknessPage:empty,
+#statusTextHelperPage:empty {
+    display: none;
+}
+
+/* Status enthaelt jetzt nur Wasser, Nahrung und Sauberkeit. */
+#container-status[style*="display: flex"],
+#container-status[style*="display:flex"] {
+    grid-template-columns: repeat(3, max-content);
+}
+
+@media (max-width: 850px) {
+    #container-status[style*="display: flex"],
+    #container-status[style*="display:flex"] {
+        grid-template-columns: repeat(2, max-content);
+    }
+}
+/* Mitarbeiterseite: zentrierte Texte und kompakte Aktionsbuttons. */
+#container-helper > #currentWorkerText {
+    justify-content: center;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+#container-helper > button,
+#container-helper #container-closeWorkers > button {
+    width: max-content;
+    max-width: 100%;
+    min-width: 0;
+    flex: 0 0 auto;
+    align-self: center;
+    margin: 0;
+    padding: 9px 14px;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* Automatisch erzeugte Spielerbuttons untereinander und mittig. */
+#container-helper > #container-closeWorkers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+    flex: 0 0 auto;
+}
+
+#container-helper > #container-closeWorkers:empty {
+    display: none;
+}
+
+/* Aktualisierte Navigation und kompaktere Aktionsbuttons. */
+/* Kraeftigere Navigation auf Startseite, Status, Krankheit und Helfer. */
+#container-main > .navigation,
+#container-status > .navigation,
+#container-sickness > .navigation,
+#container-helper > .navigation {
+    padding: 5px;
+    gap: 7px;
+}
+
+#container-main > .navigation > button,
+#container-status > .navigation > button,
+#container-sickness > .navigation > button,
+#container-helper > .navigation > button {
+    min-height: 42px;
+    padding: 11px 8px;
+    font-size: 15px;
+    line-height: 1.2;
+    border-width: 2px;
+}
+
+/* Kompaktere Aktionsbuttons, einschliesslich dynamischer Mitarbeiterbuttons. */
+#container-main button:not(.nav-button),
+#container-status button:not(.nav-button),
+#container-sickness button:not(.nav-button),
+#container-helper button:not(.nav-button),
+#container-helper #container-closeWorkers > button {
+    width: max-content;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 32px;
+    padding: 7px 11px;
+    font-size: 14px;
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* Bestehende Sonderregel fuer den Krankheitsbutton ueberstimmen. */
+#container-sickness > #addIllness {
+    padding: 7px 11px;
+}
+/* Goldene Trennlinien auf allen vier Seiten. */
+.trennlinie,
+#container-main hr,
+#container-status hr,
+#container-sickness hr,
+#container-helper hr {
+    width: 100%;
+    height: 1px;
+    border: none;
+    margin: 10px 0;
+    background: rgba(232, 183, 42, 0.45);
+    flex-shrink: 0;
+    grid-column: 1 / -1;
+}
+/* Ausrichtung: H2, dann Beschriftung + Input, dann Speichern.
+   Fuer die Reihenfolge h2 / div (oder label) / input / button
+   als direkte Kinder von container-main. */
+/* Hauptseite: Koenigin und Arbeiter nebeneinander, Buttons darunter. */
+#container-main > #queenText {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+#container-main > #beesText {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+#container-main > #addQueen {
+    grid-column: 1;
+    grid-row: 4;
+    justify-self: center;
+}
+
+#container-main > #addBees {
+    grid-column: 2;
+    grid-row: 4;
+    justify-self: center;
+}
+
+/* Abschlussbereich: Trennlinie, Ausrichtung, Meldung, letzte Trennlinie. */
+#container-main > hr:first-of-type {
+    grid-row: 9;
+}
+
+#container-main > #statusTextMain {
+    grid-column: 1 / -1;
+    grid-row: 13;
+    width: 100%;
+    text-align: center;
+    justify-self: center;
+}
+
+#container-main > hr:last-of-type {
+    grid-row: 14;
+}
+/* Aktuelle Struktur: Ausrichtung auf der Statusseite. */
+#container-main {
+    grid-template-rows: auto auto auto auto auto 170px auto auto auto auto;
+}
+#container-main > #statusTextMain { grid-row: 9; }
+#container-main > hr:first-of-type,
+#container-main > hr:last-of-type { grid-row: 10; }
+
+#container-status[style*="display: flex"],
+#container-status[style*="display:flex"] {
+    grid-template-rows: auto auto auto 170px auto auto auto auto auto auto auto;
+}
+#container-status > hr:first-of-type { grid-column: 1 / -1; grid-row: 6; }
+#container-status > h2 {
+    grid-column: 1 / -1;
+    grid-row: 7;
+    width: 100%;
+    margin: 6px 0;
+    text-align: center;
+    justify-self: center;
+}
+#container-status > [data-i18n="input_new_heading"] {
+    grid-column: 1;
+    grid-row: 8;
+    width: 100%;
+    text-align: left;
+    align-self: center;
+}
+#container-status > #changeHeadingNumber {
+    grid-column: 2 / -1;
+    grid-row: 8;
+    justify-self: center;
+    align-self: center;
+    width: 176px;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 40px;
+    padding: 9px 12px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.25;
+    color: #efc44a;
+    caret-color: #f3c947;
+    border: 1px solid rgba(225, 176, 38, 0.54);
+    border-radius: 6px;
+    background: linear-gradient(180deg, rgba(52, 47, 31, 0.82), rgba(27, 25, 18, 0.86));
+    box-shadow: inset 0 1px 0 rgba(255, 225, 111, 0.04);
+}
+#container-status > #changeHeadingNumber:hover { border-color: #f3c947; }
+#container-status > #changeHeadingNumber:focus {
+    outline: 2px solid rgba(243, 201, 71, 0.55);
+    outline-offset: 2px;
+    border-color: #f3c947;
+}
+#container-status > #buttonChangeHeading {
+    grid-column: 1 / -1;
+    grid-row: 9;
+    justify-self: center;
+    width: max-content;
+    max-width: 100%;
+}
+#container-status > #statusTextStatusPage {
+    grid-column: 1 / -1;
+    grid-row: 10;
+    width: 100%;
+    text-align: center;
+    justify-self: center;
+}
+#container-status > hr:last-of-type { grid-column: 1 / -1; grid-row: 11; }
+
+/* Zwei Statusspalten auf schmalen Bildschirmen; Ausrichtung folgt danach. */
+@media (max-width: 850px) {
+    #container-status[style*="display: flex"],
+    #container-status[style*="display:flex"] {
+        grid-template-rows: auto auto auto 170px auto auto 170px auto auto auto auto auto auto auto;
+    }
+    #container-status > hr:first-of-type { grid-row: 9; }
+    #container-status > h2 { grid-row: 10; }
+    #container-status > [data-i18n="input_new_heading"],
+    #container-status > #changeHeadingNumber { grid-row: 11; }
+    #container-status > #buttonChangeHeading { grid-row: 12; }
+    #container-status > #statusTextStatusPage { grid-row: 13; }
+    #container-status > hr:last-of-type { grid-row: 14; }
+}
+/* Einstellungen: Honigglas-Hintergrund und zwei Steuerkreuze. */
+#container-hive-settings {
+    display: none;
+    position: relative;
+    width: 660px;
+    max-width: 90vw;
+    max-height: 80vh;
+    flex: 0 1 auto;
+    padding: 26px;
+    overflow: auto;
+    border: 2px solid rgba(230, 180, 38, 0.82);
+    border-radius: 14px;
+    background-color: rgba(18, 17, 13, 0.82);
+    background-image: linear-gradient(180deg,
+        rgba(27, 25, 18, 0.72),
+        rgba(18, 17, 13, 0.62) 50%,
+        rgba(18, 17, 13, 0.80)), url("img/honigglas.png");
+    background-position: center;
+    background-size: 100% 100%, contain;
+    background-repeat: no-repeat;
+    background-clip: padding-box;
+    box-shadow: inset 0 0 14px rgba(240, 190, 45, 0.04),
+                0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Nur JS display:flex aktiviert das Raster. display:none bleibt wirksam. */
+#container-hive-settings[style*="display: flex"],
+#container-hive-settings[style*="display:flex"] {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) 24px repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto auto auto repeat(3, 48px) auto auto;
+    gap: 10px 6px;
+    align-items: center;
+    justify-items: center;
+}
+#container-hive-settings > img { display: none; }
+#container-hive-settings::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 22px;
+    right: 22px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #f5cd55, transparent);
+}
+#container-hive-settings > .navigation {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(115px, 1.3fr);
+    padding: 5px;
+    gap: 7px;
+}
+#container-hive-settings > .navigation > button {
+    min-height: 42px;
+    padding: 11px 8px;
+    font-size: 15px;
+    line-height: 1.2;
+    border-width: 2px;
+}
+#container-hive-settings > h1 { grid-column: 1 / -1; grid-row: 2; }
+#container-hive-settings > h2 {
+    width: 100%;
+    margin: 6px 0 10px;
+    text-align: center;
+    font-size: 19px;
+}
+#container-hive-settings > [data-i18n="position_settings_page"] { grid-column: 1 / 4; grid-row: 3; }
+#container-hive-settings > [data-i18n="direction_settings_page"] { grid-column: 5 / 8; grid-row: 3; }
+#container-hive-settings > button {
+    width: 100%;
+    max-width: 64px;
+    height: 44px;
+    padding: 7px;
+    font-size: 16px;
+    line-height: 1;
+}
+#container-hive-settings > [data-valuebutton="setXPlus"] { grid-column: 2; grid-row: 4; }
+#container-hive-settings > [data-valuebutton="setXMinus"] { grid-column: 2; grid-row: 6; }
+#container-hive-settings > [data-valuebutton="setYPlus"] { grid-column: 1; grid-row: 5; }
+#container-hive-settings > [data-valuebutton="setYMinus"] { grid-column: 3; grid-row: 5; }
+#container-hive-settings > [data-valuebutton="setZPlus"] { grid-column: 6; grid-row: 4; }
+#container-hive-settings > [data-valuebutton="setZMinus"] { grid-column: 6; grid-row: 6; }
+#container-hive-settings > [data-valuebutton="setHPlus"] { grid-column: 5; grid-row: 5; }
+#container-hive-settings > [data-valuebutton="setHMinus"] { grid-column: 7; grid-row: 5; }
+#container-hive-settings > #statusTextSettingsPage {
+    grid-column: 1 / -1;
+    grid-row: 7;
+    width: 100%;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+#statusTextSettingsPage:empty { display: none; }
+#container-hive-settings > hr { grid-column: 1 / -1; grid-row: 8; }
+#container-hive-settings::-webkit-scrollbar { width: 7px; height: 7px; }
+#container-hive-settings::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.14); }
+#container-hive-settings::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: linear-gradient(180deg, #e3af2f, #926111);
+}
+
+/* Statusseite ohne den inzwischen verschobenen Ausrichtungsbereich. */
+#container-status[style*="display: flex"],
+#container-status[style*="display:flex"] {
+    grid-template-rows: auto auto auto 170px auto auto auto;
+}
+#container-status > #statusTextStatusPage { grid-row: 6; }
+#container-status > hr:first-of-type,
+#container-status > hr:last-of-type { grid-row: 7; }
+@media (max-width: 850px) {
+    #container-status[style*="display: flex"],
+    #container-status[style*="display:flex"] {
+        grid-template-rows: auto auto auto 170px auto auto 170px auto auto auto;
+    }
+    #container-status > #statusTextStatusPage { grid-row: 9; }
+    #container-status > hr:first-of-type,
+    #container-status > hr:last-of-type { grid-row: 10; }
+    #container-hive-settings { max-width: 94vw; }
+}
+@media (max-width: 620px) {
+    #container-hive-settings { padding: 22px 16px; }
+    #container-hive-settings[style*="display: flex"],
+    #container-hive-settings[style*="display:flex"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: auto auto auto repeat(3, 48px) auto repeat(3, 48px) auto auto;
+    }
+    #container-hive-settings > .navigation { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    #container-hive-settings > .navigation > button { font-size: 13px; padding: 9px 5px; }
+    #container-hive-settings > [data-i18n="position_settings_page"] { grid-column: 1 / -1; }
+    #container-hive-settings > [data-i18n="direction_settings_page"] { grid-column: 1 / -1; grid-row: 7; }
+    #container-hive-settings > [data-valuebutton="setZPlus"] { grid-column: 2; grid-row: 8; }
+    #container-hive-settings > [data-valuebutton="setZMinus"] { grid-column: 2; grid-row: 10; }
+    #container-hive-settings > [data-valuebutton="setHPlus"] { grid-column: 1; grid-row: 9; }
+    #container-hive-settings > [data-valuebutton="setHMinus"] { grid-column: 3; grid-row: 9; }
+    #container-hive-settings > #statusTextSettingsPage { grid-row: 11; }
+    #container-hive-settings > hr { grid-row: 12; }
+}
+/* Aktuelle Einstellungen: data-valuebutton statt alter Button-IDs. */
+#container-hive-settings { width: 700px; }
+#container-hive-settings[style*="display: flex"],
+#container-hive-settings[style*="display:flex"] {
+    grid-template-rows: auto auto auto repeat(3, 48px) auto auto auto;
+}
+
+#container-hive-settings > [data-i18n="set_intensity"] {
+    grid-column: 1 / 3;
+    grid-row: 7;
+    width: 100%;
+    text-align: left;
+    align-self: center;
+    margin-top: 12px;
+}
+#container-hive-settings > #changePositionIntensity {
+    grid-column: 3 / 6;
+    grid-row: 7;
+    justify-self: center;
+    align-self: center;
+    width: 150px;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 38px;
+    margin-top: 12px;
+    padding: 8px 11px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 15px;
+    font-weight: bold;
+    color: #efc44a;
+    caret-color: #f3c947;
+    border: 1px solid rgba(225, 176, 38, 0.54);
+    border-radius: 6px;
+    background: linear-gradient(180deg, rgba(52, 47, 31, 0.82), rgba(27, 25, 18, 0.86));
+    box-shadow: inset 0 1px 0 rgba(255, 225, 111, 0.04);
+}
+#container-hive-settings > #changePositionIntensity:hover { border-color: #f3c947; }
+#container-hive-settings > #changePositionIntensity:focus {
+    outline: 2px solid rgba(243, 201, 71, 0.55);
+    outline-offset: 2px;
+    border-color: #f3c947;
+}
+#container-hive-settings > #resetPosition {
+    grid-column: 6 / 8;
+    grid-row: 7;
+    justify-self: end;
+    align-self: center;
+    width: max-content;
+    max-width: 100%;
+    height: auto;
+    min-height: 34px;
+    margin-top: 12px;
+    padding: 7px 11px;
+    font-size: 14px;
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+#container-hive-settings > #statusTextSettingsPage { grid-row: 8; }
+#container-hive-settings > hr { grid-row: 9; }
+
+@media (max-width: 620px) {
+    #container-hive-settings[style*="display: flex"],
+    #container-hive-settings[style*="display:flex"] {
+        grid-template-rows: auto auto auto repeat(3, 48px) auto repeat(3, 48px) auto auto auto;
+    }
+    #container-hive-settings > [data-i18n="set_intensity"] { grid-column: 1; grid-row: 11; }
+    #container-hive-settings > #changePositionIntensity { grid-column: 2; grid-row: 11; }
+    #container-hive-settings > #resetPosition { grid-column: 3; grid-row: 11; }
+    #container-hive-settings > #statusTextSettingsPage { grid-row: 12; }
+    #container-hive-settings > hr { grid-row: 13; }
+}

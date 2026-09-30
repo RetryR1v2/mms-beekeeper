@@ -1,6 +1,5 @@
 local VORPcore = exports.vorp_core:GetCore()
 local BccUtils = exports['bcc-utils'].initiate()
-local Menu = exports.vorp_menu:GetMenuData()
 local progressbar = exports.vorp_progressbar:initiate()
 
 ---- LOCALS ---
@@ -19,6 +18,59 @@ local bees_cloud_group = "core"
 local bees_cloud_name = "ent_amb_insect_bee_swarm"
 local CreatedFXSwarms = {}
 local WildHivesSpawned = false
+local Translation = {}
+local NuiOpen = false
+
+local file = LoadResourceFile(
+    GetCurrentResourceName(),
+    'html/locales/de.json'
+)
+
+if file then
+    Translation = json.decode(file)
+end
+
+RegisterNetEvent('openBeehive',function(CurrentBeehive)
+    local data = json.decode(CurrentBeehive[1].data)
+    local hiveID = CurrentBeehive[1].id
+    SetNuiFocus(true, true)
+
+    SendNUIMessage({
+        action = 'open',
+        currentHive = data,
+        config = Config,
+        hiveID = hiveID,
+    })
+    NuiOpen = true
+end)
+
+RegisterNuiCallback('close',function(data,cb)
+    SetNuiFocus(false, false)
+
+    SendNUIMessage({
+        action = 'close'
+    })
+
+    cb({success = true})
+    NuiOpen = false
+end)
+
+RegisterNetEvent('updateNUI',function(Data)
+    if NuiOpen then
+        SendNUIMessage({
+            action = 'updateNUI',
+            currentHive = Data
+        })
+    end
+end)
+
+-- Get Lang
+
+RegisterNuiCallback('getLang',function(data,cb)
+    local lang = Config.lang
+    cb({success = true, lang = lang})
+end)
+
 
 -----------------------------------------------
 --------------- GetBeehivesData ---------------
@@ -91,7 +143,7 @@ AddEventHandler('mms-beekeeper:client:CreateBeehive',function()
             end
         end
     end
-    local Data = { 
+    local Data = {
         Food = 0.0,
         Water = 0.0,
         Health = 100.0,
@@ -110,7 +162,7 @@ AddEventHandler('mms-beekeeper:client:CreateBeehive',function()
         Bees = 0,
         Queen = 0,
         Coords = { 
-            x = MyCoords.x + 1,0,
+            x = MyCoords.x + 1.0,
             y = MyCoords.y + 1.0,
             z = MyCoords.z -1,
             heading = MyHeading,
@@ -132,7 +184,7 @@ AddEventHandler('mms-beekeeper:client:CreateBeehive',function()
     if not BeehiveClose then
         TriggerServerEvent('mms-beekeeper:server:SaveBeehiveToDatabase',Data)
     else
-        VORPcore.NotifyRightTip(_U('ToCloseToAnotherHive'),5000)
+        VORPcore.NotifyRightTip('ToCloseToAnotherHive',5000)
     end
 end)
 
@@ -145,6 +197,7 @@ AddEventHandler('mms-beekeeper:client:CreateBeehivesOnStart',function()
     for h,v in ipairs(BeehiveData) do
         local Data = json.decode(v.data)
         local Beehive = CreateObject(Data.Model, Data.Coords.x, Data.Coords.y, Data.Coords.z,false,true,false)
+        local heading = tonumber(Data.Coords.heading)
         if Data.Coords.heading == nil then
             Data.Coords.heading = 100
         end
@@ -177,12 +230,12 @@ AddEventHandler('mms-beekeeper:client:StartMainThred',function()
     ThreadRunning = true
     -- Owner Prompts
     local BeehivePromptGroup = BccUtils.Prompts:SetupPromptGroup()
-    local ManageBeehive = BeehivePromptGroup:RegisterPrompt(_U('ManageBeehive'), 0x760A9C6F, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY G
-    local DeleteBeehive = BeehivePromptGroup:RegisterPrompt(_U('DeleteBeehive'), 0x27D1C284, 1, 1, true, 'hold', {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY R
+    local ManageBeehive = BeehivePromptGroup:RegisterPrompt(Translation.manage_beehive, 0x760A9C6F, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY G
+    local DeleteBeehive = BeehivePromptGroup:RegisterPrompt(Translation.delete_beehive, 0x27D1C284, 1, 1, true, 'hold', {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY R
 
     -- Helper Only Manage
     local BeehiveHelperPromptGroup = BccUtils.Prompts:SetupPromptGroup()
-    local ManageHelperBeehive = BeehiveHelperPromptGroup:RegisterPrompt(_U('ManageBeehive'), 0x760A9C6F, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY G
+    local ManageHelperBeehive = BeehiveHelperPromptGroup:RegisterPrompt(Translation.manage_beehive, 0x760A9C6F, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY G
 
     if BeehiveData ~= nil then
         while ThreadRunning do
@@ -193,7 +246,7 @@ AddEventHandler('mms-beekeeper:client:StartMainThred',function()
                 if v.charident == CharID then
                     local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, Data.Coords.x, Data.Coords.y, Data.Coords.z, true)
                     if Distance <= 2 then
-                        BeehivePromptGroup:ShowGroup(_U('BeehivePromptGroup'))
+                        BeehivePromptGroup:ShowGroup(Translation.beehive_prompt_group)
 
                         if ManageBeehive:HasCompleted() then
                             TriggerServerEvent('mms-beekeeper:server:GetDataForMenu',v.id)
@@ -209,7 +262,7 @@ AddEventHandler('mms-beekeeper:client:StartMainThred',function()
                 if Data.Helper.CharIdent == CharID then
                     local Distance2 = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, Data.Coords.x, Data.Coords.y, Data.Coords.z, true)
                     if Distance2 <= 2 then
-                        BeehiveHelperPromptGroup:ShowGroup(_U('BeehivePromptGroup'))
+                        BeehiveHelperPromptGroup:ShowGroup(Translation.beehive_prompt_group)
 
                         if ManageHelperBeehive:HasCompleted() then
                             TriggerServerEvent('mms-beekeeper:server:GetDataForMenu',v.id)
@@ -225,251 +278,136 @@ AddEventHandler('mms-beekeeper:client:StartMainThred',function()
     end
 end)
 
-
-
------------------------------------------------
-------------------- Menu Data -----------------
------------------------------------------------
-
-RegisterNetEvent('mms-beekeeper:client:OpenMenu')
-AddEventHandler('mms-beekeeper:client:OpenMenu',function(CurrentBeehive)
-    Data = json.decode(CurrentBeehive[1].data)
-    BeehiveMenu = {
-        {
-            label = _U('QueenLabel') .. Data.BeeSettings.QueenLabel .. ' ' .. Data.Queen,
-            value = "AddQueen",
-            desc = _U('QueenLabelDesc'),
-            itemHeight = "3vh"
-        },
-        {
-            label = _U('BeeLabel') .. Data.BeeSettings.BeeLabel .. ' ' .. Data.Bees,
-            value = "AddBees",
-            desc = _U('BeeLabelDesc'),
-            itemHeight = "3vh"
-        },
-        {
-            label = _U('ProductLabel') .. Data.BeeSettings.ProductLabel .. ' ' .. math.floor(Data.Product / Config.ProduktPerHoney),
-            value = "TakeProduct",
-            desc = Data.BeeSettings.ProductLabel .. _U('ProductLabelDesc'),
-            itemHeight = "3vh"
-        },
-        {
-            label = _U('FoodLabel') .. Data.Food,
-            value = "AddFood",
-            desc = _U('FoodLabelDesc'),
-            itemHeight = "3vh"
-        },
-        {
-            label = _U('WaterLabel') .. Data.Water,
-            value = "AddWater",
-            desc = _U('WaterLabelDesc'),
-            itemHeight = "3vh"
-        },
-        {
-            label = _U('CleanLabel') .. Data.Clean,
-            value = "AddClean",
-            desc = _U('CleanLabelDesc'),
-            itemHeight = "3vh"
-        },
-        {
-            label = _U('HealthLabel') .. Data.Health,
-            value = "AddHealth",
-            desc = _U('HealthLabelDesc'),
-            itemHeight = "3vh"
-        },
-        {
-            label = _U('SicknessLabel') .. Data.Sickness.Type .. ' ' .. Data.Sickness.Intensity,
-            value = "HealSickness",
-            desc = _U('SicknessLabelDesc') .. Data.Sickness.MedicineLabel,
-            itemHeight = "3vh"
-        },
-        {
-            label = _U('AddHelperLabel') .. Data.Helper.Name,
-            value = "SetHelper",
-            desc = _U('AddHelperLabelDesc'),
-            itemHeight = "3vh"
-        },
-        {
-            label = _U('RemoveHelperLabel') .. Data.Helper.Name,
-            value = "RemoveHelper",
-            desc = _U('RemoveHelperLabelDesc'),
-            itemHeight = "3vh"
-        },
-        {
-            label = _U('ChangePosition'),
-            value = "ChangePosition",
-            desc = _U('ChangePositionDesc'),
-            itemHeight = "3vh"
-        },
-    }
-
-    Menu.Open("default",GetCurrentResourceName(),"BeehiveMenu", -- unique namespace will allow the menu to open where you left off
-
-    {
-        title = _U('HiveMenuHeader'),
-        subtext = _U('HiveMenuSubHeader'),
-        align = "top-center", -- top-right , top-center , top-left
-        elements = BeehiveMenu, -- elements needed
-        itemHeight = "4vh", -- set all elements to this height if they are not definded in the element (optional)
-    },
-        
-        
-    function(data, Menu)
-
-        if data.current.value == "AddFood" then
-            CrouchAnim()
-            Progressbar(Config.FeedTime*1000,_U('FeedingHive'))
-            TriggerServerEvent('mms-beekeeper:server:AddFood',CurrentBeehive[1].id)
-            Menu.close()
-        end
-
-        if data.current.value == "TakeProduct" then
-            local HowMany = {
-                type = "enableinput", -- don't touch
-                inputType = "input", -- input type
-                button = _U('ConfirmButton'), -- button name
-                placeholder = "0", -- placeholder name
-                style = "block", -- don't touch
-                attributes = {
-                    inputHeader = _U('HowManyWannaTake'), -- header
-                    type = "number", -- inputype text, number,date,textarea ETC
-                    pattern = "[0-9]", --  only numbers "[0-9]" | for letters only "[A-Za-z]+" 
-                    title = "numbers only", -- if input doesnt match show this message
-                    style = "border-radius: 10px; background-color: ; border:none;"-- style 
-                }
-            }
-            TriggerEvent("vorpinputs:advancedInput", json.encode(HowMany),function(result)
-                local HoneyAmount = tonumber(result)
-                local HoneyItem = Data.BeeSettings.Product
-                local ProductNeeded = Config.ProduktPerHoney * HoneyAmount
-                local JarsNeeded = HoneyAmount
-                local ServerInfo =  VORPcore.Callback.TriggerAwait('mms-beekeeper:callback:GetJarAmount',HoneyAmount,HoneyItem)
-                local Jars = ServerInfo[1]
-                local CanCarry = ServerInfo[2]
-                if CanCarry then
-                    if Jars >= JarsNeeded then
-                        if Data.Product >= ProductNeeded then
-                            CrouchAnim()
-                            Progressbar(Config.TakeHoneyTime*1000*HoneyAmount,_U('TakingHoney'))
-                            TriggerServerEvent('mms-beekeeper:server:TakeProduct',CurrentBeehive[1].id,HoneyAmount)
-                            Menu.close()
-                        else
-                            VORPcore.NotifyRightTip(_U('NotEnoghProductinHive'),5000)
-                        end
-                    else
-                        VORPcore.NotifyRightTip(_U('NotEnoghJars'),5000)
-                    end
-                else
-                    VORPcore.NotifyRightTip(_U('NoInvetorySpace'),5000)
-                end
-            end)
-        end
-        
-        if data.current.value == "AddWater" then
-            CrouchAnim()
-            Progressbar(Config.WaterTime*1000,_U('WaterHive'))
-            TriggerServerEvent('mms-beekeeper:server:AddWater',CurrentBeehive[1].id)
-            Menu.close()
-        end
-
-        if data.current.value == "AddClean" then
-            CrouchAnim()
-            Progressbar(Config.CleanTime*1000,_U('CleaningHive'))
-            TriggerServerEvent('mms-beekeeper:server:AddClean',CurrentBeehive[1].id)
-            Menu.close()
-        end
-
-        if data.current.value == "AddHealth" then
-            CrouchAnim()
-            Progressbar(Config.HealTime*1000,_U('HealingHive'))
-            TriggerServerEvent('mms-beekeeper:server:AddHealth',CurrentBeehive[1].id)
-            Menu.close()
-        end
-
-        if data.current.value == "AddQueen" then
-            if Data.Queen > 0 then
-                VORPcore.NotifyRightTip(_U('AlreadyHasAQueen'),5000)
-            else
-                CrouchAnim()
-                Progressbar(Config.QueenTime*1000,_U('AddingQueen'))
-                TriggerServerEvent('mms-beekeeper:server:AddQueen',CurrentBeehive[1].id)
-                Menu.close()
-            end
-        end
-
-        if data.current.value == "AddBees" then
-            if Data.Queen < 1 then
-                VORPcore.NotifyRightTip(_U('InsertQueenFirst'),5000)
-            else
-                if Data.Bees >= Config.MaxBeesPerHive then
-                    VORPcore.NotifyRightTip(_U('MaxBeesReached'),5000)
-                else
-                    CrouchAnim()
-                    Progressbar(Config.BeeTime*1000,_U('AddingBee'))
-                    TriggerServerEvent('mms-beekeeper:server:AddBees',CurrentBeehive[1].id,Data.BeeSettings.QueenItem)
-                    Menu.close()
-                end
-            end
-        end
-        
-        if data.current.value == "HealSickness" then
-            if Data.Sickness.Intensity > 0 then
-                CrouchAnim()
-                Progressbar(Config.SickTime*1000,_U('CuringSickness'))
-                TriggerServerEvent('mms-beekeeper:server:HealSickness',CurrentBeehive[1].id)
-                Menu.close()
-            else
-                VORPcore.NotifyRightTip(_U('BeesNotSick'),5000)
-            end
-        end
-
-        if data.current.value == "SetHelper" then
-            TriggerServerEvent('mms-beekeeper:server:AddHelper',CurrentBeehive[1].id)
-            Menu.close()
-        end
-
-        if data.current.value == "RemoveHelper" then
-            TriggerServerEvent('mms-beekeeper:server:RemoveHelper',CurrentBeehive[1].id)
-            Menu.close()
-        end
-
-        if data.current.value == "ChangePosition" then
-            TriggerEvent('mms-beekeeper:client:ChangeHeading',CurrentBeehive[1].id)
-            Menu.close()
-        end
-
-        end,
-
-        function(data,Menu)
-            Menu.close()
-        end)
-
+RegisterNuiCallback('addQueen',function(data,cb)
+    local hiveID = data.hiveID
+    local status = VORPcore.Callback.TriggerAwait('AddQueen',hiveID)
+    if status.success then
+        CrouchAnim()
+        Progressbar(Config.QueenTime*1000,Translation.adding_queen)
+        cb(status)
+    else
+        cb(status)
+    end
 end)
 
------------------------------------------------
------------- Change Hive Heading --------------
------------------------------------------------
+RegisterNuiCallback('addBees',function(data,cb)
+    local hiveID = data.hiveID
+    local status = VORPcore.Callback.TriggerAwait('addBees',hiveID)
+    if status.success then
+        CrouchAnim()
+        Progressbar(Config.BeeTime*1000,Translation.adding_bee)
+        cb(status)
+    else
+        cb(status)
+    end
+end)
 
-RegisterNetEvent('mms-beekeeper:client:ChangeHeading')
-AddEventHandler('mms-beekeeper:client:ChangeHeading',function(HiveID)
-    local NewHeading = {
-        type = "enableinput", -- don't touch
-        inputType = "input", -- input type
-        button = _U('ConfirmButton'), -- button name
-        placeholder = "0", -- placeholder name
-        style = "block", -- don't touch
-        attributes = {
-            inputHeader = _U('HeadingLabel'), -- header
-            type = "number", -- inputype text, number,date,textarea ETC
-            pattern = "[0-9]", --  only numbers "[0-9]" | for letters only "[A-Za-z]+" 
-            title = "numbers only", -- if input doesnt match show this message
-            style = "border-radius: 10px; background-color: ; border:none;"-- style 
-        }
-    }
-    TriggerEvent("vorpinputs:advancedInput", json.encode(NewHeading),function(result)
-        local Heading = tonumber(result)
-        TriggerServerEvent('mms-beekeeper:server:ChangeHeading',HiveID,Heading)
-    end)
+RegisterNuiCallback('takeHoney',function(data,cb)
+    local hiveID = data.hiveID
+    local honeyAmount = data.amount
+    local status = VORPcore.Callback.TriggerAwait('takeHoney',hiveID,honeyAmount)
+    if status.success then
+        CrouchAnim()
+        Progressbar(Config.TakeHoneyTime*1000*honeyAmount,Translation.taking_honey)
+        cb(status)
+    else
+        cb(status)
+    end
+end)
+
+RegisterNuiCallback('addHealth',function(data,cb)
+    local hiveID = data.hiveID
+    local status = VORPcore.Callback.TriggerAwait('addHealth',hiveID)
+    if status.success then
+        CrouchAnim()
+        Progressbar(Config.HealTime*1000,Translation.healing_hive)
+        cb(status)
+    else
+        cb(status)
+    end
+end)
+
+RegisterNuiCallback('addWater',function(data,cb)
+    local hiveID = data.hiveID
+    local status = VORPcore.Callback.TriggerAwait('addWater',hiveID)
+    if status.success then
+        CrouchAnim()
+        Progressbar(Config.WaterTime*1000,Translation.adding_water)
+        cb(status)
+    else
+        cb(status)
+    end
+end)
+
+RegisterNuiCallback('addFood',function(data,cb)
+    local hiveID = data.hiveID
+    local status = VORPcore.Callback.TriggerAwait('addFood',hiveID)
+    if status.success then
+        CrouchAnim()
+        Progressbar(Config.FeedTime*1000,Translation.adding_food)
+        cb(status)
+    else
+        cb(status)
+    end
+end)
+
+RegisterNuiCallback('addClean',function(data,cb)
+    local hiveID = data.hiveID
+    local status = VORPcore.Callback.TriggerAwait('addClean',hiveID)
+    if status.success then
+        CrouchAnim()
+        Progressbar(Config.CleanTime*1000,Translation.adding_clean)
+        cb(status)
+    else
+        cb(status)
+    end
+end)
+
+RegisterNuiCallback('cureIllness',function(data,cb)
+    local hiveID = data.hiveID
+    local status = VORPcore.Callback.TriggerAwait('cureIllness',hiveID)
+    if status.success then
+        CrouchAnim()
+        Progressbar(Config.HealTime*1000,Translation.curing_illness)
+        cb(status)
+    else
+        cb(status)
+    end
+end)
+
+RegisterNuiCallback('getCloseHelpers',function(data,cb)
+    local hiveID = data.hiveID
+    local status = VORPcore.Callback.TriggerAwait('getCloseHelpers',hiveID)
+    if status.success then
+        cb(status)
+    else
+        cb(status)
+    end
+end)
+
+RegisterNuiCallback('hireHelper',function(data,cb)
+    local hiveID = data.hiveID
+    local helperSrc = data.helperSrc
+    local helperCharident = data.helperCharident
+    local helperName = data.helperName
+    local status = VORPcore.Callback.TriggerAwait('hireHelper',hiveID,helperSrc,helperCharident,helperName)
+    cb(status)
+end)
+
+RegisterNuiCallback('fireHelper',function(data,cb)
+    local hiveID = data.hiveID
+    local status = VORPcore.Callback.TriggerAwait('fireHelper',hiveID)
+    cb(status)
+end)
+
+RegisterNuiCallback('changePosition',function(data,cb)
+    local hiveID = data.hiveID
+    local coordsX = data.coordsX
+    local coordsY = data.coordsY
+    local coordsZ = data.coordsZ
+    local coordsH = data.coordsH
+    local status = VORPcore.Callback.TriggerAwait('changePosition',hiveID,coordsX,coordsY,coordsZ,coordsH)
+    cb(status)
 end)
 
 -----------------------------------------------
@@ -498,7 +436,7 @@ Citizen.CreateThread(function ()
                     if Chance <= Config.ChanceToGetStung then
                         local MyPed = PlayerPedId()
                         ChangeEntityHealth(MyPed,Config.StungDamage)
-                        VORPcore.NotifyRightTip(_U('YouGotStungbyBees'), 5000)
+                        VORPcore.NotifyRightTip(Translation.you_got_stung_by_bees, 5000)
                     end
                 end
             end
@@ -516,10 +454,10 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
     if Config.WildBeehiveSpawn then
 
         local WildBeehivePromptGroup = BccUtils.Prompts:SetupPromptGroup()
-        local SmokeBeehive = WildBeehivePromptGroup:RegisterPrompt(_U('SmokeBeehive'), 0x760A9C6F, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY G
-        local TakeBees = WildBeehivePromptGroup:RegisterPrompt(_U('TakeBees'), 0x27D1C284, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY R
-        local TakeQueen = WildBeehivePromptGroup:RegisterPrompt(_U('TakeQueen'), 0x5181713D, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY Spacebar
-        local TakeHoney = WildBeehivePromptGroup:RegisterPrompt(_U('TakeHoneyWildHive'), 0x2CD5343E, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY Enter
+        local SmokeBeehive = WildBeehivePromptGroup:RegisterPrompt('SmokeBeehive', 0x760A9C6F, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY G
+        local TakeBees = WildBeehivePromptGroup:RegisterPrompt('TakeBees', 0x27D1C284, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY R
+        local TakeQueen = WildBeehivePromptGroup:RegisterPrompt('TakeQueen', 0x5181713D, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY Spacebar
+        local TakeHoney = WildBeehivePromptGroup:RegisterPrompt('TakeHoneyWildHive', 0x2CD5343E, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY Enter
 
         -- CreateBeehives 
         for h,v in ipairs(Config.WildBeehives) do
@@ -544,7 +482,7 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                 local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
                 local CurrentHive = v
                 if Distance <= 2 then
-                    WildBeehivePromptGroup:ShowGroup(_U('WildBeehivePromptGroup'))
+                    WildBeehivePromptGroup:ShowGroup('WildBeehivePromptGroup')
 
                     if SmokeBeehive:HasCompleted() then
                         local IsSmoked = false
@@ -613,7 +551,7 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                                 end
                             TriggerServerEvent('mms-beekeeper:server:SmokeBeehive', CurrentHive,SmokedBeehives)
                         else
-                            VORPcore.NotifyRightTip(_U('HiveAlreadySmoked'), 5000)
+                            VORPcore.NotifyRightTip('HiveAlreadySmoked', 5000)
                         end
                     end
 
@@ -683,9 +621,9 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                                     end
                                 TriggerServerEvent('mms-beekeeper:server:TakeBeesFromWildHive', CurrentHive)
                             elseif IsSmoked and TakenBees then
-                                VORPcore.NotifyRightTip(_U('NoMoreBeesInHive'), 5000)
+                                VORPcore.NotifyRightTip('NoMoreBeesInHive', 5000)
                             elseif not IsSmoked then
-                                VORPcore.NotifyRightTip(_U('BeehiveNotSmoked'), 5000)
+                                VORPcore.NotifyRightTip('BeehiveNotSmoked', 5000)
                             end
                     end
 
@@ -755,11 +693,11 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                                 end
                             TriggerServerEvent('mms-beekeeper:server:TakeQueenFromWildHive', CurrentHive)                
                         elseif IsSmoked and not TakenBees then
-                            VORPcore.NotifyRightTip(_U('StillBeesInHive'), 5000)
+                            VORPcore.NotifyRightTip('StillBeesInHive', 5000)
                         elseif IsSmoked and TakenBees and TakenQueen then
-                            VORPcore.NotifyRightTip(_U('QueenAlreadyTaken'), 5000)
+                            VORPcore.NotifyRightTip('QueenAlreadyTaken', 5000)
                         elseif not IsSmoked then
-                            VORPcore.NotifyRightTip(_U('BeehiveNotSmoked'), 5000)
+                            VORPcore.NotifyRightTip('BeehiveNotSmoked', 5000)
                         end
                     end
 
@@ -806,13 +744,13 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                         elseif Config.OnlySmokeToTakeProduct and IsSmoked and not TakenHoney then
                             TriggerServerEvent('mms-beekeeper:server:TakeHoneyFromWildHive', CurrentHive)
                         elseif TakenBees and TakenQueen and TakenHoney then
-                            VORPcore.NotifyRightTip(_U('NoMoreHoneyinHive'), 5000)
+                            VORPcore.NotifyRightTip('NoMoreHoneyinHive', 5000)
                         elseif Config.OnlySmokeToTakeProduct and not TakenHoney and not IsSmoked then
-                            VORPcore.NotifyRightTip(_U('HiveNotSmoked'), 5000)
+                            VORPcore.NotifyRightTip('HiveNotSmoked', 5000)
                         elseif Config.OnlySmokeToTakeProduct and TakenHoney then
-                            VORPcore.NotifyRightTip(_U('NoMoreHoneyinHive'), 5000)
+                            VORPcore.NotifyRightTip('NoMoreHoneyinHive', 5000)
                         elseif not Config.OnlySmokeToTakeProduct and not TakenBees then
-                            VORPcore.NotifyRightTip(_U('StillInsectsInHive'), 5000)
+                            VORPcore.NotifyRightTip('StillInsectsInHive', 5000)
                         end
                     end
                 end
@@ -834,7 +772,6 @@ RegisterNetEvent('mms-beekeeper:client:QueenTakenFromHive',function(CurrentHive)
 end)
 
 RegisterNetEvent('mms-beekeeper:client:HoneyTakenFromHive',function(CurrentHive)
-    Progressbar(CurrentHive.TakeProductTime,_U('TakeHoneyProgressbar'))
     table.insert(TakenHoneyBeehives,CurrentHive)
 end)
 
