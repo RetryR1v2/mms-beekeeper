@@ -29,6 +29,25 @@ Config.BeekeeperJobs = {
 }
 
 ------------------------------------------------------------------
+------------------------- Hat Settings ---------------------------
+------------------------------------------------------------------
+-- https://forum.cfx.re/t/beekeeper-hood/5425570
+-- To use this Feature you need the Script from Hawk
+Config.hoodItem = 'beekeeperHood'
+Config.useBeekeeperHats = true
+
+Config.hoodsMale = {
+    { itemname = "beekeeper_hood_male_001",    hash = -1507988622  },  -- edit itemname = you item in database
+    --{ itemname = "beekeeper_hood_male_002",    hash = -1748283699  },  -- edit itemname = you item in database
+    --{ itemname = "beekeeper_hood_male_003",    hash = -434148464   },  -- edit itemname = you item in database
+}
+Config.hoodsFemale = {
+    { itemname = "beekeeper_hood_female_001",  hash = -2048972766  },  -- edit itemname = you item in database
+    --{ itemname = "beekeeper_hood_female_002",  hash = 1598872374  },   -- edit itemname = you item in database
+    --{ itemname = "beekeeper_hood_female_003",  hash = -592030257   },  -- edit itemname = you item in database
+}
+
+------------------------------------------------------------------
 --------------------- Beehive Settings ---------------------------
 ------------------------------------------------------------------
 

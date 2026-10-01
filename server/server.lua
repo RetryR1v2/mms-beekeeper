@@ -71,6 +71,11 @@ exports.vorp_inventory:registerUsableItem(Config.BeehiveItem, function(data)
     end
 end)
 
+exports.vorp_inventory:registerUsableItem(Config.hoodItem, function(data)
+    local src = data.source
+    TriggerClientEvent('toggleBeekeeperHood',src)
+end)
+
 -----------------------------------------------
 --------------- Get Beehive Data --------------
 -----------------------------------------------

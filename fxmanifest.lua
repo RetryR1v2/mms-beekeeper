@@ -4,7 +4,7 @@ use_experimental_fxv2_oal 'yes'
 lua54 'yes'
 game 'rdr3'
 
-version '2.0.0'
+version '2.0.1'
 vorp_checker 'yes'
 vorp_name '^5MMS-Beekeeper ^4version Check^3'
 vorp_github 'https://github.com/RetryR1v2/mms-beekeeper'
@@ -28,7 +28,7 @@ shared_scripts {
 ui_page 'html/index.html'
 
 files {
-    'stream/bee_house_gk_ytyp.ytyp',
+    'stream/*',
 	'html/index.html',
     'html/style.css',
     'html/script.js',
@@ -41,5 +41,7 @@ data_file 'DLC_ITYP_REQUEST' 'stream/bee_house_gk_ytyp.ytyp'
 dependency {
 	'vorp_core',
 	'bcc-utils',
+	'/assetpacks',
+	'/assetpacks-redm'
 }
 

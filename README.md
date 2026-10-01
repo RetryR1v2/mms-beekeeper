@@ -71,6 +71,10 @@
 - Added Nui
 - Improved Code
 - Added Function to Move the Hive
+- 2.0.1
+- Added that you can get Stung by Own bees
+- Added Beekeeper Hood Credits to https://forum.cfx.re/t/beekeeper-hood/5425570
+- Added Function to not get Stung by Wild hive with the Hood
 
 # installation 
 

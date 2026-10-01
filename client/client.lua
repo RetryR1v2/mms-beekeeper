@@ -21,6 +21,10 @@ local WildHivesSpawned = false
 local Translation = {}
 local NuiOpen = false
 
+local oldHat = nil
+local newBeekeeperHat = nil
+local wearingHat = false
+
 local file = LoadResourceFile(
     GetCurrentResourceName(),
     'html/locales/de.json'
@@ -278,6 +282,34 @@ AddEventHandler('mms-beekeeper:client:StartMainThred',function()
     end
 end)
 
+-----------------------------------------------
+-------- Get Damage From Own Hives ------------
+-----------------------------------------------
+
+Citizen.CreateThread(function ()
+    while true do
+        Citizen.Wait(10000)
+        while ThreadRunning and BeehiveData ~= nil and Config.useBeekeeperHats do
+            local MyCoords = GetEntityCoords(PlayerPedId())
+            Citizen.Wait(5000)
+            for h,v in ipairs(BeehiveData) do
+                local Data = json.decode(v.data)
+                local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, Data.Coords.x, Data.Coords.y, Data.Coords.z, true)
+                if Distance <= 5 then
+                    if not wearingHat then
+                        local Chance = math.random(1,100)
+                        if Chance <= Config.ChanceToGetStung then
+                            local MyPed = PlayerPedId()
+                            ChangeEntityHealth(MyPed,Config.StungDamage)
+                            VORPcore.NotifyRightTip(Translation.you_got_stung_by_bees, 5000)
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
+
 RegisterNuiCallback('addQueen',function(data,cb)
     local hiveID = data.hiveID
     local status = VORPcore.Callback.TriggerAwait('AddQueen',hiveID)
@@ -431,12 +463,23 @@ Citizen.CreateThread(function ()
                         end
                     end
                 end
-                if not IsSmoked then
-                    local Chance = math.random(1,100)
-                    if Chance <= Config.ChanceToGetStung then
-                        local MyPed = PlayerPedId()
-                        ChangeEntityHealth(MyPed,Config.StungDamage)
-                        VORPcore.NotifyRightTip(Translation.you_got_stung_by_bees, 5000)
+                if Config.useBeekeeperHats then
+                    if not wearingHat then
+                        local Chance = math.random(1,100)
+                        if Chance <= Config.ChanceToGetStung then
+                            local MyPed = PlayerPedId()
+                            ChangeEntityHealth(MyPed,Config.StungDamage)
+                            VORPcore.NotifyRightTip(Translation.you_got_stung_by_bees, 5000)
+                        end
+                    end
+                else
+                    if not IsSmoked then
+                        local Chance = math.random(1,100)
+                        if Chance <= Config.ChanceToGetStung then
+                            local MyPed = PlayerPedId()
+                            ChangeEntityHealth(MyPed,Config.StungDamage)
+                            VORPcore.NotifyRightTip(Translation.you_got_stung_by_bees, 5000)
+                        end
                     end
                 end
             end
@@ -803,6 +846,63 @@ Citizen.CreateThread(function ()
         end
     end
 end)
+
+---------------------------------------------
+----------------- Wear HAT ------------------
+---------------------------------------------
+
+if Config.useBeekeeperHats then
+
+    local function getOldHat()
+        local myPed = PlayerPedId()
+        -- _GET_META_PED_TYPE
+        local metaPedTyp = Citizen.InvokeNative(0xEC9A1261BF0CE510, myPed,Citizen.ResultAsInteger())
+        -- _GET_SHOP_ITEM_HAT_COMPONENT
+        local hutHash = Citizen.InvokeNative(0x7E02E4218D916B94,myPed,metaPedTyp,true,Citizen.ResultAsInteger())
+
+        return hutHash
+    end
+
+    local function wearHood()
+        wearingHat = true
+        local getHat = exports.vorp_character:GetPlayerComponent("Hat") --getOldHat()
+        oldHat = getHat.comp
+        local myPed = PlayerPedId()
+        if IsPedMale(myPed) then
+            newBeekeeperHat = Config.hoodsMale[1].hash
+            TriggerEvent('hawk_beekeeper_hood:useitems',newBeekeeperHat)
+        else
+            newBeekeeperHat = Config.hoodsFemale[1].hash
+            TriggerEvent('hawk_beekeeper_hood:useitems',newBeekeeperHat)
+        end
+    end
+
+    local function wearOldHat()
+        wearingHat = false
+        local ped = PlayerPedId()
+        if oldHat == 0 or oldHat == nil then
+            -- REMOVE_SHOP_ITEM_FROM_PED_BY_CATEGORY
+            Citizen.InvokeNative(0xDF631E4BCE1B1FC4, ped, 0x9925C067, 0, true)
+            -- _UPDATE_PED_VARIATION
+            Citizen.InvokeNative(0xCC8CA3E88256E58F, ped, false, true, true, true, false)
+            return
+        end
+
+        if oldHat ~= 0 then
+            TriggerEvent('hawk_beekeeper_hood:useitems',oldHat)
+            oldHat = nil
+        end
+    end
+
+    RegisterNetEvent('toggleBeekeeperHood',function()
+        if not wearingHat then
+            wearHood()
+        else
+            wearOldHat()
+        end
+    end)
+
+end
 
 ----------------- Utilities -----------------
 
