@@ -188,7 +188,7 @@ AddEventHandler('mms-beekeeper:client:CreateBeehive',function()
     if not BeehiveClose then
         TriggerServerEvent('mms-beekeeper:server:SaveBeehiveToDatabase',Data)
     else
-        VORPcore.NotifyRightTip('ToCloseToAnotherHive',5000)
+        VORPcore.NotifyRightTip(Translation.to_close_to_another_hive,5000)
     end
 end)
 
@@ -497,10 +497,10 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
     if Config.WildBeehiveSpawn then
 
         local WildBeehivePromptGroup = BccUtils.Prompts:SetupPromptGroup()
-        local SmokeBeehive = WildBeehivePromptGroup:RegisterPrompt('SmokeBeehive', 0x760A9C6F, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY G
-        local TakeBees = WildBeehivePromptGroup:RegisterPrompt('TakeBees', 0x27D1C284, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY R
-        local TakeQueen = WildBeehivePromptGroup:RegisterPrompt('TakeQueen', 0x5181713D, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY Spacebar
-        local TakeHoney = WildBeehivePromptGroup:RegisterPrompt('TakeHoneyWildHive', 0x2CD5343E, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY Enter
+        local SmokeBeehive = WildBeehivePromptGroup:RegisterPrompt(Translation.smoke_wild_hive, 0x760A9C6F, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY G
+        local TakeBees = WildBeehivePromptGroup:RegisterPrompt(Translation.take_wild_bee, 0x27D1C284, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY R
+        local TakeQueen = WildBeehivePromptGroup:RegisterPrompt(Translation.take_wild_queen, 0x5181713D, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY Spacebar
+        local TakeHoney = WildBeehivePromptGroup:RegisterPrompt(Translation.take_wild_honey, 0x2CD5343E, 1, 1, true, 'click')--, {timedeventhash = 'SHORT_TIMED_EVENT'}) -- KEY Enter
 
         -- CreateBeehives 
         for h,v in ipairs(Config.WildBeehives) do
@@ -525,7 +525,7 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                 local Distance = GetDistanceBetweenCoords(MyCoords.x, MyCoords.y, MyCoords.z, v.x, v.y, v.z, true)
                 local CurrentHive = v
                 if Distance <= 2 then
-                    WildBeehivePromptGroup:ShowGroup('WildBeehivePromptGroup')
+                    WildBeehivePromptGroup:ShowGroup(Translation.wild_hive_promp_group)
 
                     if SmokeBeehive:HasCompleted() then
                         local IsSmoked = false
@@ -594,7 +594,7 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                                 end
                             TriggerServerEvent('mms-beekeeper:server:SmokeBeehive', CurrentHive,SmokedBeehives)
                         else
-                            VORPcore.NotifyRightTip('HiveAlreadySmoked', 5000)
+                            VORPcore.NotifyRightTip(Translation.wild_hive_already_smoked, 5000)
                         end
                     end
 
@@ -664,9 +664,9 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                                     end
                                 TriggerServerEvent('mms-beekeeper:server:TakeBeesFromWildHive', CurrentHive)
                             elseif IsSmoked and TakenBees then
-                                VORPcore.NotifyRightTip('NoMoreBeesInHive', 5000)
+                                VORPcore.NotifyRightTip(Translation.no_more_bees, 5000)
                             elseif not IsSmoked then
-                                VORPcore.NotifyRightTip('BeehiveNotSmoked', 5000)
+                                VORPcore.NotifyRightTip(Translation.wild_hive_not_smoked, 5000)
                             end
                     end
 
@@ -736,11 +736,11 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                                 end
                             TriggerServerEvent('mms-beekeeper:server:TakeQueenFromWildHive', CurrentHive)                
                         elseif IsSmoked and not TakenBees then
-                            VORPcore.NotifyRightTip('StillBeesInHive', 5000)
+                            VORPcore.NotifyRightTip(Translation.still_bees_in_hive, 5000)
                         elseif IsSmoked and TakenBees and TakenQueen then
-                            VORPcore.NotifyRightTip('QueenAlreadyTaken', 5000)
+                            VORPcore.NotifyRightTip(Translation.queen_already_taken, 5000)
                         elseif not IsSmoked then
-                            VORPcore.NotifyRightTip('BeehiveNotSmoked', 5000)
+                            VORPcore.NotifyRightTip(Translation.wild_hive_not_smoked, 5000)
                         end
                     end
 
@@ -787,13 +787,13 @@ AddEventHandler('mms-beekeeper:client:SpawnWildBeehives',function()
                         elseif Config.OnlySmokeToTakeProduct and IsSmoked and not TakenHoney then
                             TriggerServerEvent('mms-beekeeper:server:TakeHoneyFromWildHive', CurrentHive)
                         elseif TakenBees and TakenQueen and TakenHoney then
-                            VORPcore.NotifyRightTip('NoMoreHoneyinHive', 5000)
+                            VORPcore.NotifyRightTip(Translation.no_more_honey_in_hive, 5000)
                         elseif Config.OnlySmokeToTakeProduct and not TakenHoney and not IsSmoked then
-                            VORPcore.NotifyRightTip('HiveNotSmoked', 5000)
+                            VORPcore.NotifyRightTip(Translation.wild_hive_not_smoked, 5000)
                         elseif Config.OnlySmokeToTakeProduct and TakenHoney then
-                            VORPcore.NotifyRightTip('NoMoreHoneyinHive', 5000)
+                            VORPcore.NotifyRightTip(Translation.no_more_honey_in_hive, 5000)
                         elseif not Config.OnlySmokeToTakeProduct and not TakenBees then
-                            VORPcore.NotifyRightTip('StillInsectsInHive', 5000)
+                            VORPcore.NotifyRightTip(Translation.still_insects_in_hive, 5000)
                         end
                     end
                 end

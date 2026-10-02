@@ -98,5 +98,18 @@
   "or_tool": " sau ",
   "queen_taken": "Regină scoasă din stup",
   "honey_successfully_taken_from_hive": "Miere primită",
-  "missing_jar": "Nu ai un borcan gol"
+  "missing_jar": "Nu ai un borcan gol",
+  "smoke_wild_hive": "Afumă stupul",
+  "take_wild_bee": "Colectează albine",
+  "take_wild_queen": "Ia matca",
+  "take_wild_honey": "Colectează miere",
+  "wild_hive_promp_group": "Stup sălbatic",
+  "wild_hive_already_smoked": "Stupul a fost deja afumat.",
+  "no_more_bees": "Nu mai sunt albine în stup",
+  "wild_hive_not_smoked": "Afumă mai întâi stupul",
+  "queen_already_taken": "Matca a fost deja luată",
+  "still_bees_in_hive": "Încă sunt albine în stup",
+  "no_more_honey_in_hive": "Nu mai este miere de colectat",
+  "still_insects_in_hive": "Stupul nu este gol",
+  "to_close_to_another_hive": "Prea aproape de un alt stup"
 }

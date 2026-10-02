@@ -98,5 +98,18 @@
   "or_tool": " or ",
   "queen_taken": "Queen removed from hive",
   "honey_successfully_taken_from_hive": "Honey received",
-  "missing_jar": "No empty jar"
+  "missing_jar": "No empty jar",
+  "smoke_wild_hive": "Smoke the beehive",
+  "take_wild_bee": "Collect bees",
+  "take_wild_queen": "Collect the queen",
+  "take_wild_honey": "Collect honey",
+  "wild_hive_promp_group": "Wild beehive",
+  "wild_hive_already_smoked": "The beehive has already been smoked.",
+  "no_more_bees": "No bees left in the hive",
+  "wild_hive_not_smoked": "Smoke the beehive first",
+  "queen_already_taken": "The queen has already been removed",
+  "still_bees_in_hive": "There are still bees in the hive",
+  "no_more_honey_in_hive": "No honey left to collect",
+  "still_insects_in_hive": "The beehive is not empty",
+  "to_close_to_another_hive": "Too close to another beehive"
 }

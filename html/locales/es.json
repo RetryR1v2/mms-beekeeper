@@ -98,5 +98,18 @@
   "or_tool": " o ",
   "queen_taken": "Reina retirada de la colmena",
   "honey_successfully_taken_from_hive": "Miel recibida",
-  "missing_jar": "No tienes un tarro vacío"
+  "missing_jar": "No tienes un tarro vacío",
+  "smoke_wild_hive": "Ahumar la colmena",
+  "take_wild_bee": "Recoger abejas",
+  "take_wild_queen": "Recoger la reina",
+  "take_wild_honey": "Recoger miel",
+  "wild_hive_promp_group": "Colmena silvestre",
+  "wild_hive_already_smoked": "La colmena ya ha sido ahumada.",
+  "no_more_bees": "No quedan abejas en la colmena",
+  "wild_hive_not_smoked": "Primero debes ahumar la colmena",
+  "queen_already_taken": "La reina ya ha sido retirada",
+  "still_bees_in_hive": "Todavía hay abejas en la colmena",
+  "no_more_honey_in_hive": "No queda miel para recoger",
+  "still_insects_in_hive": "La colmena no está vacía",
+  "to_close_to_another_hive": "Demasiado cerca de otra colmena"
 }

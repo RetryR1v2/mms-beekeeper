@@ -117,5 +117,19 @@
     "or_tool": " oder ",
     "queen_taken": "Königin aus Bienenstock Entfernt",
     "honey_successfully_taken_from_hive": "Honig Erhalten",
-    "missing_jar": "Kein Leeres Glas"
+    "missing_jar": "Kein Leeres Glas",
+
+    "smoke_wild_hive": "Bienenstock Ausräuchern",
+    "take_wild_bee": "Bienen entnehmen",
+    "take_wild_queen": "Königin entnehmen",
+    "take_wild_honey": "Honig entnehmen",
+    "wild_hive_promp_group": "Wilder Bienenstock",
+    "wild_hive_already_smoked": "Bienenstock bereits Ausgeräuchert.",
+    "no_more_bees": "Keinen Bienen mehr im Stock",
+    "wild_hive_not_smoked": "Zuerst Ausräuchern",
+    "queen_already_taken": "Königin bereits Entfernt",
+    "still_bees_in_hive": "Es sind noch Bienen im Stock",
+    "no_more_honey_in_hive": "Kein Honig mehr zum Entnehmen",
+    "still_insects_in_hive": "Bienenstock nicht Leer",
+    "to_close_to_another_hive": "Zu nah an einem anderen Bienenstock"
 }

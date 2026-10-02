@@ -98,5 +98,18 @@
   "or_tool": " lub ",
   "queen_taken": "Królowa zabrana z ula",
   "honey_successfully_taken_from_hive": "Otrzymano miód",
-  "missing_jar": "Brak pustego słoika"
+  "missing_jar": "Brak pustego słoika",
+  "smoke_wild_hive": "Odymić ul",
+  "take_wild_bee": "Zebrać pszczoły",
+  "take_wild_queen": "Zabrać królową",
+  "take_wild_honey": "Zebrać miód",
+  "wild_hive_promp_group": "Dziki ul",
+  "wild_hive_already_smoked": "Ul został już odymiony.",
+  "no_more_bees": "W ulu nie ma już pszczół",
+  "wild_hive_not_smoked": "Najpierw odym ul",
+  "queen_already_taken": "Królowa została już zabrana",
+  "still_bees_in_hive": "W ulu nadal są pszczoły",
+  "no_more_honey_in_hive": "Nie ma już miodu do zebrania",
+  "still_insects_in_hive": "Ul nie jest pusty",
+  "to_close_to_another_hive": "Zbyt blisko innego ula"
 }

@@ -98,5 +98,18 @@
   "or_tool": " oppure ",
   "queen_taken": "Regina prelevata dall'alveare",
   "honey_successfully_taken_from_hive": "Miele ricevuto",
-  "missing_jar": "Nessun vasetto vuoto"
+  "missing_jar": "Nessun vasetto vuoto",
+  "smoke_wild_hive": "Affumicare l'alveare",
+  "take_wild_bee": "Prelevare le api",
+  "take_wild_queen": "Prelevare la regina",
+  "take_wild_honey": "Raccogliere il miele",
+  "wild_hive_promp_group": "Alveare selvatico",
+  "wild_hive_already_smoked": "L'alveare è già stato affumicato.",
+  "no_more_bees": "Non ci sono più api nell'alveare",
+  "wild_hive_not_smoked": "Prima devi affumicare l'alveare",
+  "queen_already_taken": "La regina è già stata rimossa",
+  "still_bees_in_hive": "Ci sono ancora api nell'alveare",
+  "no_more_honey_in_hive": "Non c'è più miele da raccogliere",
+  "still_insects_in_hive": "L'alveare non è vuoto",
+  "to_close_to_another_hive": "Troppo vicino a un altro alveare"
 }

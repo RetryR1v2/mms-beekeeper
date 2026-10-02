@@ -98,5 +98,18 @@
   "or_tool": " veya ",
   "queen_taken": "Kraliçe kovandan alındı",
   "honey_successfully_taken_from_hive": "Bal alındı",
-  "missing_jar": "Boş kavanoz yok"
+  "missing_jar": "Boş kavanoz yok",
+  "smoke_wild_hive": "Kovanı tütsüle",
+  "take_wild_bee": "Arıları al",
+  "take_wild_queen": "Kraliçe arıyı al",
+  "take_wild_honey": "Bal topla",
+  "wild_hive_promp_group": "Yabani arı kovanı",
+  "wild_hive_already_smoked": "Kovan zaten tütsülendi.",
+  "no_more_bees": "Kovanda arı kalmadı",
+  "wild_hive_not_smoked": "Önce kovanı tütsüle",
+  "queen_already_taken": "Kraliçe arı zaten alındı",
+  "still_bees_in_hive": "Kovanda hâlâ arılar var",
+  "no_more_honey_in_hive": "Toplanacak bal kalmadı",
+  "still_insects_in_hive": "Kovan boş değil",
+  "to_close_to_another_hive": "Başka bir kovana çok yakın"
 }
